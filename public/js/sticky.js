@@ -14,3 +14,18 @@
   window.addEventListener('scroll', stickyFn);
   window.addEventListener('DOMContentLoaded', stickyFn);
 })();
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    const stickyHeader = document.getElementById('sticky-header');
+    if (stickyHeader) {
+        // your sticky logic here
+    }
+
+    const menu = document.getElementById('default-menu');
+    if (menu) {
+        menu.addEventListener('click', function() {
+            // menu click logic
+        });
+    }
+});

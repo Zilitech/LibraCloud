@@ -2731,11 +2731,7 @@
     <script src="{{ asset('libs/node-waves/waves.min.js') }}"></script>
 
     <!-- Sticky JS -->
-<<<<<<< HEAD
     <script src="{{ asset('js/sticky.js') }}"></script>
-=======
-    <script src="../assets/js/sticky.js"></script>
->>>>>>> a485ebd5e01f92f682e2d8229cc33ff870f8f517
 
     <!-- Simplebar JS -->
     <script src="{{ asset('libs/simplebar/simplebar.min.js') }}"></script>

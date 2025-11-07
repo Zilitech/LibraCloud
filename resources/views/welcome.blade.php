@@ -2733,7 +2733,7 @@
     <script src="../../public/libs/node-waves/waves.min.js"></script>
 
     <!-- Sticky JS -->
-    <script src="../js/sticky.js"></script>
+    <script src="../assets/js/sticky.js"></script>
 
     <!-- Simplebar JS -->
     <script src="../../public/libs/simplebar/simplebar.min.js"></script>

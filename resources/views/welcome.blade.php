@@ -11,47 +11,40 @@
     <meta name="Description" content="Bootstrap Responsive Admin Web Dashboard HTML5 Template">
     <meta name="Author" content="Spruko Technologies Private Limited">
 	<meta name="keywords" content="admin dashboard template,admin panel html,bootstrap dashboard,admin dashboard,html template,template dashboard html,html css,bootstrap 5 admin template,bootstrap admin template,bootstrap 5 dashboard,admin panel html template,dashboard template bootstrap,admin dashboard html template,bootstrap admin panel,simple html template,admin dashboard bootstrap">
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
     
     <!-- Favicon -->
-    <link rel="icon" href="../../public/images/brand-logos/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="../assets/images/brand-logos/favicon.ico" type="image/x-icon">
     
     <!-- Choices JS -->
-    <script src="../../public/libs/choices.js/public/assets/scripts/choices.min.js"></script>
+    <script src="../assets/libs/choices.js/public/assets/scripts/choices.min.js"></script>
 
     <!-- Main Theme Js -->
-    <script src="../../public/js/main.js"></script>
+    <script src="../assets/js/main.js"></script>
     
     <!-- Bootstrap Css -->
-    <link id="style" href="../../public/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet" >
+    <link id="style" href="../assets/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet" >
 
     <!-- Style Css -->
-    <link href="../../public/css/styles.min.css" rel="stylesheet" >
+    <link href="../assets/css/styles.min.css" rel="stylesheet" >
 
     <!-- Icons Css -->
-    <link href="../../public/css/icons.css" rel="stylesheet" >
+    <link href="../assets/css/icons.css" rel="stylesheet" >
 
     <!-- Node Waves Css -->
-    <link href="../../public/libs/node-waves/waves.min.css" rel="stylesheet" > 
+    <link href="../assets/libs/node-waves/waves.min.css" rel="stylesheet" > 
 
     <!-- Simplebar Css -->
-    <link href="../../public/libs/simplebar/simplebar.min.css" rel="stylesheet" >
+    <link href="../assets/libs/simplebar/simplebar.min.css" rel="stylesheet" >
     
     <!-- Color Picker Css -->
-    <link rel="stylesheet" href="../../public/libs/flatpickr/flatpickr.min.css">
-    <link rel="stylesheet" href="../../public/libs/@simonwep/pickr/themes/nano.min.css">
-
-
+    <link rel="stylesheet" href="../assets/libs/flatpickr/flatpickr.min.css">
+    <link rel="stylesheet" href="../assets/libs/@simonwep/pickr/themes/nano.min.css">
 
     <!-- Choices Css -->
-    <link rel="stylesheet" href="../../public/libs/choices.js/public/assets/styles/choices.min.css">
-
-
+    <link rel="stylesheet" href="../assets/libs/choices.js/public/assets/styles/choices.min.css">
 
 <!-- Jsvector Maps -->
-<link rel="stylesheet" href="../../public/libs/jsvectormap/css/jsvectormap.min.css">
+<link rel="stylesheet" href="../assets/libs/jsvectormap/css/jsvectormap.min.css">
 
 </head>
 
@@ -522,7 +515,7 @@
 
     <!-- Loader -->
     <div id="loader" >
-        <img src="../../public/images/media/loader.svg" alt="">
+        <img src="../assets/images/media/loader.svg" alt="">
     </div>
     <!-- Loader -->
 
@@ -540,10 +533,10 @@
                     <div class="header-element">
                         <div class="horizontal-logo">
                             <a href="index.html" class="header-logo">
-                                <img src="../../public/images/brand-logos/desktop-logo.png" alt="logo" class="desktop-logo">
-                                <img src="../../public/images/brand-logos/toggle-logo.png" alt="logo" class="toggle-logo">
-                                <img src="../../public/images/brand-logos/desktop-white.png" alt="logo" class="desktop-white">
-                                <img src="../../public/images/brand-logos/toggle-white.png" alt="logo" class="toggle-white">
+                                <img src="../assets/images/brand-logos/desktop-logo.png" alt="logo" class="desktop-logo">
+                                <img src="../assets/images/brand-logos/toggle-logo.png" alt="logo" class="toggle-logo">
+                                <img src="../assets/images/brand-logos/desktop-white.png" alt="logo" class="desktop-white">
+                                <img src="../assets/images/brand-logos/toggle-white.png" alt="logo" class="toggle-white">
                             </a>
                         </div>
                     </div>
@@ -597,7 +590,7 @@
                             <li>
                                 <a class="dropdown-item d-flex align-items-center" href="javascript:void(0);">
                                     <span>
-                                        <img src="../../public/images/flags/french_flag.jpg" alt="img" class="avatar avatar-xs lh-1 me-2">
+                                        <img src="../assets/images/flags/french_flag.jpg" alt="img" class="avatar avatar-xs lh-1 me-2">
                                     </span>
                                     French
                                 </a>
@@ -605,7 +598,7 @@
                             <li>
                                 <a class="dropdown-item d-flex align-items-center" href="javascript:void(0);">
                                     <span>
-                                        <img src="../../public/images/flags/germany_flag.jpg" alt="img" class="avatar avatar-xs lh-1 me-2">
+                                        <img src="../assets/images/flags/germany_flag.jpg" alt="img" class="avatar avatar-xs lh-1 me-2">
                                     </span>
                                     German
                                 </a>
@@ -613,7 +606,7 @@
                             <li>
                                 <a class="dropdown-item d-flex align-items-center" href="javascript:void(0);">
                                     <span>
-                                        <img src="../../public/images/flags/italy_flag.jpg" alt="img" class="avatar avatar-xs lh-1 me-2">
+                                        <img src="../assets/images/flags/italy_flag.jpg" alt="img" class="avatar avatar-xs lh-1 me-2">
                                     </span>
                                     Italian
                                 </a>
@@ -621,7 +614,7 @@
                             <li>
                                 <a class="dropdown-item d-flex align-items-center" href="javascript:void(0);">
                                     <span>
-                                        <img src="../../public/images/flags/russia_flag.jpg" alt="img" class="avatar avatar-xs lh-1 me-2">
+                                        <img src="../assets/images/flags/russia_flag.jpg" alt="img" class="avatar avatar-xs lh-1 me-2">
                                     </span>
                                     Russian
                                 </a>
@@ -629,7 +622,7 @@
                             <li>
                                 <a class="dropdown-item d-flex align-items-center" href="javascript:void(0);">
                                     <span>
-                                        <img src="../../public/images/flags/spain_flag.jpg" alt="img" class="avatar avatar-xs lh-1 me-2">
+                                        <img src="../assets/images/flags/spain_flag.jpg" alt="img" class="avatar avatar-xs lh-1 me-2">
                                     </span>
                                     Spanish
                                 </a>
@@ -679,7 +672,7 @@
                                 <li class="dropdown-item">
                                     <div class="d-flex messages">
                                         <span class="avatar avatar-md me-2 online avatar-rounded flex-shrink-0">
-                                            <img src="../../public/images/faces/12.jpg" alt="img">
+                                            <img src="../assets/images/faces/12.jpg" alt="img">
                                         </span>
                                         <div>
                                             <div class="d-flex">
@@ -693,7 +686,7 @@
                                 <li class="dropdown-item">
                                     <div class="d-flex messages">
                                         <span class="avatar avatar-md me-2 online avatar-rounded flex-shrink-0">
-                                            <img src="../../public/images/faces/3.jpg" alt="img">
+                                            <img src="../assets/images/faces/3.jpg" alt="img">
                                         </span>
                                         <div>
                                             <div class="d-flex">
@@ -707,7 +700,7 @@
                                 <li class="dropdown-item">
                                     <div class="d-flex messages">
                                         <span class="avatar avatar-md me-2 online avatar-rounded flex-shrink-0">
-                                            <img src="../../public/images/faces/5.jpg" alt="img">
+                                            <img src="../assets/images/faces/5.jpg" alt="img">
                                         </span>
                                         <div>
                                             <div class="d-flex">
@@ -721,7 +714,7 @@
                                 <li class="dropdown-item">
                                     <div class="d-flex messages">
                                         <span class="avatar avatar-md me-2 online avatar-rounded flex-shrink-0">
-                                            <img src="../../public/images/faces/4.jpg" alt="img">
+                                            <img src="../assets/images/faces/4.jpg" alt="img">
                                         </span>
                                         <div>
                                             <div class="d-flex">
@@ -735,7 +728,7 @@
                                 <li class="dropdown-item">
                                     <div class="d-flex messages">
                                         <span class="avatar avatar-md me-2 online avatar-rounded flex-shrink-0">
-                                            <img src="../../public/images/faces/1.jpg" alt="img">
+                                            <img src="../assets/images/faces/1.jpg" alt="img">
                                         </span>
                                         <div>
                                             <div class="d-flex">
@@ -892,7 +885,7 @@
                     <div class="header-element headerProfile-dropdown">
                         <!-- Start::header-link|dropdown-toggle -->
                         <a href="javascript:void(0);" class="header-link dropdown-toggle" id="mainHeaderProfile" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-                            <img src="../../public/images/faces/6.jpg" alt="img" width="37" height="37" class="rounded-circle">
+                            <img src="../assets/images/faces/6.jpg" alt="img" width="37" height="37" class="rounded-circle">
                         </a>
                         <!-- End::header-link|dropdown-toggle -->
                         <ul class="main-header-dropdown dropdown-menu pt-0 header-profile-dropdown dropdown-menu-end main-profile-menu" aria-labelledby="mainHeaderProfile">
@@ -1093,7 +1086,7 @@
                         <div class="list-group list-group-flush ">
                             <div class="list-group-item d-flex  align-items-center">
                                 <span class="avatar avatar-lg online avatar-rounded flex-shrink-0">
-                                    <img src="../../public/images/faces/1.jpg" alt="img">
+                                    <img src="../assets/images/faces/1.jpg" alt="img">
                                 </span>
                                 <div class="ms-3">
                                     <strong>Madeleine</strong> Hey! there I' am available....
@@ -1104,7 +1097,7 @@
                             </div>
                             <div class="list-group-item d-flex  align-items-center">
                                 <span class="avatar avatar-lg online avatar-rounded flex-shrink-0">
-                                    <img src="../../public/images/faces/2.jpg" alt="img">
+                                    <img src="../assets/images/faces/2.jpg" alt="img">
                                 </span>
                                 <div class="ms-3">
                                     <strong>Anthony</strong> New product Launching...
@@ -1115,7 +1108,7 @@
                             </div>
                             <div class="list-group-item d-flex  align-items-center">
                                 <span class="avatar avatar-lg avatar-rounded flex-shrink-0">
-                                    <img src="../../public/images/faces/3.jpg" alt="img">
+                                    <img src="../assets/images/faces/3.jpg" alt="img">
                                 </span>
                                 <div class="ms-3">
                                     <strong>Olivia</strong> New Schedule Realease......
@@ -1126,7 +1119,7 @@
                             </div>
                             <div class="list-group-item d-flex  align-items-center">
                                 <span class="avatar avatar-lg avatar-rounded flex-shrink-0">
-                                    <img src="../../public/images/faces/4.jpg" alt="img">
+                                    <img src="../assets/images/faces/4.jpg" alt="img">
                                 </span>
                                 <div class="ms-3">
                                     <strong>Madeleine</strong> Hey! there I' am available....
@@ -1137,7 +1130,7 @@
                             </div>
                             <div class="list-group-item d-flex  align-items-center">
                                 <span class="avatar avatar-lg avatar-rounded flex-shrink-0">
-                                    <img src="../../public/images/faces/5.jpg" alt="img">
+                                    <img src="../assets/images/faces/5.jpg" alt="img">
                                 </span>
                                 <div class="ms-3">
                                     <strong>Anthony</strong> New product Launching...
@@ -1148,7 +1141,7 @@
                             </div>
                             <div class="list-group-item d-flex  align-items-center">
                                 <span class="avatar avatar-lg avatar-rounded flex-shrink-0">
-                                    <img src="../../public/images/faces/6.jpg" alt="img">
+                                    <img src="../assets/images/faces/6.jpg" alt="img">
                                 </span>
                                 <div class="ms-3">
                                     <strong>Olivia</strong> New Schedule Realease......
@@ -1159,7 +1152,7 @@
                             </div>
                             <div class="list-group-item d-flex  align-items-center">
                                 <span class="avatar avatar-lg avatar-rounded flex-shrink-0">
-                                    <img src="../../public/images/faces/7.jpg" alt="img">
+                                    <img src="../assets/images/faces/7.jpg" alt="img">
                                 </span>
                                 <div class="ms-3">
                                     <strong>Olivia</strong> Hey! there I' am available....
@@ -1174,7 +1167,7 @@
                         <div class="list-group list-group-flush ">
                             <div class="list-group-item d-flex  align-items-center">
                                 <span class="avatar avatar-md online avatar-rounded flex-shrink-0">
-                                    <img src="../../public/images/faces/1.jpg" alt="img">
+                                    <img src="../assets/images/faces/1.jpg" alt="img">
                                 </span>
                                 <div class="ms-2">
                                     <div class="fw-semibold" data-bs-toggle="modal" data-bs-target="#chatmodel">Mozelle Belt</div>
@@ -1185,7 +1178,7 @@
                             </div>
                             <div class="list-group-item d-flex  align-items-center">
                                 <span class="avatar avatar-md avatar-rounded flex-shrink-0">
-                                    <img src="../../public/images/faces/2.jpg" alt="img">
+                                    <img src="../assets/images/faces/2.jpg" alt="img">
                                 </span>
                                 <div class="ms-2">
                                     <div class="fw-semibold" data-bs-toggle="modal" data-bs-target="#chatmodel">Florinda Carasco</div>
@@ -1196,7 +1189,7 @@
                             </div>
                             <div class="list-group-item d-flex  align-items-center">
                                 <span class="avatar avatar-md avatar-rounded flex-shrink-0">
-                                    <img src="../../public/images/faces/5.jpg" alt="img">
+                                    <img src="../assets/images/faces/5.jpg" alt="img">
                                 </span>
                                 <div class="ms-2">
                                     <div class="fw-semibold" data-bs-toggle="modal" data-bs-target="#chatmodel">Alina Bernier</div>
@@ -1207,7 +1200,7 @@
                             </div>
                             <div class="list-group-item d-flex  align-items-center">
                                 <span class="avatar avatar-md online avatar-rounded flex-shrink-0">
-                                    <img src="../../public/images/faces/6.jpg" alt="img">
+                                    <img src="../assets/images/faces/6.jpg" alt="img">
                                 </span>
                                 <div class="ms-2">
                                     <div class="fw-semibold" data-bs-toggle="modal" data-bs-target="#chatmodel">Zula Mclaughin</div>
@@ -1218,7 +1211,7 @@
                             </div>
                             <div class="list-group-item d-flex  align-items-center">
                                 <span class="avatar avatar-md online avatar-rounded flex-shrink-0">
-                                    <img src="../../public/images/faces/8.jpg" alt="img">
+                                    <img src="../assets/images/faces/8.jpg" alt="img">
                                 </span>
                                 <div class="ms-2">
                                     <div class="fw-semibold" data-bs-toggle="modal" data-bs-target="#chatmodel">Isidro Heide</div>
@@ -1229,7 +1222,7 @@
                             </div>
                             <div class="list-group-item d-flex  align-items-center">
                                 <span class="avatar avatar-md online avatar-rounded flex-shrink-0">
-                                    <img src="../../public/images/faces/8.jpg" alt="img">
+                                    <img src="../assets/images/faces/8.jpg" alt="img">
                                 </span>
                                 <div class="ms-2">
                                     <div class="fw-semibold" data-bs-toggle="modal" data-bs-target="#chatmodel">Mozelle Belt</div>
@@ -1240,7 +1233,7 @@
                             </div>
                             <div class="list-group-item d-flex  align-items-center">
                                 <span class="avatar avatar-md online avatar-rounded flex-shrink-0">
-                                    <img src="../../public/images/faces/9.jpg" alt="img">
+                                    <img src="../assets/images/faces/9.jpg" alt="img">
                                 </span>
                                 <div class="ms-2">
                                     <div class="fw-semibold" data-bs-toggle="modal" data-bs-target="#chatmodel">Florinda Carasco</div>
@@ -1251,7 +1244,7 @@
                             </div>
                             <div class="list-group-item d-flex  align-items-center">
                                 <span class="avatar avatar-md online avatar-rounded flex-shrink-0">
-                                    <img src="../../public/images/faces/10.jpg" alt="img">
+                                    <img src="../assets/images/faces/10.jpg" alt="img">
                                 </span>
                                 <div class="ms-2">
                                     <div class="fw-semibold" data-bs-toggle="modal" data-bs-target="#chatmodel">Alina Bernier</div>
@@ -1262,7 +1255,7 @@
                             </div>
                             <div class="list-group-item d-flex  align-items-center">
                                 <span class="avatar avatar-md avatar-rounded flex-shrink-0">
-                                    <img src="../../public/images/faces/11.jpg" alt="img">
+                                    <img src="../assets/images/faces/11.jpg" alt="img">
                                 </span>
                                 <div class="ms-2">
                                     <div class="fw-semibold" data-bs-toggle="modal" data-bs-target="#chatmodel">Zula Mclaughin</div>
@@ -1273,7 +1266,7 @@
                             </div>
                             <div class="list-group-item d-flex  align-items-center">
                                 <span class="avatar avatar-md online avatar-rounded flex-shrink-0">
-                                    <img src="../../public/images/faces/12.jpg" alt="img">
+                                    <img src="../assets/images/faces/12.jpg" alt="img">
                                 </span>
                                 <div class="ms-2">
                                     <div class="fw-semibold" data-bs-toggle="modal" data-bs-target="#chatmodel">Isidro Heide</div>
@@ -1284,7 +1277,7 @@
                             </div>
                             <div class="list-group-item d-flex  align-items-center">
                                 <span class="avatar avatar-md online avatar-rounded flex-shrink-0">
-                                    <img src="../../public/images/faces/2.jpg" alt="img">
+                                    <img src="../assets/images/faces/2.jpg" alt="img">
                                 </span>
                                 <div class="ms-2">
                                     <div class="fw-semibold" data-bs-toggle="modal" data-bs-target="#chatmodel">Florinda Carasco</div>
@@ -1295,7 +1288,7 @@
                             </div>
                             <div class="list-group-item d-flex  align-items-center">
                                 <span class="avatar avatar-md online avatar-rounded flex-shrink-0">
-                                    <img src="../../public/images/faces/2.jpg" alt="img">
+                                    <img src="../assets/images/faces/2.jpg" alt="img">
                                 </span>
                                 <div class="ms-2">
                                     <div class="fw-semibold" data-bs-toggle="modal" data-bs-target="#chatmodel">Alina Bernier</div>
@@ -1306,7 +1299,7 @@
                             </div>
                             <div class="list-group-item d-flex  align-items-center">
                                 <span class="avatar avatar-md online avatar-rounded flex-shrink-0">
-                                    <img src="../../public/images/faces/3.jpg" alt="img">
+                                    <img src="../assets/images/faces/3.jpg" alt="img">
                                 </span>
                                 <div class="ms-2">
                                     <div class="fw-semibold" data-bs-toggle="modal" data-bs-target="#chatmodel">Zula Mclaughin</div>
@@ -1317,7 +1310,7 @@
                             </div>
                             <div class="list-group-item d-flex  align-items-center">
                                 <span class="avatar avatar-md online avatar-rounded flex-shrink-0">
-                                    <img src="../../public/images/faces/4.jpg" alt="img">
+                                    <img src="../assets/images/faces/4.jpg" alt="img">
                                 </span>
                                 <div class="ms-2">
                                     <div class="fw-semibold" data-bs-toggle="modal" data-bs-target="#chatmodel">Isidro Heide</div>
@@ -1342,7 +1335,7 @@
                         <div class="action-header clearfix">
                             <div class="float-start hidden-xs d-flex">
                                 <div class="avatar avatar-lg rounded-circle me-3">
-                                    <img src="../../public/images/faces/6.jpg" class="rounded-circle user_img" alt="img">
+                                    <img src="../assets/images/faces/6.jpg" class="rounded-circle user_img" alt="img">
                                 </div>
                                 <div class="align-items-center mt-2">
                                     <h5 class="text-fixed-white mb-0">Daneil Scott</h5>
@@ -1387,7 +1380,7 @@
                             </div>
                             <div class="d-flex justify-content-start">
                                 <div class="img_cont_msg">
-                                    <img src="../../public/images/faces/6.jpg" class="rounded-circle user_img_msg" alt="img">
+                                    <img src="../assets/images/faces/6.jpg" class="rounded-circle user_img_msg" alt="img">
                                 </div>
                                 <div class="msg_cotainer">
                                     Hi, how are you Jenna Side?
@@ -1400,12 +1393,12 @@
                                     <span class="msg_time_send">8:55 AM, Today</span>
                                 </div>
                                 <div class="img_cont_msg">
-                                    <img src="../../public/images/faces/9.jpg" class="rounded-circle user_img_msg" alt="img">
+                                    <img src="../assets/images/faces/9.jpg" class="rounded-circle user_img_msg" alt="img">
                                 </div>
                             </div>
                             <div class="d-flex justify-content-start ">
                                 <div class="img_cont_msg">
-                                    <img src="../../public/images/faces/6.jpg" class="rounded-circle user_img_msg" alt="img">
+                                    <img src="../assets/images/faces/6.jpg" class="rounded-circle user_img_msg" alt="img">
                                 </div>
                                 <div class="msg_cotainer">
                                     I am good too, thank you for your chat template
@@ -1418,12 +1411,12 @@
                                     <span class="msg_time_send">9:05 AM, Today</span>
                                 </div>
                                 <div class="img_cont_msg">
-                                    <img src="../../public/images/faces/9.jpg" class="rounded-circle user_img_msg" alt="img">
+                                    <img src="../assets/images/faces/9.jpg" class="rounded-circle user_img_msg" alt="img">
                                 </div>
                             </div>
                             <div class="d-flex justify-content-start ">
                                 <div class="img_cont_msg">
-                                    <img src="../../public/images/faces/6.jpg" class="rounded-circle user_img_msg" alt="img">
+                                    <img src="../assets/images/faces/6.jpg" class="rounded-circle user_img_msg" alt="img">
                                 </div>
                                 <div class="msg_cotainer">
                                     Yo, Can you update Views?
@@ -1436,12 +1429,12 @@
                                     <span class="msg_time_send">9:10 AM, Today</span>
                                 </div>
                                 <div class="img_cont_msg">
-                                    <img src="../../public/images/faces/9.jpg" class="rounded-circle user_img_msg" alt="img">
+                                    <img src="../assets/images/faces/9.jpg" class="rounded-circle user_img_msg" alt="img">
                                 </div>
                             </div>
                             <div class="d-flex justify-content-start ">
                                 <div class="img_cont_msg">
-                                    <img src="../../public/images/faces/6.jpg" class="rounded-circle user_img_msg" alt="img">
+                                    <img src="../assets/images/faces/6.jpg" class="rounded-circle user_img_msg" alt="img">
                                 </div>
                                 <div class="msg_cotainer">
                                     Yo, Can you update Views?
@@ -1454,12 +1447,12 @@
                                     <span class="msg_time_send">9:10 AM, Today</span>
                                 </div>
                                 <div class="img_cont_msg">
-                                    <img src="../../public/images/faces/9.jpg" class="rounded-circle user_img_msg" alt="img">
+                                    <img src="../assets/images/faces/9.jpg" class="rounded-circle user_img_msg" alt="img">
                                 </div>
                             </div>
                             <div class="d-flex justify-content-start ">
                                 <div class="img_cont_msg">
-                                    <img src="../../public/images/faces/6.jpg" class="rounded-circle user_img_msg" alt="img">
+                                    <img src="../assets/images/faces/6.jpg" class="rounded-circle user_img_msg" alt="img">
                                 </div>
                                 <div class="msg_cotainer">
                                     Yo, Can you update Views?
@@ -1472,12 +1465,12 @@
                                     <span class="msg_time_send">9:10 AM, Today</span>
                                 </div>
                                 <div class="img_cont_msg">
-                                    <img src="../../public/images/faces/9.jpg" class="rounded-circle user_img_msg" alt="img">
+                                    <img src="../assets/images/faces/9.jpg" class="rounded-circle user_img_msg" alt="img">
                                 </div>
                             </div>
                             <div class="d-flex justify-content-start">
                                 <div class="img_cont_msg">
-                                    <img src="../../public/images/faces/6.jpg" class="rounded-circle user_img_msg" alt="img">
+                                    <img src="../assets/images/faces/6.jpg" class="rounded-circle user_img_msg" alt="img">
                                 </div>
                                 <div class="msg_cotainer">
                                     Okay Bye, text you later..
@@ -1509,7 +1502,7 @@
                 <div class="modal-content bg-fixed-dark border-0">
                     <div class="modal-body mx-auto text-center p-5">
                         <h5 class="text-fixed-white">Valex Video call</h5>
-                        <img src="../../public/images/faces/6.jpg" class="rounded-circle user-img-circle h-8 w-8 mt-4 mb-3" alt="img">
+                        <img src="../assets/images/faces/6.jpg" class="rounded-circle user-img-circle h-8 w-8 mt-4 mb-3" alt="img">
                         <h4 class="mb-1 fw-semibold text-fixed-white">Daneil Scott</h4>
                         <h6 class="loading text-fixed-white">Calling...</h6>
                         <div class="mt-5">
@@ -1543,7 +1536,7 @@
                 <div class="modal-content border-0">
                     <div class="modal-body mx-auto text-center p-5">
                         <h6>Valex Voice call</h6>
-                        <img src="../../public/images/faces/6.jpg" class="rounded-circle user-img-circle h-8 w-8 mt-4 mb-3" alt="img">
+                        <img src="../assets/images/faces/6.jpg" class="rounded-circle user-img-circle h-8 w-8 mt-4 mb-3" alt="img">
                         <h5 class="mb-1 fw-medium">Daneil Scott</h5>
                         <h6 class="loading">Calling...</h6>
                         <div class="mt-5">
@@ -1576,10 +1569,10 @@
             <!-- Start::main-sidebar-header -->
             <div class="main-sidebar-header">
                 <a href="index.html" class="header-logo">
-                    <img src="../../public/images/brand-logos/desktop-logo.png" alt="logo" class="desktop-logo">
-                    <img src="../../public/images/brand-logos/toggle-logo.png" alt="logo" class="toggle-logo">
-                    <img src="../../public/images/brand-logos/desktop-white.png" alt="logo" class="desktop-white">
-                    <img src="../../public/images/brand-logos/toggle-white.png" alt="logo" class="toggle-white">
+                    <img src="../assets/images/brand-logos/desktop-logo.png" alt="logo" class="desktop-logo">
+                    <img src="../assets/images/brand-logos/toggle-logo.png" alt="logo" class="toggle-logo">
+                    <img src="../assets/images/brand-logos/desktop-white.png" alt="logo" class="desktop-white">
+                    <img src="../assets/images/brand-logos/toggle-white.png" alt="logo" class="toggle-white">
                 </a>
             </div>
             <!-- End::main-sidebar-header -->
@@ -2432,7 +2425,7 @@
                                 <div class="list-group list-lg-group list-group-flush">
                                     <div class="list-group-item list-group-item-action">
                                         <div class="d-flex">
-                                            <img class="avatar avatar-md rounded-circle my-auto me-3" src="../../public/images/faces/3.jpg" alt="Image description">
+                                            <img class="avatar avatar-md rounded-circle my-auto me-3" src="../assets/images/faces/3.jpg" alt="Image description">
                                             <div class="flex-grow-1">
                                                 <div class="d-flex align-items-center">
                                                     <div class="mt-0">
@@ -2448,7 +2441,7 @@
                                     </div>
                                     <div class="list-group-item list-group-item-action br-t-1">
                                         <div class="d-flex">
-                                            <img class="avatar avatar-md rounded-circle my-auto me-3" src="../../public/images/faces/11.jpg" alt="Image description">
+                                            <img class="avatar avatar-md rounded-circle my-auto me-3" src="../assets/images/faces/11.jpg" alt="Image description">
                                             <div class="flex-grow-1">
                                                 <div class="d-flex align-items-center">
                                                     <div class="mt-1">
@@ -2464,7 +2457,7 @@
                                     </div>
                                     <div class="list-group-item list-group-item-action br-t-1">
                                         <div class="d-flex">
-                                            <img class="avatar avatar-md rounded-circle my-auto me-3" src="../../public/images/faces/17.jpg" alt="Image description">
+                                            <img class="avatar avatar-md rounded-circle my-auto me-3" src="../assets/images/faces/17.jpg" alt="Image description">
                                             <div class="flex-grow-1">
                                                 <div class="d-flex align-items-center">
                                                     <div class="mt-1">
@@ -2480,7 +2473,7 @@
                                     </div>
                                     <div class="list-group-item list-group-item-action br-t-1">
                                         <div class="d-flex">
-                                            <img class="avatar avatar-md rounded-circle my-auto me-3" src="../../public/images/faces/15.jpg" alt="Image description">
+                                            <img class="avatar avatar-md rounded-circle my-auto me-3" src="../assets/images/faces/15.jpg" alt="Image description">
                                             <div class="flex-grow-1">
                                                 <div class="d-flex align-items-center">
                                                     <div class="mt-1">
@@ -2496,7 +2489,7 @@
                                     </div>
                                     <div class="list-group-item list-group-item-action br-t-1 br-be-7 br-bs-7">
                                         <div class="d-flex">
-                                            <img class="avatar avatar-md rounded-circle my-auto me-3" src="../../public/images/faces/6.jpg" alt="Image description">
+                                            <img class="avatar avatar-md rounded-circle my-auto me-3" src="../assets/images/faces/6.jpg" alt="Image description">
                                             <div class="flex-grow-1">
                                                 <div class="d-flex align-items-center">
                                                     <div class="mt-1">
@@ -2721,46 +2714,46 @@
     <!-- Scroll To Top -->
 
     <!-- Popper JS -->
-    <script src="../../public/libs/@popperjs/core/umd/popper.min.js"></script>
+    <script src="../assets/libs/@popperjs/core/umd/popper.min.js"></script>
 
     <!-- Bootstrap JS -->
-    <script src="../../public/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Defaultmenu JS -->
-    <script src="../../public/js/defaultmenu.min.js"></script>
+    <script src="../assets/js/defaultmenu.min.js"></script>
 
     <!-- Node Waves JS-->
-    <script src="../../public/libs/node-waves/waves.min.js"></script>
+    <script src="../assets/libs/node-waves/waves.min.js"></script>
 
     <!-- Sticky JS -->
     <script src="../assets/js/sticky.js"></script>
 
     <!-- Simplebar JS -->
-    <script src="../../public/libs/simplebar/simplebar.min.js"></script>
-    <script src="../../public/js/simplebar.js"></script>
+    <script src="../assets/libs/simplebar/simplebar.min.js"></script>
+    <script src="../assets/js/simplebar.js"></script>
 
     <!-- Color Picker JS -->
-    <script src="../../public/libs/@simonwep/pickr/pickr.es5.min.js"></script>
+    <script src="../assets/libs/@simonwep/pickr/pickr.es5.min.js"></script>
 
     
     <!-- Apex Charts JS -->
-    <script src="../../public/libs/apexcharts/apexcharts.min.js"></script>
+    <script src="../assets/libs/apexcharts/apexcharts.min.js"></script>
     
     <!-- JSVector Maps JS -->
-    <script src="../../public/libs/jsvectormap/js/jsvectormap.min.js"></script>
+    <script src="../assets/libs/jsvectormap/js/jsvectormap.min.js"></script>
     
     <!-- JSVector Maps MapsJS -->
-    <script src="../../public/libs/jsvectormap/maps/world-merc.js"></script>
-    <script src="../../public/js/us-merc-en.js"></script>
+    <script src="../assets/libs/jsvectormap/maps/world-merc.js"></script>
+    <script src="../assets/js/us-merc-en.js"></script>
 
     <!-- Chartjs Chart JS -->
-    <script src="../../public/js/index.js"></script>
+    <script src="../assets/js/index.js"></script>
     
     
     <!-- Custom-Switcher JS -->
-    <script src="../../public/js/custom-switcher.min.js"></script>
+    <script src="../assets/js/custom-switcher.min.js"></script>
     <!-- Custom JS -->
-    <script src="../../public/js/custom.js"></script>   
+    <script src="../assets/js/custom.js"></script>
 
 </body>
 

@@ -38,6 +38,8 @@
     
    @include('foot')
 
-   </body>
+
+
+</body>
 
 </html>

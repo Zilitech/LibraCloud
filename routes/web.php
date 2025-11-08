@@ -26,3 +26,15 @@ Route::get('/body', function(){
 Route::get('/footer', function(){
     return view('footer');
 });
+
+Route::get('/foot', function(){
+    return view('foot');
+});
+
+Route::get('/head', function(){
+    return view('head');
+});
+
+Route::get('/switcher', function(){
+    return view('switcher');
+});

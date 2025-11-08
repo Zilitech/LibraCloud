@@ -16,12 +16,12 @@
 							</div>
 						</div>
 						<div>
-							<label class="fs-13 text-muted">Online Sales</label>
-							<h5 class="mb-0 fw-semibold">563,275</h5>
+							<label class="fs-13 text-muted">Students</label>
+							<h5 class="mb-0 fw-semibold">3,275</h5>
 						</div>
 						<div>
-							<label class="fs-13 text-muted">Offline Sales</label>
-							<h5 class="mb-0 fw-semibold">783,675</h5>
+							<label class="fs-13 text-muted">Staffs</label>
+							<h5 class="mb-0 fw-semibold">675</h5>
 						</div>
 					</div>
                 </div>
@@ -33,13 +33,13 @@
                         <div class="card overflow-hidden sales-card bg-primary-gradient">
                             <div class="px-3 pt-3  pb-2 pt-0">
                                 <div >
-                                    <h6 class="mb-3 fs-12 text-fixed-white">Total Institutions</h6>
+                                    <h6 class="mb-3 fs-12 text-fixed-white">Total Books</h6>
                                 </div>
                                 <div class="pb-0 mt-0">
                                     <div class="d-flex">
                                         <div >
                                             <h4 class="fs-20 fw-bold mb-1 text-fixed-white">57,412</h4>
-                                            <p class="mb-0 fs-12 text-fixed-white op-7">Compared to last year</p>
+                                            <p class="mb-0 fs-12 text-fixed-white op-7">Compared to last month</p>
                                         </div>
                                         <span class="float-end my-auto ms-auto">
                                             <i class="fas fa-arrow-circle-up text-fixed-white"></i>
@@ -55,13 +55,13 @@
                         <div class="card overflow-hidden sales-card bg-danger-gradient">
                             <div class="px-3 pt-3  pb-2 pt-0">
                                 <div >
-                                    <h6 class="mb-3 fs-12 text-fixed-white">Total Earnings</h6>
+                                    <h6 class="mb-3 fs-12 text-fixed-white">Issued Books</h6>
                                 </div>
                                 <div class="pb-0 mt-0">
                                     <div class="d-flex">
                                         <div >
-                                            <h4 class="fs-20 fw-bold mb-1 text-fixed-white">$1230.17</h4>
-                                            <p class="mb-0 fs-12 text-fixed-white op-7">Compared to last year</p>
+                                            <h4 class="fs-20 fw-bold mb-1 text-fixed-white">12,308</h4>
+                                            <p class="mb-0 fs-12 text-fixed-white op-7">Compared to last month</p>
                                         </div>
                                         <span class="float-end my-auto ms-auto">
                                             <i class="fas fa-arrow-circle-up text-fixed-white"></i>
@@ -77,13 +77,13 @@
                         <div class="card overflow-hidden sales-card bg-success-gradient">
                             <div class="px-3 pt-3  pb-2 pt-0">
                                 <div >
-                                    <h6 class="mb-3 fs-12 text-fixed-white">Total Books</h6>
+                                    <h6 class="mb-3 fs-12 text-fixed-white">Total E-Books</h6>
                                 </div>
                                 <div class="pb-0 mt-0">
                                     <div class="d-flex">
                                         <div >
-                                            <h4 class="fs-20 fw-bold mb-1 text-fixed-white">7,12,57,970</h4>
-                                            <p class="mb-0 fs-12 text-fixed-white op-7">Compared to last year</p>
+                                            <h4 class="fs-20 fw-bold mb-1 text-fixed-white">970</h4>
+                                            <p class="mb-0 fs-12 text-fixed-white op-7">Compared to last month</p>
                                         </div>
                                         <span class="float-end my-auto ms-auto">
                                             <i class="fas fa-arrow-circle-up text-fixed-white"></i>
@@ -99,13 +99,13 @@
                         <div class="card overflow-hidden sales-card bg-warning-gradient">
                             <div class="px-3 pt-3  pb-2 pt-0">
                                 <div >
-                                    <h6 class="mb-3 fs-12 text-fixed-white">Total Renevals</h6>
+                                    <h6 class="mb-3 fs-12 text-fixed-white">Total Fine Collected</h6>
                                 </div>
                                 <div class="pb-0 mt-0">
                                     <div class="d-flex">
                                         <div >
                                             <h4 class="fs-20 fw-bold mb-1 text-fixed-white">46,980</h4>
-                                            <p class="mb-0 fs-12 text-fixed-white op-7">Compared to last yaer</p>
+                                            <p class="mb-0 fs-12 text-fixed-white op-7">Compared to last year</p>
                                         </div>
                                         <span class="float-end my-auto ms-auto">
                                             <i class="fas fa-arrow-circle-up text-fixed-white"></i>

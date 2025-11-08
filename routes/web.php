@@ -38,3 +38,7 @@ Route::get('/head', function(){
 Route::get('/switcher', function(){
     return view('switcher');
 });
+
+Route::get('/all_books', function(){
+    return view('all_books');
+});

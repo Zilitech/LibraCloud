@@ -103,3 +103,63 @@ Route::get('/fine_management', function(){
 Route::get('/fine_setting', function(){
     return view('fine_setting');
 });
+
+Route::get('/due_date_alert', function(){
+    return view('due_date_alert');
+});
+
+Route::get('/due_date_setting', function(){
+    return view('due_date_setting');
+});
+
+Route::get('/new_arrival_alert', function(){
+    return view('new_arrival_alert');
+});
+
+Route::get('/new_arrival_setting', function(){
+    return view('new_arrival_setting');
+});
+
+Route::get('/e-book', function(){
+    return view('e-book');
+});
+
+Route::get('/e-book_reader', function(){
+    return view('e-book_reader');
+});
+
+Route::get('/general_setting', function(){
+    return view('general_setting');
+});
+
+Route::get('/library_setting', function(){
+    return view('library_setting');
+});
+
+Route::get('/fine_setting', function(){
+    return view('fine_setting');
+});
+
+Route::get('/issue_return_rules', function(){
+    return view('issue_return_rules');
+});
+
+Route::get('/admin_librarien', function(){
+    return view('admin_librarien');
+});
+
+Route::get('/roles_permission', function(){
+    return view('roles_permission');
+});
+
+Route::get('/activity_log', function(){
+    return view('activity_log');
+});
+
+Route::get('/system_backup', function(){
+    return view('system_backup');
+});
+
+Route::get('/library_report', function(){
+    return view('library_report');
+});

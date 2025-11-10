@@ -42,3 +42,64 @@ Route::get('/switcher', function(){
 Route::get('/all_books', function(){
     return view('all_books');
 });
+
+Route::get('/add_book', function(){
+    return view('add_book');
+});
+
+Route::get('/category', function(){
+    return view('category');
+});
+
+Route::get('/authors', function(){
+    return view('authors');
+});
+
+Route::get('/inventory_management', function(){
+    return view('inventory_management');
+});
+
+Route::get('/add_inventory', function(){
+    return view('add_inventory');
+});
+
+Route::get('/all_member', function(){
+    return view('all_member');
+});
+
+Route::get('/add_member', function(){
+    return view('add_member');
+});
+
+Route::get('/member_category', function(){
+    return view('member_category');
+});
+
+
+Route::get('/membership_card', function(){
+    return view('membership_card');
+});
+
+Route::get('/issue_book', function(){
+    return view('issue_book');
+});
+
+Route::get('/issue', function(){
+    return view('issue');
+});
+
+Route::get('/returned_books', function(){
+    return view('returned_books');
+});
+
+Route::get('/overdue', function(){
+    return view('overdue');
+}); 
+
+Route::get('/fine_management', function(){
+    return view('fine_management');
+});
+
+Route::get('/fine_setting', function(){
+    return view('fine_setting');
+});

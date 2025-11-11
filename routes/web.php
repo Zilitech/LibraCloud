@@ -163,3 +163,27 @@ Route::get('/system_backup', function(){
 Route::get('/library_report', function(){
     return view('library_report');
 });
+
+Route::get('/scan_barcode', function(){
+    return view('scan_barcode');
+});
+
+Route::get('/generate_barcode', function(){
+    return view('generate_barcode');
+});
+
+Route::get('/lookup_by_barcode', function(){
+    return view('lookup_by_barcode');
+});
+
+Route::get('/user_manual', function(){
+    return view('user_manual');
+});
+
+Route::get('/developer_info', function(){
+    return view('developer_info');
+});
+
+Route::get('/version_info', function(){
+    return view('version_info');
+});

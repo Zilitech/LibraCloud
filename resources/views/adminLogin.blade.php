@@ -477,12 +477,22 @@
         <h3>Welcome back to LibraCloud!</h3>
         <h6 class="fw-medium mb-4 fs-17">Please sign in to continue.</h6>
 
+        {{-- ✅ Display flash messages --}}
+        @if(session('error'))
+            <div class="alert alert-danger">{{ session('error') }}</div>
+        @endif
+
+        @if(session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
+
         <form method="POST" action="{{ route('admin.login') }}">
             @csrf
             <div class="form-group mb-3">
                 <label class="form-label">Email</label>
                 <input class="form-control" name="email" placeholder="Enter your email" type="text" required>
             </div>
+
             <div class="form-group mb-3">
                 <label class="form-label">Password</label>
                 <input class="form-control" name="password" placeholder="Enter your password" type="password" required>
@@ -505,15 +515,12 @@
         </form>
 
         <div class="main-signin-footer mt-5">
-            <p class="mb-1">
-                <a href="{{ url('/forgot_password') }}">Forgot password?</a>
-            </p>
-            <p>
-                Don't have an account? <a href="{{ url('/signup') }}">Create an Account</a>
-            </p>
+            <p class="mb-1"><a href="{{ url('/forgot_password') }}">Forgot password?</a></p>
+            <p>Don't have an account? <a href="{{ url('/signup') }}">Create an Account</a></p>
         </div>
     </div>
 </div>
+
 
                                 </div>
                             </div>

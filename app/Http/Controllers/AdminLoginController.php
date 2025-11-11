@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Hash;
 class AdminLoginController extends Controller
 {
     /**
-     * Handle admin login form submission.
+     * Handle admin login submission
      */
     public function login(Request $request)
     {
@@ -18,8 +18,8 @@ class AdminLoginController extends Controller
             'password' => 'required',
         ]);
 
-        // Fetch active admin
-        $admin = DB::table('admin_logins')
+        // Find active admin
+        $admin = DB::table('admin_login')
             ->where('email', $request->email)
             ->where('status', true)
             ->first();
@@ -28,7 +28,7 @@ class AdminLoginController extends Controller
             return back()->with('error', 'Invalid email or password.');
         }
 
-        // ✅ Verify hashed password
+        // Verify hashed password
         if (Hash::check($request->password, $admin->password)) {
             // Store session
             session([
@@ -37,39 +37,41 @@ class AdminLoginController extends Controller
                 'admin_role' => $admin->role,
             ]);
 
-            // Update last login timestamp
-            DB::table('admin_logins')
+            // Update last login time
+            DB::table('admin_login')
                 ->where('id', $admin->id)
                 ->update(['last_login_at' => now()]);
 
             return redirect()->route('admin.dashboard');
         }
 
-        // ❌ Invalid credentials
+        // Invalid password
         return back()->with('error', 'Invalid email or password.');
     }
 
     /**
-     * Display admin dashboard (only if logged in).
+     * Dashboard page
      */
     public function dashboard()
     {
         if (!session()->has('admin_id')) {
-            return redirect('/')->with('error', 'Please login first.');
+            return redirect()->route('admin.login.form')
+                             ->with('error', 'Please login first.');
         }
 
-        return view('dashboard', [
+        return view('welcome', [
             'admin_name' => session('admin_name'),
             'admin_role' => session('admin_role'),
         ]);
     }
 
     /**
-     * Logout and destroy session.
+     * Logout and clear session
      */
     public function logout()
     {
         session()->flush();
-        return redirect('/')->with('error', 'You have been logged out.');
+        return redirect()->route('admin.login.form')
+                         ->with('error', 'You have been logged out.');
     }
 }

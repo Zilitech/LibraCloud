@@ -472,40 +472,56 @@
                                             class="desktop-white ht-40" alt="logo">
                                         </a>
                                     </div>
-                                    <div class="card-sigin">
-                                        <div class="main-signup-header">
-                                            <h3>Welcome back to LibraCloud!</h3>
-                                            <h6 class="fw-medium mb-4 fs-17">Please sign in to continue.</h6>
-                                            <form>
-                                                <div class="form-group mb-3">
-                                                    <label class="form-label">Email</label> <input class="form-control"
-                                                        placeholder="Enter your email" type="text">
-                                                </div>
-                                                <div class="form-group mb-3">
-                                                    <label class="form-label">Password</label> <input class="form-control"
-                                                        placeholder="Enter your password" type="password">
-                                                </div>
-                                                <a href="{{ url('/') }}"  class="btn btn-primary btn-block w-100">Sign In</a>
-                                                <div class="row mt-3">
-                                                    <div class="col-sm-6">
-                                                        <button class="btn btn-block w-100 btn-facebook"><i
-                                                                class="fab fa-facebook-f me-2"></i> Signup with
-                                                            Facebook</button>
-                                                    </div>
-                                                    <div class="col-sm-6 mt-2 mt-sm-0">
-                                                        <button class="btn btn-info btn-block w-100"><i
-                                                                class="fab fa-twitter me-2"></i> Signup with
-                                                            Twitter</button>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                            <div class="main-signin-footer mt-5">
-                                                <p class="mb-1"><a href="{{ url('/forgot_password') }}">Forgot password?</a></p>
-                                                <p>Don't have an account? <a href="{{ url('/signup') }}">Create an
-                                                        Account</a></p>
-                                            </div>
-                                        </div>
-                                    </div>
+<div class="card-sigin">
+    <div class="main-signup-header">
+        <h3>Welcome back to LibraCloud!</h3>
+        <h6 class="fw-medium mb-4 fs-17">Please sign in to continue.</h6>
+
+        {{-- ✅ Display flash messages --}}
+        @if(session('error'))
+            <div class="alert alert-danger">{{ session('error') }}</div>
+        @endif
+
+        @if(session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
+
+        <form method="POST" action="{{ route('admin.login') }}">
+            @csrf
+            <div class="form-group mb-3">
+                <label class="form-label">Email</label>
+                <input class="form-control" name="email" placeholder="Enter your email" type="text" required>
+            </div>
+
+            <div class="form-group mb-3">
+                <label class="form-label">Password</label>
+                <input class="form-control" name="password" placeholder="Enter your password" type="password" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block w-100">Sign In</button>
+
+            <div class="row mt-3">
+                <div class="col-sm-6">
+                    <button type="button" class="btn btn-block w-100 btn-facebook">
+                        <i class="fab fa-facebook-f me-2"></i> Signup with Facebook
+                    </button>
+                </div>
+                <div class="col-sm-6 mt-2 mt-sm-0">
+                    <button type="button" class="btn btn-info btn-block w-100">
+                        <i class="fab fa-twitter me-2"></i> Signup with Twitter
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        <div class="main-signin-footer mt-5">
+            <p class="mb-1"><a href="{{ url('/forgot_password') }}">Forgot password?</a></p>
+            <p>Don't have an account? <a href="{{ url('/signup') }}">Create an Account</a></p>
+        </div>
+    </div>
+</div>
+
+
                                 </div>
                             </div>
                         </div>
@@ -525,3 +541,4 @@
 </body>
 
 </html>
+

@@ -43,13 +43,23 @@
 
             </div>
             <div class="card-body">
-                <form>
-                    <div class="mb-3">
-                        <label for="categoryName" class="form-label fs-14 text-dark">Category Name</label>
-                        <input type="text" class="form-control" id="categoryName" placeholder="Enter category name">
-                    </div>
-                    <button class="btn btn-primary" type="submit"><i class="ri-save-line me-1"></i>Save Category</button>
-                </form>
+                   @if(session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
+
+          <form action="{{ route('category.store') }}" method="POST">
+    @csrf
+    <div class="mb-3">
+        <label for="categoryName" class="form-label fs-14 text-dark">Category Name</label>
+        <input type="text" class="form-control" id="categoryName"
+               name="category_name"
+               placeholder="Enter category name" required>
+    </div>
+    <button class="btn btn-primary" type="submit">
+        <i class="ri-save-line me-1"></i>Save Category
+    </button>
+</form>
+
             </div>
 
             <div class="card-footer d-none border-top-0">
@@ -86,62 +96,33 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @forelse($categories as $key => $cat)
                             <tr>
-                                <td>1</td>
-                                <td>Science</td>
+                                <td>{{ $key+1 }}</td>
+                                <td>{{ $cat->category_name }}</td>
                                 <td>
                                     <div class="hstack gap-2 flex-wrap">
-                                        <a href="javascript:void(0);" class="text-info fs-14 lh-1">
-                                            <i class="ri-edit-line"></i>
-                                        </a>
-                                        <a href="javascript:void(0);" class="text-danger fs-14 lh-1">
-                                            <i class="ri-delete-bin-5-line"></i>
-                                        </a>
+                                          <a href="javascript:void(0);" 
+                       class="text-info fs-14 lh-1 editBtn"
+                       data-id="{{ $cat->id }}"
+                       data-name="{{ $cat->category_name }}">
+                        <i class="ri-edit-line"></i>
+                    </a>
+                                       <a href="javascript:void(0);" 
+   class="text-danger fs-14 lh-1" 
+   onclick="confirmDelete({{ $cat->id }})">
+   <i class="ri-delete-bin-5-line"></i>
+</a>
+
                                     </div>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Commerce</td>
-                                <td>
-                                    <div class="hstack gap-2 flex-wrap">
-                                        <a href="javascript:void(0);" class="text-info fs-14 lh-1">
-                                            <i class="ri-edit-line"></i>
-                                        </a>
-                                        <a href="javascript:void(0);" class="text-danger fs-14 lh-1">
-                                            <i class="ri-delete-bin-5-line"></i>
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>Literature</td>
-                                <td>
-                                    <div class="hstack gap-2 flex-wrap">
-                                        <a href="javascript:void(0);" class="text-info fs-14 lh-1">
-                                            <i class="ri-edit-line"></i>
-                                        </a>
-                                        <a href="javascript:void(0);" class="text-danger fs-14 lh-1">
-                                            <i class="ri-delete-bin-5-line"></i>
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>Technology</td>
-                                <td>
-                                    <div class="hstack gap-2 flex-wrap">
-                                        <a href="javascript:void(0);" class="text-info fs-14 lh-1">
-                                            <i class="ri-edit-line"></i>
-                                        </a>
-                                        <a href="javascript:void(0);" class="text-danger fs-14 lh-1">
-                                            <i class="ri-delete-bin-5-line"></i>
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
+                           
+                             @empty
+        <tr>
+            <td colspan="3" class="text-center text-muted">No categories found</td>
+        </tr>
+                                @endforelse
                         </tbody>
                     </table>
                 </div>
@@ -163,6 +144,70 @@
         </div>
     </div>
 </div>
+
+<!-- 🧾 Edit Category Modal -->
+<div class="modal fade" id="editCategoryModal" tabindex="-1" aria-labelledby="editCategoryLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form action="{{ route('category.update') }}" method="POST">
+        @csrf
+        <div class="modal-header">
+          <h5 class="modal-title" id="editCategoryLabel">Edit Category</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label">Category ID</label>
+            <input type="text" class="form-control" id="editCategoryId" name="id" readonly>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Category Name</label>
+            <input type="text" class="form-control" id="editCategoryName" name="category_name" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Update Category</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete this category?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <form id="deleteForm" method="POST">
+          @csrf
+          @method('DELETE')
+          <button type="submit" class="btn btn-danger">Yes, Delete</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- JS to handle delete -->
+<script>
+    function confirmDelete(id) {
+        const form = document.getElementById('deleteForm');
+        form.action = '/category/' + id; // Set dynamic route
+        const modal = new bootstrap.Modal(document.getElementById('deleteModal'));
+        modal.show();
+    }
+</script>
+
+
 
 
             </div>
@@ -217,6 +262,26 @@
     <!-- Custom JS -->
     <script src="{{ asset('js/custom.js') }}"></script>
 
+    <script>
+document.addEventListener('DOMContentLoaded', function () {
+    const editButtons = document.querySelectorAll('.editBtn');
+    const modal = new bootstrap.Modal(document.getElementById('editCategoryModal'));
+    const idField = document.getElementById('editCategoryId');
+    const nameField = document.getElementById('editCategoryName');
+
+    editButtons.forEach(btn => {
+        btn.addEventListener('click', function () {
+            const id = this.getAttribute('data-id');
+            const name = this.getAttribute('data-name');
+
+            idField.value = id;
+            nameField.value = name;
+
+            modal.show();
+        });
+    });
+});
+</script>
 
 
 </body>

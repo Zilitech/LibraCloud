@@ -1,10 +1,26 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdminLoginController;
+use App\Http\Controllers\CategoryController;
 
+// ✅ Show login page by default
 Route::get('/', function () {
-    return view('welcome');
-});
+    // If already logged in → redirect to dashboard
+    if (session()->has('admin_id')) {
+        return redirect()->route('admin.dashboard');
+    }
+    return view('adminLogin'); // your login page
+})->name('admin.login.form');
+
+// ✅ Handle login form submission
+Route::post('/login', [AdminLoginController::class, 'login'])->name('admin.login');
+
+// ✅ Dashboard page (only accessible if logged in)
+Route::get('/dashboard', [AdminLoginController::class, 'dashboard'])->name('admin.dashboard');
+
+// ✅ Logout route
+Route::get('/logout', [AdminLoginController::class, 'logout'])->name('admin.logout');
 
 
 Route::get('/nav_sidebar', function(){
@@ -47,9 +63,12 @@ Route::get('/add_book', function(){
     return view('add_book');
 });
 
-Route::get('/category', function(){
-    return view('category');
-});
+Route::get('/category', [CategoryController::class, 'index'])->name('category.index');
+Route::post('/category', [CategoryController::class, 'store'])->name('category.store');
+Route::post('/category/update', [CategoryController::class, 'update'])->name('category.update');
+Route::delete('/category/{id}', [CategoryController::class, 'destroy'])->name('category.destroy');
+
+
 
 Route::get('/authors', function(){
     return view('authors');
@@ -206,4 +225,8 @@ Route::get('/chat', function(){
 
 Route::get('/adminLogin', function(){
     return view('adminLogin');
+});
+
+Route::get('/database_connection', function(){
+    return view('database_connection');
 });

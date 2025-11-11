@@ -1,11 +1,20 @@
 <?php
 
+use App\Http\Controllers\AdminLoginController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
+// Handle login submission
+Route::post('/login', [AdminLoginController::class, 'login'])->name('admin.login');
+
+// Dashboard page
+Route::get('/dashboard', [AdminLoginController::class, 'dashboard'])->name('admin.dashboard');
+
+// Logout route
+Route::get('/logout', [AdminLoginController::class, 'logout'])->name('admin.logout');
 
 Route::get('/nav_sidebar', function(){
     return view('nav_sidebar');
@@ -206,4 +215,8 @@ Route::get('/chat', function(){
 
 Route::get('/adminLogin', function(){
     return view('adminLogin');
+});
+
+Route::get('/database_connection', function(){
+    return view('database_connection');
 });

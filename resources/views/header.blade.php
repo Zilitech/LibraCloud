@@ -381,7 +381,7 @@
                             <li><a class="dropdown-item d-flex" href="{{ url('edit_profile') }}"><i class="bx bx-cog fs-18 me-2 op-7"></i>Edit Profile </a></li>
                             <li><a class="dropdown-item d-flex border-block-end" href="{{ url('mail') }}"><i class="bx bxs-inbox fs-18 me-2 op-7"></i>Inbox</a></li>
                             <li><a class="dropdown-item d-flex" href="{{ url('chat') }}"><i class="bx bx-envelope fs-18 me-2 op-7"></i>Messages</a></li>
-                            <li><a class="dropdown-item d-flex" href="{{ url('adminLogout') }}"><i class="bx bx-log-out fs-18 me-2 op-7"></i>Sign Out</a></li>
+                            <li><a class="dropdown-item d-flex" href="{{ url('admin.logout') }}"><i class="bx bx-log-out fs-18 me-2 op-7"></i>Sign Out</a></li>
                         </ul>
                     </div>  
                     <!-- End::header-element -->

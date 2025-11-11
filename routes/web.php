@@ -187,3 +187,23 @@ Route::get('/developer_info', function(){
 Route::get('/version_info', function(){
     return view('version_info');
 });
+
+Route::get('/profile', function(){
+    return view('profile');
+});
+
+Route::get('/edit_profile', function(){
+    return view('edit_profile');
+});
+
+Route::get('/mail', function(){
+    return view('mail');
+});
+
+Route::get('/chat', function(){
+    return view('chat');
+});
+
+Route::get('/adminLogin', function(){
+    return view('adminLogin');
+});

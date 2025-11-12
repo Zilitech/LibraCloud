@@ -92,1260 +92,228 @@
                                                 
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>Tiger Nixon</td>
-                                                <td>System Architect</td>
-                                                <td>Edinburgh</td>
-                                                <td>61</td>
-                                                <td>2011-04-25</td>
-                                                <td>$320,800</td>
-                                                                        <td class="text-center">
-                            <a href="javascript:void(0);" class="me-2 text-info" data-bs-toggle="tooltip" title="Edit">
-                                <i class="ri-edit-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-danger" data-bs-toggle="tooltip" title="Delete">
-                                <i class="ri-delete-bin-5-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-primary" data-bs-toggle="tooltip" title="View">
-                                <i class="ri-eye-line fs-16"></i>
-                            </a>
-                            <a href="{{ url('add_inventory') }}" class="text-success" data-bs-toggle="tooltip" title="Update Inventory">
-                                <i class="ri-archive-line fs-16"></i>
-                            </a>
-                        </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Garrett Winters</td>
-                                                <td>Accountant</td>
-                                                <td>Tokyo</td>
-                                                <td>63</td>
-                                                <td>2011-07-25</td>
-                                                <td>$170,750</td>
-                                                                                                                        <td class="text-center">
-                            <a href="javascript:void(0);" class="me-2 text-info" data-bs-toggle="tooltip" title="Edit">
-                                <i class="ri-edit-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-danger" data-bs-toggle="tooltip" title="Delete">
-                                <i class="ri-delete-bin-5-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-primary" data-bs-toggle="tooltip" title="View">
-                                <i class="ri-eye-line fs-16"></i>
-                            </a>
-                            <a href="{{ url('add_inventory') }}" class="text-success" data-bs-toggle="tooltip" title="Update Inventory">
-                                <i class="ri-archive-line fs-16"></i>
-                            </a>
-                        </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Ashton Cox</td>
-                                                <td>Junior Technical Author</td>
-                                                <td>San Francisco</td>
-                                                <td>66</td>
-                                                <td>2009-01-12</td>
-                                                <td>$86,000</td>
-                                                                                                                        <td class="text-center">
-                            <a href="javascript:void(0);" class="me-2 text-info" data-bs-toggle="tooltip" title="Edit">
-                                <i class="ri-edit-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-danger" data-bs-toggle="tooltip" title="Delete">
-                                <i class="ri-delete-bin-5-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-primary" data-bs-toggle="tooltip" title="View">
-                                <i class="ri-eye-line fs-16"></i>
-                            </a>
-                            <a href="{{ url('add_inventory') }}" class="text-success" data-bs-toggle="tooltip" title="Update Inventory">
-                                <i class="ri-archive-line fs-16"></i>
-                            </a>
-                        </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Cedric Kelly</td>
-                                                <td>Senior Javascript Developer</td>
-                                                <td>Edinburgh</td>
-                                                <td>22</td>
-                                                <td>2012-03-29</td>
-                                                <td>$433,060</td>
-                                                                                                                        <td class="text-center">
-                            <a href="javascript:void(0);" class="me-2 text-info" data-bs-toggle="tooltip" title="Edit">
-                                <i class="ri-edit-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-danger" data-bs-toggle="tooltip" title="Delete">
-                                <i class="ri-delete-bin-5-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-primary" data-bs-toggle="tooltip" title="View">
-                                <i class="ri-eye-line fs-16"></i>
-                            </a>
-                            <a href="{{ url('add_inventory') }}" class="text-success" data-bs-toggle="tooltip" title="Update Inventory">
-                                <i class="ri-archive-line fs-16"></i>
-                            </a>
-                        </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Airi Satou</td>
-                                                <td>Accountant</td>
-                                                <td>Tokyo</td>
-                                                <td>33</td>
-                                                <td>2008-11-28</td>
-                                                <td>$162,700</td>
-                                                                                                                        <td class="text-center">
-                            <a href="javascript:void(0);" class="me-2 text-info" data-bs-toggle="tooltip" title="Edit">
-                                <i class="ri-edit-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-danger" data-bs-toggle="tooltip" title="Delete">
-                                <i class="ri-delete-bin-5-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-primary" data-bs-toggle="tooltip" title="View">
-                                <i class="ri-eye-line fs-16"></i>
-                            </a>
-                            <a href="{{ url('add_inventory') }}" class="text-success" data-bs-toggle="tooltip" title="Update Inventory">
-                                <i class="ri-archive-line fs-16"></i>
-                            </a>
-                        </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Brielle Williamson</td>
-                                                <td>Integration Specialist</td>
-                                                <td>New York</td>
-                                                <td>61</td>
-                                                <td>2012-12-02</td>
-                                                <td>$372,000</td>
-                                                                                                                        <td class="text-center">
-                            <a href="javascript:void(0);" class="me-2 text-info" data-bs-toggle="tooltip" title="Edit">
-                                <i class="ri-edit-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-danger" data-bs-toggle="tooltip" title="Delete">
-                                <i class="ri-delete-bin-5-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-primary" data-bs-toggle="tooltip" title="View">
-                                <i class="ri-eye-line fs-16"></i>
-                            </a>
-                            <a href="{{ url('add_inventory') }}" class="text-success" data-bs-toggle="tooltip" title="Update Inventory">
-                                <i class="ri-archive-line fs-16"></i>
-                            </a>
-                        </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Herrod Chandler</td>
-                                                <td>Sales Assistant</td>
-                                                <td>San Francisco</td>
-                                                <td>59</td>
-                                                <td>2012-08-06</td>
-                                                <td>$137,500</td>
-                                                                                                                        <td class="text-center">
-                            <a href="javascript:void(0);" class="me-2 text-info" data-bs-toggle="tooltip" title="Edit">
-                                <i class="ri-edit-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-danger" data-bs-toggle="tooltip" title="Delete">
-                                <i class="ri-delete-bin-5-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-primary" data-bs-toggle="tooltip" title="View">
-                                <i class="ri-eye-line fs-16"></i>
-                            </a>
-                            <a href="{{ url('add_inventory') }}" class="text-success" data-bs-toggle="tooltip" title="Update Inventory">
-                                <i class="ri-archive-line fs-16"></i>
-                            </a>
-                        </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Rhona Davidson</td>
-                                                <td>Integration Specialist</td>
-                                                <td>Tokyo</td>
-                                                <td>55</td>
-                                                <td>2010-10-14</td>
-                                                <td>$327,900</td>
-                                                                                                                        <td class="text-center">
-                            <a href="javascript:void(0);" class="me-2 text-info" data-bs-toggle="tooltip" title="Edit">
-                                <i class="ri-edit-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-danger" data-bs-toggle="tooltip" title="Delete">
-                                <i class="ri-delete-bin-5-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-primary" data-bs-toggle="tooltip" title="View">
-                                <i class="ri-eye-line fs-16"></i>
-                            </a>
-                            <a href="{{ url('add_inventory') }}" class="text-success" data-bs-toggle="tooltip" title="Update Inventory">
-                                <i class="ri-archive-line fs-16"></i>
-                            </a>
-                        </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Colleen Hurst</td>
-                                                <td>Javascript Developer</td>
-                                                <td>San Francisco</td>
-                                                <td>39</td>
-                                                <td>2009-09-15</td>
-                                                <td>$205,500</td>
-                                                                                                                        <td class="text-center">
-                            <a href="javascript:void(0);" class="me-2 text-info" data-bs-toggle="tooltip" title="Edit">
-                                <i class="ri-edit-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-danger" data-bs-toggle="tooltip" title="Delete">
-                                <i class="ri-delete-bin-5-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-primary" data-bs-toggle="tooltip" title="View">
-                                <i class="ri-eye-line fs-16"></i>
-                            </a>
-                            <a href="{{ url('add_inventory') }}" class="text-success" data-bs-toggle="tooltip" title="Update Inventory">
-                                <i class="ri-archive-line fs-16"></i>
-                            </a>
-                        </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Sonya Frost</td>
-                                                <td>Software Engineer</td>
-                                                <td>Edinburgh</td>
-                                                <td>23</td>
-                                                <td>2008-12-13</td>
-                                                <td>$103,600</td>
-                                                                                                                        <td class="text-center">
-                            <a href="javascript:void(0);" class="me-2 text-info" data-bs-toggle="tooltip" title="Edit">
-                                <i class="ri-edit-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-danger" data-bs-toggle="tooltip" title="Delete">
-                                <i class="ri-delete-bin-5-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-primary" data-bs-toggle="tooltip" title="View">
-                                <i class="ri-eye-line fs-16"></i>
-                            </a>
-                            <a href="{{ url('add_inventory') }}" class="text-success" data-bs-toggle="tooltip" title="Update Inventory">
-                                <i class="ri-archive-line fs-16"></i>
-                            </a>
-                        </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Jena Gaines</td>
-                                                <td>Office Manager</td>
-                                                <td>London</td>
-                                                <td>30</td>
-                                                <td>2008-12-19</td>
-                                                <td>$90,560</td>                                                                        <td class="text-center">
-                            <a href="javascript:void(0);" class="me-2 text-info" data-bs-toggle="tooltip" title="Edit">
-                                <i class="ri-edit-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-danger" data-bs-toggle="tooltip" title="Delete">
-                                <i class="ri-delete-bin-5-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-primary" data-bs-toggle="tooltip" title="View">
-                                <i class="ri-eye-line fs-16"></i>
-                            </a>
-                            <a href="{{ url('add_inventory') }}" class="text-success" data-bs-toggle="tooltip" title="Update Inventory">
-                                <i class="ri-archive-line fs-16"></i>
-                            </a>
-                        </td>                                            </tr>
-                                            <tr>
-                                                <td>Quinn Flynn</td>
-                                                <td>Support Lead</td>
-                                                <td>Edinburgh</td>
-                                                <td>22</td>
-                                                <td>2013-03-03</td>
-                                                <td>$342,000</td>
-                                                                                                                        <td class="text-center">
-                            <a href="javascript:void(0);" class="me-2 text-info" data-bs-toggle="tooltip" title="Edit">
-                                <i class="ri-edit-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-danger" data-bs-toggle="tooltip" title="Delete">
-                                <i class="ri-delete-bin-5-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-primary" data-bs-toggle="tooltip" title="View">
-                                <i class="ri-eye-line fs-16"></i>
-                            </a>
-                            <a href="{{ url('add_inventory') }}" class="text-success" data-bs-toggle="tooltip" title="Update Inventory">
-                                <i class="ri-archive-line fs-16"></i>
-                            </a>
-                        </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Charde Marshall</td>
-                                                <td>Regional Director</td>
-                                                <td>San Francisco</td>
-                                                <td>36</td>
-                                                <td>2008-10-16</td>
-                                                <td>$470,600</td>
-                                                                                                                        <td class="text-center">
-                            <a href="javascript:void(0);" class="me-2 text-info" data-bs-toggle="tooltip" title="Edit">
-                                <i class="ri-edit-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-danger" data-bs-toggle="tooltip" title="Delete">
-                                <i class="ri-delete-bin-5-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-primary" data-bs-toggle="tooltip" title="View">
-                                <i class="ri-eye-line fs-16"></i>
-                            </a>
-                            <a href="{{ url('add_inventory') }}" class="text-success" data-bs-toggle="tooltip" title="Update Inventory">
-                                <i class="ri-archive-line fs-16"></i>
-                            </a>
-                        </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Haley Kennedy</td>
-                                                <td>Senior Marketing Designer</td>
-                                                <td>London</td>
-                                                <td>43</td>
-                                                <td>2012-12-18</td>
-                                                <td>$313,500</td>
-                                                                                                                        <td class="text-center">
-                            <a href="javascript:void(0);" class="me-2 text-info" data-bs-toggle="tooltip" title="Edit">
-                                <i class="ri-edit-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-danger" data-bs-toggle="tooltip" title="Delete">
-                                <i class="ri-delete-bin-5-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-primary" data-bs-toggle="tooltip" title="View">
-                                <i class="ri-eye-line fs-16"></i>
-                            </a>
-                            <a href="{{ url('add_inventory') }}" class="text-success" data-bs-toggle="tooltip" title="Update Inventory">
-                                <i class="ri-archive-line fs-16"></i>
-                            </a>
-                        </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Tatyana Fitzpatrick</td>
-                                                <td>Regional Director</td>
-                                                <td>London</td>
-                                                <td>19</td>
-                                                <td>2010-03-17</td>
-                                                <td>$385,750</td>
-                                                                                                                        <td class="text-center">
-                            <a href="javascript:void(0);" class="me-2 text-info" data-bs-toggle="tooltip" title="Edit">
-                                <i class="ri-edit-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-danger" data-bs-toggle="tooltip" title="Delete">
-                                <i class="ri-delete-bin-5-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-primary" data-bs-toggle="tooltip" title="View">
-                                <i class="ri-eye-line fs-16"></i>
-                            </a>
-                            <a href="{{ url('add_inventory') }}" class="text-success" data-bs-toggle="tooltip" title="Update Inventory">
-                                <i class="ri-archive-line fs-16"></i>
-                            </a>
-                        </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Michael Silva</td>
-                                                <td>Marketing Designer</td>
-                                                <td>London</td>
-                                                <td>66</td>
-                                                <td>2012-11-27</td>
-                                                <td>$198,500</td>
-                                                                                                                        <td class="text-center">
-                            <a href="javascript:void(0);" class="me-2 text-info" data-bs-toggle="tooltip" title="Edit">
-                                <i class="ri-edit-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-danger" data-bs-toggle="tooltip" title="Delete">
-                                <i class="ri-delete-bin-5-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-primary" data-bs-toggle="tooltip" title="View">
-                                <i class="ri-eye-line fs-16"></i>
-                            </a>
-                            <a href="{{ url('add_inventory') }}" class="text-success" data-bs-toggle="tooltip" title="Update Inventory">
-                                <i class="ri-archive-line fs-16"></i>
-                            </a>
-                        </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Paul Byrd</td>
-                                                <td>Chief Financial Officer (CFO)</td>
-                                                <td>New York</td>
-                                                <td>64</td>
-                                                <td>2010-06-09</td>
-                                                <td>$725,000</td>
-                                                                                                                        <td class="text-center">
-                            <a href="javascript:void(0);" class="me-2 text-info" data-bs-toggle="tooltip" title="Edit">
-                                <i class="ri-edit-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-danger" data-bs-toggle="tooltip" title="Delete">
-                                <i class="ri-delete-bin-5-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-primary" data-bs-toggle="tooltip" title="View">
-                                <i class="ri-eye-line fs-16"></i>
-                            </a>
-                            <a href="{{ url('add_inventory') }}" class="text-success" data-bs-toggle="tooltip" title="Update Inventory">
-                                <i class="ri-archive-line fs-16"></i>
-                            </a>
-                        </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Gloria Little</td>
-                                                <td>Systems Administrator</td>
-                                                <td>New York</td>
-                                                <td>59</td>
-                                                <td>2009-04-10</td>
-                                                <td>$237,500</td>
-                                                                                                                        <td class="text-center">
-                            <a href="javascript:void(0);" class="me-2 text-info" data-bs-toggle="tooltip" title="Edit">
-                                <i class="ri-edit-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-danger" data-bs-toggle="tooltip" title="Delete">
-                                <i class="ri-delete-bin-5-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-primary" data-bs-toggle="tooltip" title="View">
-                                <i class="ri-eye-line fs-16"></i>
-                            </a>
-                            <a href="{{ url('add_inventory') }}" class="text-success" data-bs-toggle="tooltip" title="Update Inventory">
-                                <i class="ri-archive-line fs-16"></i>
-                            </a>
-                        </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Bradley Greer</td>
-                                                <td>Software Engineer</td>
-                                                <td>London</td>
-                                                <td>41</td>
-                                                <td>2012-10-13</td>
-                                                <td>$132,000</td>
-                                                                                                                        <td class="text-center">
-                            <a href="javascript:void(0);" class="me-2 text-info" data-bs-toggle="tooltip" title="Edit">
-                                <i class="ri-edit-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-danger" data-bs-toggle="tooltip" title="Delete">
-                                <i class="ri-delete-bin-5-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-primary" data-bs-toggle="tooltip" title="View">
-                                <i class="ri-eye-line fs-16"></i>
-                            </a>
-                            <a href="{{ url('add_inventory') }}" class="text-success" data-bs-toggle="tooltip" title="Update Inventory">
-                                <i class="ri-archive-line fs-16"></i>
-                            </a>
-                        </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Dai Rios</td>
-                                                <td>Personnel Lead</td>
-                                                <td>Edinburgh</td>
-                                                <td>35</td>
-                                                <td>2012-09-26</td>
-                                                <td>$217,500</td>
-                                                                                                                        <td class="text-center">
-                            <a href="javascript:void(0);" class="me-2 text-info" data-bs-toggle="tooltip" title="Edit">
-                                <i class="ri-edit-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-danger" data-bs-toggle="tooltip" title="Delete">
-                                <i class="ri-delete-bin-5-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-primary" data-bs-toggle="tooltip" title="View">
-                                <i class="ri-eye-line fs-16"></i>
-                            </a>
-                            <a href="{{ url('add_inventory') }}" class="text-success" data-bs-toggle="tooltip" title="Update Inventory">
-                                <i class="ri-archive-line fs-16"></i>
-                            </a>
-                        </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Jenette Caldwell</td>
-                                                <td>Development Lead</td>
-                                                <td>New York</td>
-                                                <td>30</td>
-                                                <td>2011-09-03</td>
-                                                <td>$345,000</td>
-                                                                                                                        <td class="text-center">
-                            <a href="javascript:void(0);" class="me-2 text-info" data-bs-toggle="tooltip" title="Edit">
-                                <i class="ri-edit-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-danger" data-bs-toggle="tooltip" title="Delete">
-                                <i class="ri-delete-bin-5-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-primary" data-bs-toggle="tooltip" title="View">
-                                <i class="ri-eye-line fs-16"></i>
-                            </a>
-                            <a href="{{ url('add_inventory') }}" class="text-success" data-bs-toggle="tooltip" title="Update Inventory">
-                                <i class="ri-archive-line fs-16"></i>
-                            </a>
-                        </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Yuri Berry</td>
-                                                <td>Chief Marketing Officer (CMO)</td>
-                                                <td>New York</td>
-                                                <td>40</td>
-                                                <td>2009-06-25</td>
-                                                <td>$675,000</td>
-                                                                                                                        <td class="text-center">
-                            <a href="javascript:void(0);" class="me-2 text-info" data-bs-toggle="tooltip" title="Edit">
-                                <i class="ri-edit-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-danger" data-bs-toggle="tooltip" title="Delete">
-                                <i class="ri-delete-bin-5-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-primary" data-bs-toggle="tooltip" title="View">
-                                <i class="ri-eye-line fs-16"></i>
-                            </a>
-                            <a href="{{ url('add_inventory') }}" class="text-success" data-bs-toggle="tooltip" title="Update Inventory">
-                                <i class="ri-archive-line fs-16"></i>
-                            </a>
-                        </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Caesar Vance</td>
-                                                <td>Pre-Sales Support</td>
-                                                <td>New York</td>
-                                                <td>21</td>
-                                                <td>2011-12-12</td>
-                                                <td>$106,450</td>
-                                                                                                                        <td class="text-center">
-                            <a href="javascript:void(0);" class="me-2 text-info" data-bs-toggle="tooltip" title="Edit">
-                                <i class="ri-edit-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-danger" data-bs-toggle="tooltip" title="Delete">
-                                <i class="ri-delete-bin-5-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-primary" data-bs-toggle="tooltip" title="View">
-                                <i class="ri-eye-line fs-16"></i>
-                            </a>
-                            <a href="{{ url('add_inventory') }}" class="text-success" data-bs-toggle="tooltip" title="Update Inventory">
-                                <i class="ri-archive-line fs-16"></i>
-                            </a>
-                        </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Doris Wilder</td>
-                                                <td>Sales Assistant</td>
-                                                <td>Sydney</td>
-                                                <td>23</td>
-                                                <td>2010-09-20</td>
-                                                <td>$85,600</td>
-                                                                                                                        <td class="text-center">
-                            <a href="javascript:void(0);" class="me-2 text-info" data-bs-toggle="tooltip" title="Edit">
-                                <i class="ri-edit-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-danger" data-bs-toggle="tooltip" title="Delete">
-                                <i class="ri-delete-bin-5-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-primary" data-bs-toggle="tooltip" title="View">
-                                <i class="ri-eye-line fs-16"></i>
-                            </a>
-                            <a href="{{ url('add_inventory') }}" class="text-success" data-bs-toggle="tooltip" title="Update Inventory">
-                                <i class="ri-archive-line fs-16"></i>
-                            </a>
-                        </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Angelica Ramos</td>
-                                                <td>Chief Executive Officer (CEO)</td>
-                                                <td>London</td>
-                                                <td>47</td>
-                                                <td>2009-10-09</td>
-                                                <td>$1,200,000</td>
-                                                                                                                        <td class="text-center">
-                            <a href="javascript:void(0);" class="me-2 text-info" data-bs-toggle="tooltip" title="Edit">
-                                <i class="ri-edit-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-danger" data-bs-toggle="tooltip" title="Delete">
-                                <i class="ri-delete-bin-5-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-primary" data-bs-toggle="tooltip" title="View">
-                                <i class="ri-eye-line fs-16"></i>
-                            </a>
-                            <a href="{{ url('add_inventory') }}" class="text-success" data-bs-toggle="tooltip" title="Update Inventory">
-                                <i class="ri-archive-line fs-16"></i>
-                            </a>
-                        </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Gavin Joyce</td>
-                                                <td>Developer</td>
-                                                <td>Edinburgh</td>
-                                                <td>42</td>
-                                                <td>2010-12-22</td>
-                                                <td>$92,575</td>
-                                                                                                                        <td class="text-center">
-                            <a href="javascript:void(0);" class="me-2 text-info" data-bs-toggle="tooltip" title="Edit">
-                                <i class="ri-edit-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-danger" data-bs-toggle="tooltip" title="Delete">
-                                <i class="ri-delete-bin-5-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-primary" data-bs-toggle="tooltip" title="View">
-                                <i class="ri-eye-line fs-16"></i>
-                            </a>
-                            <a href="{{ url('add_inventory') }}" class="text-success" data-bs-toggle="tooltip" title="Update Inventory">
-                                <i class="ri-archive-line fs-16"></i>
-                            </a>
-                        </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Jennifer Chang</td>
-                                                <td>Regional Director</td>
-                                                <td>Singapore</td>
-                                                <td>28</td>
-                                                <td>2010-11-14</td>
-                                                <td>$357,650</td>
-                                                                                                                        <td class="text-center">
-                            <a href="javascript:void(0);" class="me-2 text-info" data-bs-toggle="tooltip" title="Edit">
-                                <i class="ri-edit-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-danger" data-bs-toggle="tooltip" title="Delete">
-                                <i class="ri-delete-bin-5-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-primary" data-bs-toggle="tooltip" title="View">
-                                <i class="ri-eye-line fs-16"></i>
-                            </a>
-                            <a href="{{ url('add_inventory') }}" class="text-success" data-bs-toggle="tooltip" title="Update Inventory">
-                                <i class="ri-archive-line fs-16"></i>
-                            </a>
-                        </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Brenden Wagner</td>
-                                                <td>Software Engineer</td>
-                                                <td>San Francisco</td>
-                                                <td>28</td>
-                                                <td>2011-06-07</td>
-                                                <td>$206,850</td>
-                                                                                                                        <td class="text-center">
-                            <a href="javascript:void(0);" class="me-2 text-info" data-bs-toggle="tooltip" title="Edit">
-                                <i class="ri-edit-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-danger" data-bs-toggle="tooltip" title="Delete">
-                                <i class="ri-delete-bin-5-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-primary" data-bs-toggle="tooltip" title="View">
-                                <i class="ri-eye-line fs-16"></i>
-                            </a>
-                            <a href="{{ url('add_inventory') }}" class="text-success" data-bs-toggle="tooltip" title="Update Inventory">
-                                <i class="ri-archive-line fs-16"></i>
-                            </a>
-                        </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Fiona Green</td>
-                                                <td>Chief Operating Officer (COO)</td>
-                                                <td>San Francisco</td>
-                                                <td>48</td>
-                                                <td>2010-03-11</td>
-                                                <td>$850,000</td>
-                                                                                                                        <td class="text-center">
-                            <a href="javascript:void(0);" class="me-2 text-info" data-bs-toggle="tooltip" title="Edit">
-                                <i class="ri-edit-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-danger" data-bs-toggle="tooltip" title="Delete">
-                                <i class="ri-delete-bin-5-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-primary" data-bs-toggle="tooltip" title="View">
-                                <i class="ri-eye-line fs-16"></i>
-                            </a>
-                            <a href="{{ url('add_inventory') }}" class="text-success" data-bs-toggle="tooltip" title="Update Inventory">
-                                <i class="ri-archive-line fs-16"></i>
-                            </a>
-                        </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Shou Itou</td>
-                                                <td>Regional Marketing</td>
-                                                <td>Tokyo</td>
-                                                <td>20</td>
-                                                <td>2011-08-14</td>
-                                                <td>$163,000</td>
-                                                                                                                        <td class="text-center">
-                            <a href="javascript:void(0);" class="me-2 text-info" data-bs-toggle="tooltip" title="Edit">
-                                <i class="ri-edit-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-danger" data-bs-toggle="tooltip" title="Delete">
-                                <i class="ri-delete-bin-5-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-primary" data-bs-toggle="tooltip" title="View">
-                                <i class="ri-eye-line fs-16"></i>
-                            </a>
-                            <a href="{{ url('add_inventory') }}" class="text-success" data-bs-toggle="tooltip" title="Update Inventory">
-                                <i class="ri-archive-line fs-16"></i>
-                            </a>
-                        </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Michelle House</td>
-                                                <td>Integration Specialist</td>
-                                                <td>Sydney</td>
-                                                <td>37</td>
-                                                <td>2011-06-02</td>
-                                                <td>$95,400</td>
-                                                                                                                        <td class="text-center">
-                            <a href="javascript:void(0);" class="me-2 text-info" data-bs-toggle="tooltip" title="Edit">
-                                <i class="ri-edit-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-danger" data-bs-toggle="tooltip" title="Delete">
-                                <i class="ri-delete-bin-5-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-primary" data-bs-toggle="tooltip" title="View">
-                                <i class="ri-eye-line fs-16"></i>
-                            </a>
-                            <a href="{{ url('add_inventory') }}" class="text-success" data-bs-toggle="tooltip" title="Update Inventory">
-                                <i class="ri-archive-line fs-16"></i>
-                            </a>
-                        </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Suki Burks</td>
-                                                <td>Developer</td>
-                                                <td>London</td>
-                                                <td>53</td>
-                                                <td>2009-10-22</td>
-                                                <td>$114,500</td>
-                                                                                                                        <td class="text-center">
-                            <a href="javascript:void(0);" class="me-2 text-info" data-bs-toggle="tooltip" title="Edit">
-                                <i class="ri-edit-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-danger" data-bs-toggle="tooltip" title="Delete">
-                                <i class="ri-delete-bin-5-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-primary" data-bs-toggle="tooltip" title="View">
-                                <i class="ri-eye-line fs-16"></i>
-                            </a>
-                            <a href="{{ url('add_inventory') }}" class="text-success" data-bs-toggle="tooltip" title="Update Inventory">
-                                <i class="ri-archive-line fs-16"></i>
-                            </a>
-                        </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Prescott Bartlett</td>
-                                                <td>Technical Author</td>
-                                                <td>London</td>
-                                                <td>27</td>
-                                                <td>2011-05-07</td>
-                                                <td>$145,000</td>
-                                                                                                                        <td class="text-center">
-                            <a href="javascript:void(0);" class="me-2 text-info" data-bs-toggle="tooltip" title="Edit">
-                                <i class="ri-edit-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-danger" data-bs-toggle="tooltip" title="Delete">
-                                <i class="ri-delete-bin-5-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-primary" data-bs-toggle="tooltip" title="View">
-                                <i class="ri-eye-line fs-16"></i>
-                            </a>
-                            <a href="{{ url('add_inventory') }}" class="text-success" data-bs-toggle="tooltip" title="Update Inventory">
-                                <i class="ri-archive-line fs-16"></i>
-                            </a>
-                        </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Gavin Cortez</td>
-                                                <td>Team Leader</td>
-                                                <td>San Francisco</td>
-                                                <td>22</td>
-                                                <td>2008-10-26</td>
-                                                <td>$235,500</td>
-                                                                                                                        <td class="text-center">
-                            <a href="javascript:void(0);" class="me-2 text-info" data-bs-toggle="tooltip" title="Edit">
-                                <i class="ri-edit-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-danger" data-bs-toggle="tooltip" title="Delete">
-                                <i class="ri-delete-bin-5-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-primary" data-bs-toggle="tooltip" title="View">
-                                <i class="ri-eye-line fs-16"></i>
-                            </a>
-                            <a href="{{ url('add_inventory') }}" class="text-success" data-bs-toggle="tooltip" title="Update Inventory">
-                                <i class="ri-archive-line fs-16"></i>
-                            </a>
-                        </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Martena Mccray</td>
-                                                <td>Post-Sales support</td>
-                                                <td>Edinburgh</td>
-                                                <td>46</td>
-                                                <td>2011-03-09</td>
-                                                <td>$324,050</td>
-                                                                                                                        <td class="text-center">
-                            <a href="javascript:void(0);" class="me-2 text-info" data-bs-toggle="tooltip" title="Edit">
-                                <i class="ri-edit-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-danger" data-bs-toggle="tooltip" title="Delete">
-                                <i class="ri-delete-bin-5-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-primary" data-bs-toggle="tooltip" title="View">
-                                <i class="ri-eye-line fs-16"></i>
-                            </a>
-                            <a href="{{ url('add_inventory') }}" class="text-success" data-bs-toggle="tooltip" title="Update Inventory">
-                                <i class="ri-archive-line fs-16"></i>
-                            </a>
-                        </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Unity Butler</td>
-                                                <td>Marketing Designer</td>
-                                                <td>San Francisco</td>
-                                                <td>47</td>
-                                                <td>2009-12-09</td>
-                                                <td>$85,675</td>
-                                                                                                                        <td class="text-center">
-                            <a href="javascript:void(0);" class="me-2 text-info" data-bs-toggle="tooltip" title="Edit">
-                                <i class="ri-edit-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-danger" data-bs-toggle="tooltip" title="Delete">
-                                <i class="ri-delete-bin-5-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-primary" data-bs-toggle="tooltip" title="View">
-                                <i class="ri-eye-line fs-16"></i>
-                            </a>
-                            <a href="{{ url('add_inventory') }}" class="text-success" data-bs-toggle="tooltip" title="Update Inventory">
-                                <i class="ri-archive-line fs-16"></i>
-                            </a>
-                        </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Howard Hatfield</td>
-                                                <td>Office Manager</td>
-                                                <td>San Francisco</td>
-                                                <td>51</td>
-                                                <td>2008-12-16</td>
-                                                <td>$164,500</td>
-                                                                                                                        <td class="text-center">
-                            <a href="javascript:void(0);" class="me-2 text-info" data-bs-toggle="tooltip" title="Edit">
-                                <i class="ri-edit-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-danger" data-bs-toggle="tooltip" title="Delete">
-                                <i class="ri-delete-bin-5-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-primary" data-bs-toggle="tooltip" title="View">
-                                <i class="ri-eye-line fs-16"></i>
-                            </a>
-                            <a href="{{ url('add_inventory') }}" class="text-success" data-bs-toggle="tooltip" title="Update Inventory">
-                                <i class="ri-archive-line fs-16"></i>
-                            </a>
-                        </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Hope Fuentes</td>
-                                                <td>Secretary</td>
-                                                <td>San Francisco</td>
-                                                <td>41</td>
-                                                <td>2010-02-12</td>
-                                                <td>$109,850</td>
-                                                                                                                        <td class="text-center">
-                            <a href="javascript:void(0);" class="me-2 text-info" data-bs-toggle="tooltip" title="Edit">
-                                <i class="ri-edit-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-danger" data-bs-toggle="tooltip" title="Delete">
-                                <i class="ri-delete-bin-5-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-primary" data-bs-toggle="tooltip" title="View">
-                                <i class="ri-eye-line fs-16"></i>
-                            </a>
-                            <a href="{{ url('add_inventory') }}" class="text-success" data-bs-toggle="tooltip" title="Update Inventory">
-                                <i class="ri-archive-line fs-16"></i>
-                            </a>
-                        </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Vivian Harrell</td>
-                                                <td>Financial Controller</td>
-                                                <td>San Francisco</td>
-                                                <td>62</td>
-                                                <td>2009-02-14</td>
-                                                <td>$452,500</td>
-                                                                                                                        <td class="text-center">
-                            <a href="javascript:void(0);" class="me-2 text-info" data-bs-toggle="tooltip" title="Edit">
-                                <i class="ri-edit-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-danger" data-bs-toggle="tooltip" title="Delete">
-                                <i class="ri-delete-bin-5-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-primary" data-bs-toggle="tooltip" title="View">
-                                <i class="ri-eye-line fs-16"></i>
-                            </a>
-                            <a href="{{ url('add_inventory') }}" class="text-success" data-bs-toggle="tooltip" title="Update Inventory">
-                                <i class="ri-archive-line fs-16"></i>
-                            </a>
-                        </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Timothy Mooney</td>
-                                                <td>Office Manager</td>
-                                                <td>London</td>
-                                                <td>37</td>
-                                                <td>2008-12-11</td>
-                                                <td>$136,200</td>
-                                                                                                                        <td class="text-center">
-                            <a href="javascript:void(0);" class="me-2 text-info" data-bs-toggle="tooltip" title="Edit">
-                                <i class="ri-edit-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-danger" data-bs-toggle="tooltip" title="Delete">
-                                <i class="ri-delete-bin-5-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-primary" data-bs-toggle="tooltip" title="View">
-                                <i class="ri-eye-line fs-16"></i>
-                            </a>
-                            <a href="{{ url('add_inventory') }}" class="text-success" data-bs-toggle="tooltip" title="Update Inventory">
-                                <i class="ri-archive-line fs-16"></i>
-                            </a>
-                        </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Jackson Bradshaw</td>
-                                                <td>Director</td>
-                                                <td>New York</td>
-                                                <td>65</td>
-                                                <td>2008-09-26</td>
-                                                <td>$645,750</td>
-                                                                                                                        <td class="text-center">
-                            <a href="javascript:void(0);" class="me-2 text-info" data-bs-toggle="tooltip" title="Edit">
-                                <i class="ri-edit-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-danger" data-bs-toggle="tooltip" title="Delete">
-                                <i class="ri-delete-bin-5-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-primary" data-bs-toggle="tooltip" title="View">
-                                <i class="ri-eye-line fs-16"></i>
-                            </a>
-                            <a href="{{ url('add_inventory') }}" class="text-success" data-bs-toggle="tooltip" title="Update Inventory">
-                                <i class="ri-archive-line fs-16"></i>
-                            </a>
-                        </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Olivia Liang</td>
-                                                <td>Support Engineer</td>
-                                                <td>Singapore</td>
-                                                <td>64</td>
-                                                <td>2011-02-03</td>
-                                                <td>$234,500</td>
-                                                                                                                        <td class="text-center">
-                            <a href="javascript:void(0);" class="me-2 text-info" data-bs-toggle="tooltip" title="Edit">
-                                <i class="ri-edit-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-danger" data-bs-toggle="tooltip" title="Delete">
-                                <i class="ri-delete-bin-5-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-primary" data-bs-toggle="tooltip" title="View">
-                                <i class="ri-eye-line fs-16"></i>
-                            </a>
-                            <a href="{{ url('add_inventory') }}" class="text-success" data-bs-toggle="tooltip" title="Update Inventory">
-                                <i class="ri-archive-line fs-16"></i>
-                            </a>
-                        </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Bruno Nash</td>
-                                                <td>Software Engineer</td>
-                                                <td>London</td>
-                                                <td>38</td>
-                                                <td>2011-05-03</td>
-                                                <td>$163,500</td>
-                                                                                                                        <td class="text-center">
-                            <a href="javascript:void(0);" class="me-2 text-info" data-bs-toggle="tooltip" title="Edit">
-                                <i class="ri-edit-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-danger" data-bs-toggle="tooltip" title="Delete">
-                                <i class="ri-delete-bin-5-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-primary" data-bs-toggle="tooltip" title="View">
-                                <i class="ri-eye-line fs-16"></i>
-                            </a>
-                            <a href="{{ url('add_inventory') }}" class="text-success" data-bs-toggle="tooltip" title="Update Inventory">
-                                <i class="ri-archive-line fs-16"></i>
-                            </a>
-                        </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Sakura Yamamoto</td>
-                                                <td>Support Engineer</td>
-                                                <td>Tokyo</td>
-                                                <td>37</td>
-                                                <td>2009-08-19</td>
-                                                <td>$139,575</td>
-                                                                                                                        <td class="text-center">
-                            <a href="javascript:void(0);" class="me-2 text-info" data-bs-toggle="tooltip" title="Edit">
-                                <i class="ri-edit-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-danger" data-bs-toggle="tooltip" title="Delete">
-                                <i class="ri-delete-bin-5-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-primary" data-bs-toggle="tooltip" title="View">
-                                <i class="ri-eye-line fs-16"></i>
-                            </a>
-                            <a href="{{ url('add_inventory') }}" class="text-success" data-bs-toggle="tooltip" title="Update Inventory">
-                                <i class="ri-archive-line fs-16"></i>
-                            </a>
-                        </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Thor Walton</td>
-                                                <td>Developer</td>
-                                                <td>New York</td>
-                                                <td>61</td>
-                                                <td>2013-08-11</td>
-                                                <td>$98,540</td>
-                                                                                                                        <td class="text-center">
-                            <a href="javascript:void(0);" class="me-2 text-info" data-bs-toggle="tooltip" title="Edit">
-                                <i class="ri-edit-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-danger" data-bs-toggle="tooltip" title="Delete">
-                                <i class="ri-delete-bin-5-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-primary" data-bs-toggle="tooltip" title="View">
-                                <i class="ri-eye-line fs-16"></i>
-                            </a>
-                            <a href="{{ url('add_inventory') }}" class="text-success" data-bs-toggle="tooltip" title="Update Inventory">
-                                <i class="ri-archive-line fs-16"></i>
-                            </a>
-                        </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Finn Camacho</td>
-                                                <td>Support Engineer</td>
-                                                <td>San Francisco</td>
-                                                <td>47</td>
-                                                <td>2009-07-07</td>
-                                                <td>$87,500</td>
-                                                                                                                        <td class="text-center">
-                            <a href="javascript:void(0);" class="me-2 text-info" data-bs-toggle="tooltip" title="Edit">
-                                <i class="ri-edit-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-danger" data-bs-toggle="tooltip" title="Delete">
-                                <i class="ri-delete-bin-5-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-primary" data-bs-toggle="tooltip" title="View">
-                                <i class="ri-eye-line fs-16"></i>
-                            </a>
-                            <a href="{{ url('add_inventory') }}" class="text-success" data-bs-toggle="tooltip" title="Update Inventory">
-                                <i class="ri-archive-line fs-16"></i>
-                            </a>
-                        </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Serge Baldwin</td>
-                                                <td>Data Coordinator</td>
-                                                <td>Singapore</td>
-                                                <td>64</td>
-                                                <td>2012-04-09</td>
-                                                <td>$138,575</td>
-                                                                                                                        <td class="text-center">
-                            <a href="javascript:void(0);" class="me-2 text-info" data-bs-toggle="tooltip" title="Edit">
-                                <i class="ri-edit-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-danger" data-bs-toggle="tooltip" title="Delete">
-                                <i class="ri-delete-bin-5-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-primary" data-bs-toggle="tooltip" title="View">
-                                <i class="ri-eye-line fs-16"></i>
-                            </a>
-                            <a href="{{ url('add_inventory') }}" class="text-success" data-bs-toggle="tooltip" title="Update Inventory">
-                                <i class="ri-archive-line fs-16"></i>
-                            </a>
-                        </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Zenaida Frank</td>
-                                                <td>Software Engineer</td>
-                                                <td>New York</td>
-                                                <td>63</td>
-                                                <td>2010-01-04</td>
-                                                <td>$125,250</td>
-                                                                                                                        <td class="text-center">
-                            <a href="javascript:void(0);" class="me-2 text-info" data-bs-toggle="tooltip" title="Edit">
-                                <i class="ri-edit-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-danger" data-bs-toggle="tooltip" title="Delete">
-                                <i class="ri-delete-bin-5-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-primary" data-bs-toggle="tooltip" title="View">
-                                <i class="ri-eye-line fs-16"></i>
-                            </a>
-                            <a href="{{ url('add_inventory') }}" class="text-success" data-bs-toggle="tooltip" title="Update Inventory">
-                                <i class="ri-archive-line fs-16"></i>
-                            </a>
-                        </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Zorita Serrano</td>
-                                                <td>Software Engineer</td>
-                                                <td>San Francisco</td>
-                                                <td>56</td>
-                                                <td>2012-06-01</td>
-                                                <td>$115,000</td>
-                                                                                                                        <td class="text-center">
-                            <a href="javascript:void(0);" class="me-2 text-info" data-bs-toggle="tooltip" title="Edit">
-                                <i class="ri-edit-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-danger" data-bs-toggle="tooltip" title="Delete">
-                                <i class="ri-delete-bin-5-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-primary" data-bs-toggle="tooltip" title="View">
-                                <i class="ri-eye-line fs-16"></i>
-                            </a>
-                            <a href="{{ url('add_inventory') }}" class="text-success" data-bs-toggle="tooltip" title="Update Inventory">
-                                <i class="ri-archive-line fs-16"></i>
-                            </a>
-                        </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Jennifer Acosta</td>
-                                                <td>Junior Javascript Developer</td>
-                                                <td>Edinburgh</td>
-                                                <td>43</td>
-                                                <td>2013-02-01</td>
-                                                <td>$75,650</td>
-                                                                                                                        <td class="text-center">
-                            <a href="javascript:void(0);" class="me-2 text-info" data-bs-toggle="tooltip" title="Edit">
-                                <i class="ri-edit-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-danger" data-bs-toggle="tooltip" title="Delete">
-                                <i class="ri-delete-bin-5-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-primary" data-bs-toggle="tooltip" title="View">
-                                <i class="ri-eye-line fs-16"></i>
-                            </a>
-                            <a href="{{ url('add_inventory') }}" class="text-success" data-bs-toggle="tooltip" title="Update Inventory">
-                                <i class="ri-archive-line fs-16"></i>
-                            </a>
-                        </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Cara Stevens</td>
-                                                <td>Sales Assistant</td>
-                                                <td>New York</td>
-                                                <td>46</td>
-                                                <td>2011-12-06</td>
-                                                <td>$145,600</td>
-                                                                                                                        <td class="text-center">
-                            <a href="javascript:void(0);" class="me-2 text-info" data-bs-toggle="tooltip" title="Edit">
-                                <i class="ri-edit-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-danger" data-bs-toggle="tooltip" title="Delete">
-                                <i class="ri-delete-bin-5-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-primary" data-bs-toggle="tooltip" title="View">
-                                <i class="ri-eye-line fs-16"></i>
-                            </a>
-                            <a href="{{ url('add_inventory') }}" class="text-success" data-bs-toggle="tooltip" title="Update Inventory">
-                                <i class="ri-archive-line fs-16"></i>
-                            </a>
-                        </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Hermione Butler</td>
-                                                <td>Regional Director</td>
-                                                <td>London</td>
-                                                <td>47</td>
-                                                <td>2011-03-21</td>
-                                                <td>$356,250</td>
-                                                                                                                        <td class="text-center">
-                            <a href="javascript:void(0);" class="me-2 text-info" data-bs-toggle="tooltip" title="Edit">
-                                <i class="ri-edit-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-danger" data-bs-toggle="tooltip" title="Delete">
-                                <i class="ri-delete-bin-5-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-primary" data-bs-toggle="tooltip" title="View">
-                                <i class="ri-eye-line fs-16"></i>
-                            </a>
-                            <a href="{{ url('add_inventory') }}" class="text-success" data-bs-toggle="tooltip" title="Update Inventory">
-                                <i class="ri-archive-line fs-16"></i>
-                            </a>
-                        </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Lael Greer</td>
-                                                <td>Systems Administrator</td>
-                                                <td>London</td>
-                                                <td>21</td>
-                                                <td>2009-02-27</td>
-                                                <td>$103,500</td>
-                                                                                                                        <td class="text-center">
-                            <a href="javascript:void(0);" class="me-2 text-info" data-bs-toggle="tooltip" title="Edit">
-                                <i class="ri-edit-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-danger" data-bs-toggle="tooltip" title="Delete">
-                                <i class="ri-delete-bin-5-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-primary" data-bs-toggle="tooltip" title="View">
-                                <i class="ri-eye-line fs-16"></i>
-                            </a>
-                            <a href="{{ url('add_inventory') }}" class="text-success" data-bs-toggle="tooltip" title="Update Inventory">
-                                <i class="ri-archive-line fs-16"></i>
-                            </a>
-                        </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Jonas Alexander</td>
-                                                <td>Developer</td>
-                                                <td>San Francisco</td>
-                                                <td>30</td>
-                                                <td>2010-07-14</td>
-                                                <td>$86,500</td>
-                                                                                                                        <td class="text-center">
-                            <a href="javascript:void(0);" class="me-2 text-info" data-bs-toggle="tooltip" title="Edit">
-                                <i class="ri-edit-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-danger" data-bs-toggle="tooltip" title="Delete">
-                                <i class="ri-delete-bin-5-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-primary" data-bs-toggle="tooltip" title="View">
-                                <i class="ri-eye-line fs-16"></i>
-                            </a>
-                            <a href="{{ url('add_inventory') }}" class="text-success" data-bs-toggle="tooltip" title="Update Inventory">
-                                <i class="ri-archive-line fs-16"></i>
-                            </a>
-                        </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Shad Decker</td>
-                                                <td>Regional Director</td>
-                                                <td>Edinburgh</td>
-                                                <td>51</td>
-                                                <td>2008-11-13</td>
-                                                <td>$183,000</td>
-                                                                                                                        <td class="text-center">
-                            <a href="javascript:void(0);" class="me-2 text-info" data-bs-toggle="tooltip" title="Edit">
-                                <i class="ri-edit-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-danger" data-bs-toggle="tooltip" title="Delete">
-                                <i class="ri-delete-bin-5-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-primary" data-bs-toggle="tooltip" title="View">
-                                <i class="ri-eye-line fs-16"></i>
-                            </a>
-                            <a href="{{ url('add_inventory') }}" class="text-success" data-bs-toggle="tooltip" title="Update Inventory">
-                                <i class="ri-archive-line fs-16"></i>
-                            </a>
-                        </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Michael Bruce</td>
-                                                <td>Javascript Developer</td>
-                                                <td>Singapore</td>
-                                                <td>29</td>
-                                                <td>2011-06-27</td>
-                                                <td>$183,000</td>
-                                                                                                                        <td class="text-center">
-                            <a href="javascript:void(0);" class="me-2 text-info" data-bs-toggle="tooltip" title="Edit">
-                                <i class="ri-edit-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-danger" data-bs-toggle="tooltip" title="Delete">
-                                <i class="ri-delete-bin-5-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-primary" data-bs-toggle="tooltip" title="View">
-                                <i class="ri-eye-line fs-16"></i>
-                            </a>
-                            <a href="{{ url('add_inventory') }}" class="text-success" data-bs-toggle="tooltip" title="Update Inventory">
-                                <i class="ri-archive-line fs-16"></i>
-                            </a>
-                        </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Donna Snider</td>
-                                                <td>Customer Support</td>
-                                                <td>New York</td>
-                                                <td>27</td>
-                                                <td>2011-01-25</td>
-                                                <td>$112,000</td>
-                                                                                                                        <td class="text-center">
-                            <a href="javascript:void(0);" class="me-2 text-info" data-bs-toggle="tooltip" title="Edit">
-                                <i class="ri-edit-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-danger" data-bs-toggle="tooltip" title="Delete">
-                                <i class="ri-delete-bin-5-line fs-16"></i>
-                            </a>
-                            <a href="javascript:void(0);" class="me-2 text-primary" data-bs-toggle="tooltip" title="View">
-                                <i class="ri-eye-line fs-16"></i>
-                            </a>
-                            <a href="{{ url('add_inventory') }}" class="text-success" data-bs-toggle="tooltip" title="Update Inventory">
-                                <i class="ri-archive-line fs-16"></i>
-                            </a>
-                        </td>
-                                            </tr>
-                                        </tbody>
+                                       <tbody>
+    @forelse($books as $book)
+        <tr>
+            <td>{{ $book->book_title }}</td>
+            <td>{{ $book->book_code ?? '-' }}</td>
+            <td>{{ $book->category ? $book->category->category_name : 'N/A' }}</td>
+            <td>{{ $book->author ? $book->author->author_name : 'N/A' }}</td>
+            <td>{{ $book->quantity }}</td>
+            <td>{{ $book->price ? '₹'.$book->price : '-' }}</td>
+        <td class="text-center">
+    <!-- Edit Icon -->
+<a href="javascript:void(0);" class="me-2 text-info" data-bs-toggle="modal" data-bs-target="#editBookModal-{{ $book->id }}" title="Edit">
+    <i class="ri-edit-line fs-16"></i>
+</a>
+
+<!-- Edit Book Modal -->
+<div class="modal fade" id="editBookModal-{{ $book->id }}" tabindex="-1" aria-labelledby="editBookModalLabel-{{ $book->id }}" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <form action="{{ route('books.update', $book->id) }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                @method('PUT')
+                
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="editBookModalLabel-{{ $book->id }}">Edit Book</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row g-3">
+                            
+                            <!-- Book ID (readonly) -->
+                            <div class="col-md-6 d-flex align-items-center">
+                                <label class="form-label me-2" style="width:120px;">Book ID:</label>
+                                <input type="text" class="form-control" value="{{ $book->id }}" readonly>
+                            </div>
+
+                            <!-- Book Title -->
+                            <div class="col-md-6 d-flex align-items-center">
+                                <label class="form-label me-2" style="width:120px;">Book Title:</label>
+                                <input type="text" name="title" class="form-control" value="{{ $book->book_title }}" required>
+                            </div>
+
+                            <!-- Book Code -->
+                            <div class="col-md-6 d-flex align-items-center">
+                                <label class="form-label me-2" style="width:120px;">Book Code:</label>
+                                <input type="text" name="code" class="form-control" value="{{ $book->book_code }}" placeholder="e.g. CHM101">
+                            </div>
+
+                            <!-- ISBN -->
+                            <div class="col-md-6 d-flex align-items-center">
+                                <label class="form-label me-2" style="width:120px;">ISBN:</label>
+                                <input type="text" name="isbn" class="form-control" value="{{ $book->isbn }}" placeholder="Enter ISBN Number">
+                            </div>
+
+                            <!-- Author -->
+ <div class="col-md-6 d-flex align-items-center">
+                                <label class="form-label me-2" style="width:120px;">Author:</label>
+                                <input type="text" name="author_name" class="form-control" value="{{ $book->author_id }}" placeholder="Enter Author Name">
+                            </div>
+
+                            <!-- Publisher -->
+                            <div class="col-md-6 d-flex align-items-center">
+                                <label class="form-label me-2" style="width:120px;">Publisher:</label>
+                                <input type="text" name="publisher" class="form-control" value="{{ $book->publisher }}">
+                            </div>
+
+                            <!-- Category -->
+                            <div class="col-md-6 d-flex align-items-center">
+                                <label class="form-label me-2" style="width:120px;">Category:</label>
+                                <input type="text" name="category_name" class="form-control" value="{{ $book->category_id }}">
+                            </div>
+
+                            <!-- Subject -->
+                            <div class="col-md-6 d-flex align-items-center">
+                                <label class="form-label me-2" style="width:120px;">Subject:</label>
+                                <input type="text" name="subject" class="form-control" value="{{ $book->subject }}">
+                            </div>
+
+                            <!-- Rack Number -->
+                            <div class="col-md-6 d-flex align-items-center">
+                                <label class="form-label me-2" style="width:120px;">Rack No:</label>
+                                <input type="text" name="rack_no" class="form-control" value="{{ $book->rack_number}}">
+                            </div>
+
+                            <!-- Quantity -->
+                            <div class="col-md-6 d-flex align-items-center">
+                                <label class="form-label me-2" style="width:120px;">Quantity:</label>
+                                <input type="number" name="quantity" class="form-control" value="{{ $book->quantity }}">
+                            </div>
+
+                            <!-- Book Price -->
+                            <div class="col-md-6 d-flex align-items-center">
+                                <label class="form-label me-2" style="width:120px;">Price (₹):</label>
+                                <input type="number" name="price" class="form-control" value="{{ $book->price }}">
+                            </div>
+
+                            <!-- Purchase Date -->
+                            <div class="col-md-6 d-flex align-items-center">
+                                <label class="form-label me-2" style="width:120px;">Purchase Date:</label>
+                                <input type="date" name="purchase_date" class="form-control"
+                                       value="{{ $book->purchase_date ? \Carbon\Carbon::parse($book->purchase_date)->format('Y-m-d') : '' }}">
+                            </div>
+
+                            <!-- Book Condition -->
+                            <div class="col-md-6 d-flex align-items-center">
+                                <label class="form-label me-2" style="width:120px;">Condition:</label>
+                                <select name="condition" class="form-select">
+                                    <option value="">-- Select Condition --</option>
+                                    <option value="New" {{ $book->condition == 'New' ? 'selected' : '' }}>New</option>
+                                    <option value="Good" {{ $book->condition == 'Good' ? 'selected' : '' }}>Good</option>
+                                    <option value="Old" {{ $book->condition == 'Old' ? 'selected' : '' }}>Old</option>
+                                </select>
+                            </div>
+
+                            <!-- Book Cover Image -->
+                            <div class="col-md-6 d-flex align-items-center">
+                                <label class="form-label me-2" style="width:120px;">Cover Image:</label>
+                                <div>
+                                    @if($book->cover_image)
+                                        <p class="mb-1"><a href="{{ asset('storage/' . $book->cover_image) }}" target="_blank">View Current</a></p>
+                                    @endif
+                                    <input type="file" name="cover_image" class="form-control">
+                                </div>
+                            </div>
+
+                            <!-- E-Book PDF -->
+                            <div class="col-md-6 d-flex align-items-center">
+                                <label class="form-label me-2" style="width:120px;">E-Book (PDF):</label>
+                                <div>
+                                    @if($book->ebook_file)
+                                        <p class="mb-1"><a href="{{ asset('storage/' . $book->ebook_file) }}" target="_blank">View Current</a></p>
+                                    @endif
+                                    <input type="file" name="ebook_file" class="form-control">
+                                </div>
+                            </div>
+
+                            <!-- Description (Full Width) -->
+                            <div class="col-12 d-flex align-items-start">
+                                <label class="form-label me-2" style="width:120px;">Description:</label>
+                                <textarea name="description" class="form-control" rows="3">{{ $book->description }}</textarea>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Update Book</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+    
+
+   <!-- Delete Book Icon -->
+<a href="javascript:void(0);" class="me-2 text-danger" data-bs-toggle="tooltip" title="Delete"
+   onclick="confirmDelete({{ $book->id }})">
+    <i class="ri-delete-bin-5-line fs-16"></i>
+</a>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete this book?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <form id="deleteForm" method="POST">
+          @csrf
+          @method('DELETE')
+          <button type="submit" class="btn btn-danger">Yes, Delete</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- JS to handle delete -->
+<script>
+    function confirmDelete(bookId) {
+        const form = document.getElementById('deleteForm');
+        form.action = '/books/' + bookId; // Dynamic route for deleting the book
+        const modal = new bootstrap.Modal(document.getElementById('deleteModal'));
+        modal.show();
+    }
+</script>
+
+
+    <!-- View Book Details -->
+    <a href="{{ route('books.show', $book->id) }}" class="me-2 text-primary" data-bs-toggle="tooltip" title="View">
+        <i class="ri-eye-line fs-16"></i>
+    </a>
+
+    <!-- Update Inventory (check if route exists to avoid errors) -->
+    @if(Route::has('inventory.add'))
+        <a href="{{ route('inventory.add', $book->id) }}" class="text-success" data-bs-toggle="tooltip" title="Update Inventory">
+            <i class="ri-archive-line fs-16"></i>
+        </a>
+    @endif
+</td>
+
+        </tr>
+    @empty
+        <tr>
+            <td colspan="7" class="text-center">No books found.</td>
+        </tr>
+    @endforelse
+</tbody>
+
                                     </table>
                                 </div>
                             </div>
@@ -1419,6 +387,9 @@ $(document).ready(function() {
 <script src="{{ asset('js/index.js') }}"></script>
 <script src="{{ asset('js/custom-switcher.min.js') }}"></script>
 <script src="{{ asset('js/custom.js') }}"></script>
+
+
+
 
 
 

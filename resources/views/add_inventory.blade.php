@@ -45,86 +45,96 @@
                         </div>
 
                         <div class="card-body">
-                            <form id="addInventoryForm">
-                                <div class="row gy-4">
 
-                                    <!-- Select Book -->
-                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                        <label for="bookSelect" class="form-label">Select Book:</label>
-                                        <select class="form-select" id="bookSelect">
-                                            <option selected disabled>-- Choose Book --</option>
-                                            <option value="1">Organic Chemistry Vol 2</option>
-                                            <option value="2">Physics for Engineers</option>
-                                            <option value="3">Modern Economics</option>
-                                            <option value="4">World History Atlas</option>
-                                            <option value="5">Advanced Mathematics</option>
-                                        </select>
-                                    </div>
 
-                                    <!-- Current Stock -->
-                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                        <label for="currentStock" class="form-label">Current Stock:</label>
-                                        <input type="number" class="form-control" id="currentStock" placeholder="Auto-filled from database" readonly>
-                                    </div>
 
-                                    <!-- Add Quantity -->
-                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                        <label for="addQuantity" class="form-label">Add Quantity:</label>
-                                        <input type="number" class="form-control" id="addQuantity" placeholder="Enter quantity to add">
-                                    </div>
+    @if(session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
 
-                                    <!-- Damaged / Lost -->
-                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                        <label for="damaged" class="form-label">Damaged / Lost Copies:</label>
-                                        <input type="number" class="form-control" id="damaged" placeholder="Enter damaged or lost count">
-                                    </div>
+    <form id="addInventoryForm" method="POST" action="{{ route('inventory.store') }}">
+        @csrf
+        <div class="row gy-4">
 
-                                    <!-- Rack Number -->
-                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                        <label for="rackNumber" class="form-label">Rack Number:</label>
-                                        <input type="text" class="form-control" id="rackNumber" placeholder="e.g. R-12A">
-                                    </div>
+            <!-- Select Book -->
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                <label for="bookSelect" class="form-label">Select Book:</label>
+                <select class="form-select" id="bookSelect" name="book_id" required>
+                    <option selected disabled>-- Choose Book --</option>
+                    @foreach($books as $book)
+                        <option value="{{ $book->id }}">{{ $book->book_title }}</option>
+                    @endforeach
+                </select>
+            </div>
 
-                                    <!-- Condition -->
-                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                        <label for="condition" class="form-label">Condition:</label>
-                                        <select class="form-select" id="condition">
-                                            <option selected disabled>-- Select Condition --</option>
-                                            <option value="Good">Good</option>
-                                            <option value="Average">Average</option>
-                                            <option value="Damaged">Damaged</option>
-                                        </select>
-                                    </div>
+            <!-- Add Quantity -->
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                <label for="addQuantity" class="form-label">Add Quantity:</label>
+                <input type="number" class="form-control" id="addQuantity" name="added_quantity" placeholder="Enter quantity to add" required>
+            </div>
 
-                                    <!-- Supplier -->
-                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                        <label for="supplier" class="form-label">Supplier / Vendor:</label>
-                                        <input type="text" class="form-control" id="supplier" placeholder="Enter Supplier Name">
-                                    </div>
+            <!-- Damaged / Lost -->
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                <label for="damaged" class="form-label">Damaged / Lost Copies:</label>
+                <input type="number" class="form-control" id="damaged" name="damaged" placeholder="Enter damaged or lost count">
+            </div>
 
-                                    <!-- Purchase Date -->
-                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                        <label for="purchaseDate" class="form-label">Purchase Date:</label>
-                                        <input type="date" class="form-control" id="purchaseDate">
-                                    </div>
+            <!-- Rack Number -->
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                <label for="rackNumber" class="form-label">Rack Number:</label>
+                <input type="text" class="form-control" id="rackNumber" name="rack_number" placeholder="e.g. R-12A">
+            </div>
 
-                                    <!-- Remarks -->
-                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                                        <label for="remarks" class="form-label">Remarks / Notes:</label>
-                                        <textarea class="form-control" id="remarks" rows="3" placeholder="Optional notes about inventory update..."></textarea>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
+            <!-- Condition -->
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                <label for="condition" class="form-label">Condition:</label>
+                <select class="form-select" id="condition" name="condition">
+                    <option selected disabled>-- Select Condition --</option>
+                    <option value="Good">Good</option>
+                    <option value="Average">Average</option>
+                    <option value="Damaged">Damaged</option>
+                </select>
+            </div>
 
-                        <div class="card-footer text-end">
-                            <button type="reset" class="btn btn-secondary me-2">
-                                <i class="ri-refresh-line me-1"></i>Reset
-                            </button>
-                            <button type="submit" class="btn btn-primary">
-                                <i class="ri-save-line me-1"></i>Save Inventory
-                            </button>
-                        </div>
+            <!-- Supplier -->
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                <label for="supplier" class="form-label">Supplier / Vendor:</label>
+                <input type="text" class="form-control" id="supplier" name="supplier" placeholder="Enter Supplier Name">
+            </div>
+
+            <!-- Purchase Date -->
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                <label for="purchaseDate" class="form-label">Purchase Date:</label>
+                <input type="date" class="form-control" id="purchaseDate" name="purchase_date">
+            </div>
+
+            <!-- Remarks -->
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                <label for="remarks" class="form-label">Remarks / Notes:</label>
+                <textarea class="form-control" id="remarks" name="remarks" rows="3" placeholder="Optional notes about inventory update..."></textarea>
+            </div>
+
+            <!-- Buttons -->
+            <div class="col-12 text-end mt-3">
+                <button type="reset" class="btn btn-secondary me-2">Reset</button>
+                <button type="submit" class="btn btn-primary">Save Inventory</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<script>
+    document.getElementById('bookSelect').addEventListener('change', function() {
+        const bookId = this.value;
+        fetch('/books/' + bookId + '/stock')
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('currentStock').value = data.current_stock;
+            });
+    });
+</script>
+
                     </div>
                 </div>
             </div>

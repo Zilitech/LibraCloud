@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\GeneralsettingController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\InventoryController;
 
 // ✅ Show login page by default
 Route::get('/', function () {
@@ -58,9 +59,12 @@ Route::get('/switcher', function(){
     return view('switcher');
 });
 
-Route::get('/all_books', function(){
-    return view('all_books');
-});
+Route::get('/all_books', [BookController::class, 'allBooks'])->name('books.all');
+Route::get('/books/{book}/edit', [BookController::class, 'edit'])->name('books.edit');
+Route::put('/books/{book}', [BookController::class, 'update'])->name('books.update');
+Route::delete('/books/{book}', [BookController::class, 'destroy'])->name('books.destroy');
+Route::get('/books/{book}', [BookController::class, 'show'])->name('books.show');
+
 
 Route::get('/add_book', [BookController::class, 'create'])->name('books.create');
 Route::post('/add_book', [BookController::class, 'store'])->name('books.store');
@@ -86,9 +90,15 @@ Route::get('/inventory_management', function(){
     return view('inventory_management');
 });
 
-Route::get('/add_inventory', function(){
-    return view('add_inventory');
-});
+// Show add inventory form
+Route::get('/add_inventory', [InventoryController::class, 'add'])->name('inventory.add');
+
+// Handle form submission
+Route::post('/inventory/store', [InventoryController::class, 'store'])->name('inventory.store');
+
+// Optional: AJAX for current stock
+Route::get('/books/{book}/stock', [InventoryController::class, 'currentStock']);
+
 
 Route::get('/all_member', function(){
     return view('all_member');

@@ -47,19 +47,18 @@
         <div class="pe-1 mb-xl-0">
             <button type="button" class="btn btn-warning btn-icon me-2"><i class="mdi mdi-refresh"></i></button>
         </div>
-        <div class="mb-xl-0">
-            <div class="dropdown">
-                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuDate" data-bs-toggle="dropdown" aria-expanded="false">
-                    14 Aug 2019
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuDate">
-                    <li><a class="dropdown-item" href="javascript:void(0);">2015</a></li>
-                    <li><a class="dropdown-item" href="javascript:void(0);">2016</a></li>
-                    <li><a class="dropdown-item" href="javascript:void(0);">2017</a></li>
-                    <li><a class="dropdown-item" href="javascript:void(0);">2018</a></li>
-                </ul>
-            </div>
+      <div class="mb-xl-0">
+    <form method="POST" action="{{ route('author.import') }}" enctype="multipart/form-data">
+        @csrf
+        <div class="input-group">
+            <input type="file" class="form-control" name="csv_file" accept=".csv" required>
+            <button class="btn btn-primary" type="submit">
+                <i class="ri-upload-2-line me-1"></i> Import CSV
+            </button>
         </div>
+    </form>
+</div>
+
     </div>
 </div>
 <!-- Page Header Close -->
@@ -72,37 +71,30 @@
 
 <!-- Start:: row -->
 <div class="row">
-        <div class="col-xl-6">
+    <div class="col-xl-6">
         <div class="card custom-card">
             <div class="card-header justify-content-between">
-                <div class="card-title">
-                    Add New Author
-                </div>
-
+                <div class="card-title">Add New Author</div>
             </div>
+
             <div class="card-body">
-                <form>
+                @if(session('success'))
+                    <div class="alert alert-success">{{ session('success') }}</div>
+                @endif
+                <form method="POST" action="{{ route('author.store') }}">
+                    @csrf
                     <div class="mb-3">
                         <label for="authorName" class="form-label fs-14 text-dark">Author Name</label>
-                        <input type="text" class="form-control" id="authorName" placeholder="Enter author name">
+                        <input type="text" class="form-control" id="authorName" name="author_name" placeholder="Enter author name" required>
                     </div>
-                    <button class="btn btn-primary" type="submit"><i class="ri-save-line me-1"></i>Save Author</button>
+                    <button class="btn btn-primary" type="submit">
+                        <i class="ri-save-line me-1"></i>Save Author
+                    </button>
                 </form>
-            </div>
-
-            <div class="card-footer d-none border-top-0">
-                <!-- Prism Code -->
-                <pre class="language-html"><code class="language-html">&lt;form&gt;
-    &lt;div class="mb-3"&gt;
-        &lt;label for="categoryName" class="form-label fs-14 text-dark"&gt;Category Name&lt;/label&gt;
-        &lt;input type="text" class="form-control" id="categoryName" placeholder="Enter category name"&gt;
-    &lt;/div&gt;
-    &lt;button class="btn btn-primary" type="submit"&gt;&lt;i class="ri-save-line me-1"&gt;&lt;/i&gt;Save Category&lt;/button&gt;
-&lt;/form&gt;</code></pre>
-                <!-- Prism Code -->
             </div>
         </div>
     </div>
+
     <div class="col-xl-6">
         <div class="card custom-card">
             <div class="card-header">
@@ -121,54 +113,33 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Dr. B. Kumar</td>
-                                <td>12</td>
-                                <td><span class="badge bg-success-transparent">Active</span></td>
-                                <td>
-                                    <div class="hstack gap-2 flex-wrap">
-                                        <a href="javascript:void(0);" class="text-info fs-14 lh-1"><i class="ri-edit-line"></i></a>
-                                        <a href="javascript:void(0);" class="text-danger fs-14 lh-1"><i class="ri-delete-bin-5-line"></i></a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>R. K. Narayan</td>
-                                <td>8</td>
-                                <td><span class="badge bg-success-transparent">Active</span></td>
-                                <td>
-                                    <div class="hstack gap-2 flex-wrap">
-                                        <a href="javascript:void(0);" class="text-info fs-14 lh-1"><i class="ri-edit-line"></i></a>
-                                        <a href="javascript:void(0);" class="text-danger fs-14 lh-1"><i class="ri-delete-bin-5-line"></i></a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>A. P. J. Abdul Kalam</td>
-                                <td>5</td>
-                                <td><span class="badge bg-success-transparent">Active</span></td>
-                                <td>
-                                    <div class="hstack gap-2 flex-wrap">
-                                        <a href="javascript:void(0);" class="text-info fs-14 lh-1"><i class="ri-edit-line"></i></a>
-                                        <a href="javascript:void(0);" class="text-danger fs-14 lh-1"><i class="ri-delete-bin-5-line"></i></a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>Unknown</td>
-                                <td>0</td>
-                                <td><span class="badge bg-danger-transparent">Inactive</span></td>
-                                <td>
-                                    <div class="hstack gap-2 flex-wrap">
-                                        <a href="javascript:void(0);" class="text-info fs-14 lh-1"><i class="ri-edit-line"></i></a>
-                                        <a href="javascript:void(0);" class="text-danger fs-14 lh-1"><i class="ri-delete-bin-5-line"></i></a>
-                                    </div>
-                                </td>
-                            </tr>
+                            @forelse($authors as $index => $author)
+                                <tr>
+                                    <td>{{ $index + 1 }}</td>
+                                    <td>{{ $author->author_name }}</td>
+                                    <td>0</td> {{-- Replace with real count later --}}
+                                    <td><span class="badge bg-success-transparent">Active</span></td>
+                                    <td>
+                                        <div class="hstack gap-2 flex-wrap">
+                                                                  <a href="javascript:void(0);" 
+                       class="text-info fs-14 lh-1 editBtn"
+                       data-id="{{ $author->id }}"
+                       data-name="{{ $author->author_name }}">
+                        <i class="ri-edit-line"></i>
+                    </a>
+                                                                                   <a href="javascript:void(0);" 
+   class="text-danger fs-14 lh-1" 
+   onclick="confirmDelete({{ $author->id }})">
+   <i class="ri-delete-bin-5-line"></i>
+</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="5" class="text-center">No authors found.</td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
@@ -176,6 +147,69 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="editAuthorModal" tabindex="-1" aria-labelledby="editAuthorLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form action="{{ route('author.update') }}" method="POST">
+        @csrf
+        <div class="modal-header">
+          <h5 class="modal-title" id="editAuthorLabel">Edit Author</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label">Author ID</label>
+            <input type="text" class="form-control" id="editAuthorId" name="id" readonly>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Author Name</label>
+            <input type="text" class="form-control" id="editAuthorName" name="author_name" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Update Author</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete this author?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <form id="deleteForm" method="POST">
+          @csrf
+          @method('DELETE')
+          <button type="submit" class="btn btn-danger">Yes, Delete</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- JS to handle delete -->
+<script>
+    function confirmDelete(id) {
+        const form = document.getElementById('deleteForm');
+        form.action = '/authors/' + id; // Set dynamic route
+        const modal = new bootstrap.Modal(document.getElementById('deleteModal'));
+        modal.show();
+    }
+</script>
+
+
 <!-- End:: row -->
 
 
@@ -247,6 +281,26 @@ $(document).ready(function() {
 <script src="{{ asset('js/custom.js') }}"></script>
 
 
+ <script>
+document.addEventListener('DOMContentLoaded', function () {
+    const editButtons = document.querySelectorAll('.editBtn');
+    const modal = new bootstrap.Modal(document.getElementById('editAuthorModal'));
+    const idField = document.getElementById('editAuthorId');
+    const nameField = document.getElementById('editAuthorName');
+
+    editButtons.forEach(btn => {
+        btn.addEventListener('click', function () {
+            const id = this.getAttribute('data-id');
+            const name = this.getAttribute('data-name');
+
+            idField.value = id;
+            nameField.value = name;
+
+            modal.show();
+        });
+    });
+});
+</script>
 
 
 

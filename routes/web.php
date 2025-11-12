@@ -2,7 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminLoginController;
+use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\GeneralsettingController;
+use App\Http\Controllers\BookController;
 
 // ✅ Show login page by default
 Route::get('/', function () {
@@ -59,20 +62,25 @@ Route::get('/all_books', function(){
     return view('all_books');
 });
 
-Route::get('/add_book', function(){
-    return view('add_book');
-});
+Route::get('/add_book', [BookController::class, 'create'])->name('books.create');
+Route::post('/add_book', [BookController::class, 'store'])->name('books.store');
 
 Route::get('/category', [CategoryController::class, 'index'])->name('category.index');
 Route::post('/category', [CategoryController::class, 'store'])->name('category.store');
 Route::post('/category/update', [CategoryController::class, 'update'])->name('category.update');
 Route::delete('/category/{id}', [CategoryController::class, 'destroy'])->name('category.destroy');
+Route::post('/category/import', [CategoryController::class, 'import'])->name('category.import');
 
 
 
-Route::get('/authors', function(){
-    return view('authors');
-});
+Route::get('/authors', [AuthorController::class, 'index'])->name('author.index');
+Route::post('/authors', [AuthorController::class, 'store'])->name('author.store');
+Route::post('/authors/update', [AuthorController::class, 'update'])->name('author.update');
+Route::delete('/authors/{id}', [AuthorController::class, 'destroy'])->name('author.destroy');
+Route::post('/authors/import', [AuthorController::class, 'import'])->name('author.import');
+
+
+
 
 Route::get('/inventory_management', function(){
     return view('inventory_management');
@@ -147,9 +155,8 @@ Route::get('/e-book_reader', function(){
     return view('e-book_reader');
 });
 
-Route::get('/general_setting', function(){
-    return view('general_setting');
-});
+Route::get('/general-settings', [GeneralsettingController::class, 'index'])->name('general.settings');
+Route::post('/general-settings/update', [GeneralsettingController::class, 'update'])->name('general.settings.update');
 
 Route::get('/library_setting', function(){
     return view('library_setting');

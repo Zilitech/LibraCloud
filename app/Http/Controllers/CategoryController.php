@@ -54,4 +54,27 @@ class CategoryController extends Controller
         DB::table('categories')->where('id', $id)->delete();
         return redirect()->back()->with('success', 'Category deleted successfully!');
     }
+
+    public function import(Request $request)
+{
+    $request->validate([
+        'csv_file' => 'required|file|mimes:csv,txt|max:2048',
+    ]);
+
+    $file = fopen($request->file('csv_file')->getRealPath(), 'r');
+    $header = fgetcsv($file); // Skip header row if present
+
+    while (($data = fgetcsv($file)) !== false) {
+        DB::table('categories')->insert([
+            'category_name' => $data[0],
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+    }
+
+    fclose($file);
+
+    return redirect()->back()->with('success', 'Categories imported successfully!');
+}
+
 }

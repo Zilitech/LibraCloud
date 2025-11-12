@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\DB;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +21,18 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // Fetch general settings safely
+        $settings = DB::table('general_settings')->first();
+
+        // Provide default values if no settings found
+        if (!$settings) {
+            $settings = (object) [
+                'site_name' => 'My Website',
+                'logo' => 'images/default-logo.png',
+            ];
+        }
+
+        // Share settings globally with all views
+        View::share('settings', $settings);
     }
 }

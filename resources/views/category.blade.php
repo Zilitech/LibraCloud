@@ -30,7 +30,31 @@
                         </ol>
                     </nav>
                 </div>
+                    <div class="d-flex my-xl-auto right-content align-items-center">
+        <div class="pe-1 mb-xl-0">
+            <button type="button" class="btn btn-info btn-icon me-2 btn-b"><i class="mdi mdi-filter-variant"></i></button>
+        </div>
+        <div class="pe-1 mb-xl-0">
+            <button type="button" class="btn btn-danger btn-icon me-2"><i class="mdi mdi-star"></i></button>
+        </div>
+        <div class="pe-1 mb-xl-0">
+            <button type="button" class="btn btn-warning btn-icon me-2"><i class="mdi mdi-refresh"></i></button>
+        </div>
+      <div class="mb-xl-0">
+    <form method="POST" action="{{ route('category.import') }}" enctype="multipart/form-data">
+        @csrf
+        <div class="input-group">
+            <input type="file" class="form-control" name="csv_file" accept=".csv" required>
+            <button class="btn btn-primary" type="submit">
+                <i class="ri-upload-2-line me-1"></i> Import CSV
+            </button>
+        </div>
+    </form>
+</div>
+
+    </div>
             </div>
+            
                 <!-- Page Header -->
 <div class="row">
     <!-- LEFT SIDE: Add Category Form -->

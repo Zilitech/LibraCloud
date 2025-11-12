@@ -452,7 +452,7 @@
             <div class="col-md-6 col-lg-6 col-xl-7 d-none d-md-flex bg-primary-transparent-3">
                 <div class="row w-100 mx-auto text-center">
                     <div class="col-md-12 col-lg-12 col-xl-12 my-auto mx-auto w-100">
-                        <img src="{{ asset('images/media/pngs/5.png') }}"
+                        <img src="{{ asset($settings->background_image) }}"
                             class="my-auto ht-xl-80p wd-md-100p wd-xl-80p mx-auto" alt="logo">
                     </div>
                 </div>
@@ -466,9 +466,9 @@
                             <div class="col-md-10 col-lg-10 col-xl-9 mx-auto">
                                 <div class="card-sigin">
                                     <div class="mb-5 d-flex">
-                                        <a href="{{ url('adminLogin') }}" class="header-logo"><img src="{{ asset('images/brand-logos/desktop-logo.png') }}"
+                                        <a href="{{ url('adminLogin') }}" class="header-logo"><img src="{{ asset($settings->logo) }}"
                                             class="desktop-logo ht-40" alt="logo">
-                                            <img src="{{ asset('images/brand-logos/desktop-white.png') }}"
+                                            <img src="{{ asset($settings->logo) }}"
                                             class="desktop-white ht-40" alt="logo">
                                         </a>
                                     </div>
@@ -500,7 +500,7 @@
 
             <button type="submit" class="btn btn-primary btn-block w-100">Sign In</button>
 
-            <div class="row mt-3">
+            <!-- <div class="row mt-3">
                 <div class="col-sm-6">
                     <button type="button" class="btn btn-block w-100 btn-facebook">
                         <i class="fab fa-facebook-f me-2"></i> Signup with Facebook
@@ -511,12 +511,12 @@
                         <i class="fab fa-twitter me-2"></i> Signup with Twitter
                     </button>
                 </div>
-            </div>
+            </div> -->
         </form>
 
         <div class="main-signin-footer mt-5">
             <p class="mb-1"><a href="{{ url('/forgot_password') }}">Forgot password?</a></p>
-            <p>Don't have an account? <a href="{{ url('/signup') }}">Create an Account</a></p>
+            <!-- <p>Don't have an account? <a href="{{ url('/signup') }}">Create an Account</a></p> -->
         </div>
     </div>
 </div>

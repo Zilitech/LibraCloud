@@ -37,82 +37,94 @@
                             <div class="card-title">Update Library Settings</div>
                         </div>
                         <div class="card-body">
-                            <form>
-                                <div class="row g-3">
+                            <form method="POST" action="{{ route('general.settings.update') }}" enctype="multipart/form-data">
+    @csrf
+    <div class="row g-3">
 
-                                    <!-- Library Info -->
-                                    <div class="col-md-6">
-                                        <label class="form-label">Library Name *</label>
-                                        <input type="text" class="form-control" placeholder="Enter Library Name" value="LibraCloud">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label">Library Code</label>
-                                        <input type="text" class="form-control" placeholder="Library Code" value="LIB001">
-                                    </div>
-                                    <div class="col-md-12">
-                                        <label class="form-label">Address *</label>
-                                        <textarea class="form-control" rows="2" placeholder="Library Address">123 Main St, City</textarea>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class="form-label">Phone *</label>
-                                        <input type="text" class="form-control" placeholder="Phone Number" value="8050061666">
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class="form-label">Email *</label>
-                                        <input type="email" class="form-control" placeholder="Email Address" value="library@domain.com">
-                                    </div>
+        <div class="col-md-4">
+            <label class="form-label">Library Name *</label>
+            <input type="text" class="form-control" name="library_name" value="{{ $settings->library_name ?? '' }}">
+        </div>
 
-                                    <!-- Library Rules -->
-                                    <div class="col-md-4">
-                                        <label class="form-label">Max Books Per Member *</label>
-                                        <input type="number" class="form-control" placeholder="Max books a member can issue" value="5">
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class="form-label">Issue Duration (Days) *</label>
-                                        <input type="number" class="form-control" placeholder="Number of days a book can be issued" value="14">
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class="form-label">Daily Fine Amount (₹) *</label>
-                                        <input type="number" class="form-control" placeholder="Fine per day for overdue books" value="5">
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class="form-label">Grace Period (Days)</label>
-                                        <input type="number" class="form-control" placeholder="Days before fine is applied" value="2">
-                                    </div>
+        <div class="col-md-4">
+            <label class="form-label">Library Code</label>
+            <input type="text" class="form-control" name="library_code" value="{{ $settings->library_code ?? '' }}">
+        </div>
 
-                                    <!-- Notifications -->
-                                    <div class="col-md-4">
-                                        <label class="form-label">Due Date Alerts</label>
-                                        <select class="form-select">
-                                            <option>Enable</option>
-                                            <option>Disable</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class="form-label">New Arrival Alerts</label>
-                                        <select class="form-select">
-                                            <option>Enable</option>
-                                            <option>Disable</option>
-                                        </select>
-                                    </div>
+        <div class="col-md-4">
+            <label class="form-label">Site Name *</label>
+            <input type="text" class="form-control" name="site_name" value="{{ $settings->site_name ?? '' }}">
+        </div>
 
-                                    <!-- Library Appearance -->
-                                    <div class="col-md-6">
-                                        <label class="form-label">Logo Upload</label>
-                                        <input type="file" class="form-control" accept="image/*">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label">Login Page Background</label>
-                                        <input type="file" class="form-control" accept="image/*">
-                                    </div>
+        <div class="col-md-12">
+            <label class="form-label">Address *</label>
+            <textarea class="form-control" name="address" rows="2">{{ $settings->address ?? '' }}</textarea>
+        </div>
 
-                                    <!-- Save Button -->
-                                    <div class="col-12 text-end">
-                                        <button type="submit" class="btn btn-primary">Save Settings</button>
-                                    </div>
+        <div class="col-md-4">
+            <label class="form-label">Phone *</label>
+            <input type="text" class="form-control" name="contact_no" value="{{ $settings->contact_no ?? '' }}">
+        </div>
 
-                                </div>
-                            </form>
+        <div class="col-md-4">
+            <label class="form-label">Email *</label>
+            <input type="email" class="form-control" name="email" value="{{ $settings->email ?? '' }}">
+        </div>
+
+        <div class="col-md-4">
+            <label class="form-label">Max Books Per Member *</label>
+            <input type="number" class="form-control" name="max_book_issue" value="{{ $settings->max_book_issue ?? '' }}">
+        </div>
+
+        <div class="col-md-4">
+            <label class="form-label">Daily Fine Amount (₹) *</label>
+            <input type="number" class="form-control" step="0.01" name="daily_fine" value="{{ $settings->daily_fine ?? '' }}">
+        </div>
+
+        <div class="col-md-4">
+            <label class="form-label">Grace Period (Days)</label>
+            <input type="number" class="form-control" name="grace_period" value="{{ $settings->grace_period ?? '' }}">
+        </div>
+
+        <div class="col-md-4">
+            <label class="form-label">Due Date Alerts</label>
+            <select class="form-select" name="due_date_alerts">
+                <option value="Enable" {{ ($settings->due_date_alerts ?? '') == 'Enable' ? 'selected' : '' }}>Enable</option>
+                <option value="Disable" {{ ($settings->due_date_alerts ?? '') == 'Disable' ? 'selected' : '' }}>Disable</option>
+            </select>
+        </div>
+
+        <div class="col-md-4">
+            <label class="form-label">New Arrival Alerts</label>
+            <select class="form-select" name="new_arrival_alerts">
+                <option value="Enable" {{ ($settings->new_arrival_alerts ?? '') == 'Enable' ? 'selected' : '' }}>Enable</option>
+                <option value="Disable" {{ ($settings->new_arrival_alerts ?? '') == 'Disable' ? 'selected' : '' }}>Disable</option>
+            </select>
+        </div>
+
+        <div class="col-md-6">
+            <label class="form-label">Logo Upload</label>
+            <input type="file" class="form-control" name="logo" accept="image/*">
+            @if(!empty($settings->logo))
+                <img src="{{ asset($settings->logo) }}" alt="Logo" class="mt-2" height="80">
+            @endif
+        </div>
+
+        <div class="col-md-6">
+            <label class="form-label">Login Page Background</label>
+            <input type="file" class="form-control" name="background_image" accept="image/*">
+            @if(!empty($settings->background_image))
+                <img src="{{ asset($settings->background_image) }}" alt="Background" class="mt-2" height="80">
+            @endif
+        </div>
+
+        <div class="col-12 text-end mt-3">
+            <button type="submit" class="btn btn-primary">Save Settings</button>
+        </div>
+
+    </div>
+</form>
+
                         </div>
                     </div>
                 </div>

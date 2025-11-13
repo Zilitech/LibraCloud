@@ -29,6 +29,7 @@ class AppServiceProvider extends ServiceProvider
             $settings = (object) [
                 'site_name' => 'My Website',
                 'logo' => 'images/default-logo.png',
+                'background_image' => 'images/default-bg.jpg',
             ];
         }
 

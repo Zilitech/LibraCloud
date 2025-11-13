@@ -9,7 +9,8 @@ return new class extends Migration {
     {
         Schema::create('inventories', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('book_id');
+            $table->string('book_name');
+            $table->integer('current_stock')->default(0);
             $table->integer('added_quantity')->default(0);
             $table->integer('damaged')->default(0);
             $table->string('rack_number')->nullable();
@@ -18,8 +19,6 @@ return new class extends Migration {
             $table->date('purchase_date')->nullable();
             $table->text('remarks')->nullable();
             $table->timestamps();
-
-            $table->foreign('book_id')->references('id')->on('books')->onDelete('cascade');
         });
     }
 

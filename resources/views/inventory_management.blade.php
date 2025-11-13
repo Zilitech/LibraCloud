@@ -106,92 +106,44 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Organic Chemistry Vol 2</td>
-                                <td>Dr. B. Kumar</td>
-                                <td>Science</td>
-                                <td>12</td>
-                                <td>8</td>
-                                <td>4</td>
-                                <td>0</td>
-                                <td><span class="badge bg-success-transparent">Available</span></td>
-                                <td>
-                                    <div class="hstack gap-2 flex-wrap">
-                                        <a href="javascript:void(0);" class="text-info fs-14 lh-1" title="View"><i class="ri-eye-line"></i></a>
-                                        <a href="javascript:void(0);" class="text-warning fs-14 lh-1" title="Edit"><i class="ri-edit-line"></i></a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Physics for Engineers</td>
-                                <td>Prof. S. Rao</td>
-                                <td>Engineering</td>
-                                <td>10</td>
-                                <td>2</td>
-                                <td>7</td>
-                                <td>1</td>
-                                <td><span class="badge bg-warning-transparent">Low Stock</span></td>
-                                <td>
-                                    <div class="hstack gap-2 flex-wrap">
-                                        <a href="javascript:void(0);" class="text-info fs-14 lh-1"><i class="ri-eye-line"></i></a>
-                                        <a href="javascript:void(0);" class="text-warning fs-14 lh-1"><i class="ri-edit-line"></i></a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>Modern Economics</td>
-                                <td>R. Mehta</td>
-                                <td>Commerce</td>
-                                <td>6</td>
-                                <td>0</td>
-                                <td>5</td>
-                                <td>1</td>
-                                <td><span class="badge bg-danger-transparent">Out of Stock</span></td>
-                                <td>
-                                    <div class="hstack gap-2 flex-wrap">
-                                        <a href="javascript:void(0);" class="text-info fs-14 lh-1"><i class="ri-eye-line"></i></a>
-                                        <a href="javascript:void(0);" class="text-warning fs-14 lh-1"><i class="ri-edit-line"></i></a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>World History Atlas</td>
-                                <td>A. Sharma</td>
-                                <td>History</td>
-                                <td>15</td>
-                                <td>14</td>
-                                <td>1</td>
-                                <td>0</td>
-                                <td><span class="badge bg-success-transparent">Available</span></td>
-                                <td>
-                                    <div class="hstack gap-2 flex-wrap">
-                                        <a href="javascript:void(0);" class="text-info fs-14 lh-1"><i class="ri-eye-line"></i></a>
-                                        <a href="javascript:void(0);" class="text-warning fs-14 lh-1"><i class="ri-edit-line"></i></a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td>Advanced Mathematics</td>
-                                <td>Dr. K. Patil</td>
-                                <td>Mathematics</td>
-                                <td>9</td>
-                                <td>3</td>
-                                <td>5</td>
-                                <td>1</td>
-                                <td><span class="badge bg-warning-transparent">Low Stock</span></td>
-                                <td>
-                                    <div class="hstack gap-2 flex-wrap">
-                                        <a href="javascript:void(0);" class="text-info fs-14 lh-1"><i class="ri-eye-line"></i></a>
-                                        <a href="javascript:void(0);" class="text-warning fs-14 lh-1"><i class="ri-edit-line"></i></a>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
+    @foreach($inventories as $index => $inventory)
+        @php
+            $available = $inventory->current_stock ?? 0;
+            $status = '';
+
+            if ($available > 3) {
+                $status = '<span class="badge bg-success-transparent">Available</span>';
+            } elseif ($available > 0 && $available <= 3) {
+                $status = '<span class="badge bg-warning-transparent">Low Stock</span>';
+            } else {
+                $status = '<span class="badge bg-danger-transparent">Out of Stock</span>';
+            }
+        @endphp
+
+        <tr>
+            <td>{{ $index + 1 }}</td>
+            <td>{{ $inventory->book_name ?? 'N/A' }}</td>
+            <td>{{ $inventory->book->author_name ?? 'N/A' }}</td>
+            <td>{{ $inventory->book->category_name ?? 'N/A' }}</td>
+            <td>{{ $inventory->current_stock }}</td>
+            <td>{{ $inventory->current_stock }}</td>
+            <td>{{ $inventory->current_stock }}</td>
+            <td>{{ $inventory->damaged }}</td>
+            <td>{!! $status !!}</td>
+            <td>
+                <div class="hstack gap-2 flex-wrap">
+                    <a href="javascript:void(0);" class="text-warning fs-14 lh-1" title="Edit">
+                        <i class="ri-edit-line"></i>
+                    </a>
+                    <a href="javascript:void(0);" class="text-danger fs-14 lh-1" title="Delete">
+                        <i class="ri-delete-bin-5-line"></i>
+                    </a>
+                </div>
+            </td>
+        </tr>
+    @endforeach
+</tbody>
+
                     </table>
                 </div>
             </div>

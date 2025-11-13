@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Book extends Model
 {
     use HasFactory;
+    
 
     // Fillable fields for mass assignment
     protected $fillable = [
@@ -26,7 +27,10 @@ class Book extends Model
         'cover_image',
         'ebook_file',
         'description',
+        
     ];
+
+    
 
     // Relationship with Author
     public function author()
@@ -68,5 +72,15 @@ class Book extends Model
     protected $casts = [
         'purchase_date' => 'date', // Cast to Carbon automatically
     ];
+
+    public function inventory()
+{
+    return $this->hasOne(Inventory::class);
+}
+
+
+
+
+
 }
 

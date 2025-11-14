@@ -103,13 +103,15 @@ Route::get('/all_member', function(){
     return view('all_member');
 });
 
-Route::get('/add_member', function(){
-    return view('add_member');
-});
+Route::get('/add_member', [App\Http\Controllers\MemberController::class, 'create'])->name('member.create');
+Route::post('/add_member', [App\Http\Controllers\MemberController::class, 'store'])->name('member.store');
+Route::post('/member/import', [App\Http\Controllers\MemberController::class, 'import'])->name('member.import');
 
-Route::get('/member_category', function(){
-    return view('member_category');
-});
+Route::get('/member_category', [App\Http\Controllers\MembercategoryController::class, 'index'])->name('membercategory.index');
+Route::post('/member_category', [App\Http\Controllers\MembercategoryController::class, 'store'])->name('membercategory.store');
+Route::post('/member_category/update', [App\Http\Controllers\MembercategoryController::class, 'update'])->name('membercategory.update');
+Route::delete('/member_category/{id}', [App\Http\Controllers\MembercategoryController::class, 'destroy'])->name('membercategory.destroy');
+Route::post('/member_category/import', [App\Http\Controllers\MembercategoryController::class, 'import'])->name('membercategory.import');
 
 
 Route::get('/membership_card', function(){

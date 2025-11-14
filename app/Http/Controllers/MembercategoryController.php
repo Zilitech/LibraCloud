@@ -23,34 +23,39 @@ class MembercategoryController extends Controller
             'membercategoryname' => $request->membercategoryname,
             'maxbooks' => $request->maxbooks,
             'fineperday' => $request->fineperday,
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
         return redirect()->back()->with('success', 'Member category added successfully!');
     }
 
 
-    public function update(Request $request)
-    {
-        $request->validate([
-            'id' => 'required|integer',
-            'membercategoryname' => 'required|string|max:255',
-            'maxbooks' => 'required|integer',
-            'fineperday' => 'required|integer',
-        ]);
+ public function update(Request $request)
+{
+    $request->validate([
+        'id' => 'required|integer',
+        'membercategoryname' => 'required|string|max:255',
+        'maxbooks' => 'required|integer',
+        'fineperday' => 'required|integer',
+    ]);
 
-        DB::table('membercategory')
+    DB::table('membercategory')
         ->where('id', $request->id)
         ->update([
             'membercategoryname' => $request->membercategoryname,
             'maxbooks' => $request->maxbooks,
             'fineperday' => $request->fineperday,
+            'updated_at' => now(),
         ]);
-        return redirect()->back()->with('success', 'Member category updated successfully!');
-    }
+
+    return back()->with('success', 'Member category updated successfully!');
+}
+
 
     public function destroy($id)
     {
         DB::table('membercategory')->where('id', $id)->delete();
-        return redirect()->back()->with('success', 'Member category deleted successfully!');
+        return back()->with('success', 'Member category deleted successfully!');
     }
 
     public function import(Request $request)
@@ -74,7 +79,6 @@ class MembercategoryController extends Controller
 
     fclose($file);
 
-    return redirect()->back()->with('success', 'Member categories imported successfully!');
+    return redirect()->back()->with('success', 'Categories imported successfully!');
 }
-    
 }

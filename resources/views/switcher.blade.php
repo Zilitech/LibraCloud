@@ -38,7 +38,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="">
+                    <!-- <div class="">
                         <p class="switcher-style-head">Directions:</p>
                         <div class="row switcher-style gx-0">
                             <div class="col-4">
@@ -58,7 +58,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="">
                         <p class="switcher-style-head">Navigation Styles:</p>
                         <div class="row switcher-style gx-0">
@@ -425,6 +425,27 @@
                                 </div>
                             </div>
                         </div>
+                           <div class="">
+                        <p class="switcher-style-head">Directions:</p>
+                        <div class="row switcher-style gx-0">
+                            <div class="col-4">
+                                <div class="form-check switch-select">
+                                    <label class="form-check-label" for="switcher-ltr">
+                                        LTR
+                                    </label>
+                                    <input class="form-check-input" type="radio" name="direction" id="switcher-ltr" checked>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-check switch-select">
+                                    <label class="form-check-label" for="switcher-rtl">
+                                        RTL
+                                    </label>
+                                    <input class="form-check-input" type="radio" name="direction" id="switcher-rtl">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                         <div class="menu-image mb-3">
                             <p class="switcher-style-head">Menu With Background Image:</p>
                             <div class="d-flex flex-wrap align-items-center switcher-style">

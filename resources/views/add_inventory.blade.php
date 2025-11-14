@@ -33,6 +33,8 @@
                         </ol>
                     </nav>
                 </div>
+                <a href="{{ url('inventory_management') }}" class="btn btn-secondary"><i class="ri-arrow-left-line"></i> Back to Inventory</a>
+
             </div>
             <!-- Page Header Close -->
 
@@ -53,75 +55,75 @@
     @endif
 
  <form id="addInventoryForm" method="POST" action="{{ route('inventory.store') }}">
-                @csrf
-                <input type="hidden" id="currentStock" name="current_stock" value="0">
+    @csrf
+    <input type="hidden" id="currentStock" name="current_stock" value="0">
 
-                <div class="row gy-4">
+    <div class="row gy-4">
 
-                    <!-- Select Book -->
-                    <div class="col-xl-6">
-                        <label for="bookSelect" class="form-label">Select Book:</label>
-                        <select class="form-select" id="bookSelect" name="book_name" required>
-                            <option selected disabled>-- Choose Book --</option>
-                            @foreach($books as $book)
-                                <option value="{{ $book->book_title }}">{{ $book->book_title }}</option>
-                            @endforeach
-                        </select>
-                    </div>
+        <!-- Select Book -->
+        <div class="col-xl-6">
+            <label for="bookSelect" class="form-label">Select Book:</label>
+            <select class="form-select" id="bookSelect" name="book_id" required>
+                <option selected disabled>-- Choose Book --</option>
+                @foreach($books as $book)
+                    <option value="{{ $book->id }}">{{ $book->book_title }}</option>
+                @endforeach
+            </select>
+        </div>
 
-                    <!-- Add Quantity -->
-                    <div class="col-xl-6">
-                        <label for="addQuantity" class="form-label">Add Quantity:</label>
-                        <input type="number" class="form-control" id="addQuantity" name="added_quantity" required>
-                    </div>
+        <!-- Add Quantity -->
+        <div class="col-xl-6">
+            <label for="addQuantity" class="form-label">Add Quantity:</label>
+            <input type="number" class="form-control" id="addQuantity" name="added_quantity" required>
+        </div>
 
-                    <!-- Damaged -->
-                    <div class="col-xl-6">
-                        <label for="damaged" class="form-label">Damaged / Lost Copies:</label>
-                        <input type="number" class="form-control" id="damaged" name="damaged">
-                    </div>
+        <!-- Damaged -->
+        <div class="col-xl-6">
+            <label for="damaged" class="form-label">Damaged / Lost Copies:</label>
+            <input type="number" class="form-control" id="damaged" name="damaged">
+        </div>
 
-                    <!-- Rack Number -->
-                    <div class="col-xl-6">
-                        <label for="rackNumber" class="form-label">Rack Number:</label>
-                        <input type="text" class="form-control" id="rackNumber" name="rack_number">
-                    </div>
+        <!-- Rack Number -->
+        <div class="col-xl-6">
+            <label for="rackNumber" class="form-label">Rack Number:</label>
+            <input type="text" class="form-control" id="rackNumber" name="rack_number">
+        </div>
 
-                    <!-- Condition -->
-                    <div class="col-xl-6">
-                        <label for="condition" class="form-label">Condition:</label>
-                        <select class="form-select" id="condition" name="condition">
-                            <option selected disabled>-- Select Condition --</option>
-                            <option value="Good">Good</option>
-                            <option value="Average">Average</option>
-                            <option value="Damaged">Damaged</option>
-                        </select>
-                    </div>
+        <!-- Condition -->
+        <div class="col-xl-6">
+            <label for="condition" class="form-label">Condition:</label>
+            <select class="form-select" id="condition" name="condition">
+                <option selected disabled>-- Select Condition --</option>
+                <option value="Good">Good</option>
+                <option value="Average">Average</option>
+                <option value="Damaged">Damaged</option>
+            </select>
+        </div>
 
-                    <!-- Supplier -->
-                    <div class="col-xl-6">
-                        <label for="supplier" class="form-label">Supplier / Vendor:</label>
-                        <input type="text" class="form-control" id="supplier" name="supplier">
-                    </div>
+        <!-- Supplier -->
+        <div class="col-xl-6">
+            <label for="supplier" class="form-label">Supplier / Vendor:</label>
+            <input type="text" class="form-control" id="supplier" name="supplier">
+        </div>
 
-                    <!-- Purchase Date -->
-                    <div class="col-xl-6">
-                        <label for="purchaseDate" class="form-label">Purchase Date:</label>
-                        <input type="date" class="form-control" id="purchaseDate" name="purchase_date">
-                    </div>
+        <!-- Purchase Date -->
+        <div class="col-xl-6">
+            <label for="purchaseDate" class="form-label">Purchase Date:</label>
+            <input type="date" class="form-control" id="purchaseDate" name="purchase_date">
+        </div>
 
-                    <!-- Remarks -->
-                    <div class="col-xl-12">
-                        <label for="remarks" class="form-label">Remarks / Notes:</label>
-                        <textarea class="form-control" id="remarks" name="remarks" rows="3"></textarea>
-                    </div>
+        <!-- Remarks -->
+        <div class="col-xl-12">
+            <label for="remarks" class="form-label">Remarks / Notes:</label>
+            <textarea class="form-control" id="remarks" name="remarks" rows="3"></textarea>
+        </div>
 
-                    <div class="col-12 text-end mt-3">
-                        <button type="reset" class="btn btn-secondary me-2">Reset</button>
-                        <button type="submit" class="btn btn-primary">Save Inventory</button>
-                    </div>
-                </div>
-            </form>
+        <div class="col-12 text-end mt-3">
+            <button type="reset" class="btn btn-secondary me-2">Reset</button>
+            <button type="submit" class="btn btn-primary">Save Inventory</button>
+        </div>
+    </div>
+</form>
 
 
 <!-- Script to update current stock dynamically -->

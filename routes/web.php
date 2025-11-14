@@ -93,6 +93,9 @@ Route::get('/inventory_management', [InventoryController::class, 'index']);
 Route::get('/add_inventory', [InventoryController::class, 'add'])->name('inventory.add');
 Route::post('/inventory/store', [InventoryController::class, 'store'])->name('inventory.store');
 Route::get('/books/{name}/stock', [InventoryController::class, 'getBookStock']);
+Route::delete('/inventory/{id}', [InventoryController::class, 'destroy']);
+Route::get('/inventory_management', [InventoryController::class, 'index'])->name('inventory.index');
+
 
 
 

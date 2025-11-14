@@ -10,7 +10,7 @@ class Inventory extends Model
     use HasFactory;
 
     protected $fillable = [
-        'book_name',
+        'book_id',
         'current_stock',
         'added_quantity',
         'damaged',
@@ -19,17 +19,10 @@ class Inventory extends Model
         'supplier',
         'purchase_date',
         'remarks',
-     
     ];
 
     public function book()
-{
-    return $this->belongsTo(Book::class);
+    {
+        return $this->belongsTo(Book::class);
+    }
 }
-
-
-
-}
-
-
-

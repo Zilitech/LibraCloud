@@ -8,71 +8,108 @@ use Illuminate\Http\Request;
 
 class InventoryController extends Controller
 {
-    // Show form
+    // Show add inventory form
     public function add()
     {
         $books = Book::all();
         return view('add_inventory', compact('books'));
     }
 
-    public function index()
+    // Inventory list page
+public function index(Request $request)
 {
-    // Get all inventories with related book details
-    $inventories = \App\Models\Inventory::with('book')->get();
-    return view('inventory_management', compact('inventories'));
+    $filter = $request->filter ?? 'all';
+
+    // Load inventory with book + related author and category
+    $query = Inventory::with(['book.author', 'book.category']);
+
+    // Available stock (stock > 0)
+    if ($filter === 'available') {
+        $query->where('current_stock', '>', 0);
+    }
+
+    // Low stock (example threshold: < 5 but > 0)
+    if ($filter === 'low') {
+        $query->where('current_stock', '<', 5)
+              ->where('current_stock', '>', 0);
+    }
+
+    // Out of stock (stock = 0)
+    if ($filter === 'out') {
+        $query->where('current_stock', '=', 0);
+    }
+
+    // Fetch the filtered data
+    $inventories = $query->get();
+
+    return view('inventory_management', compact('inventories', 'filter'));
 }
 
 
-    // Store inventory entry and update book stock
+
+    // Store / Update Inventory
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'book_name' => 'required|string|max:255',
+            'book_id'        => 'required|exists:books,id',
             'added_quantity' => 'required|integer|min:0',
-            'damaged' => 'nullable|integer|min:0',
-            'rack_number' => 'nullable|string|max:255',
-            'condition' => 'nullable|string|max:255',
-            'supplier' => 'nullable|string|max:255',
-            'purchase_date' => 'nullable|date',
-            'remarks' => 'nullable|string',
+            'damaged'        => 'nullable|integer|min:0',
+            'rack_number'    => 'nullable|string|max:255',
+            'condition'      => 'nullable|string|max:255',
+            'supplier'       => 'nullable|string|max:255',
+            'purchase_date'  => 'nullable|date',
+            'remarks'        => 'nullable|string',
         ]);
 
-        // Find the book record
-        $book = Book::where('book_title', $request->book_name)->first();
+        $book = Book::find($request->book_id);
 
-        if (!$book) {
-            return back()->with('error', 'Book not found!');
+        // Get or create inventory for the book
+        $inventory = Inventory::where('book_id', $request->book_id)->first();
+
+        $added    = $request->added_quantity;
+        $damaged  = $request->damaged ?? 0;
+
+        if ($inventory) {
+            // Update existing inventory
+            $newStock = $inventory->current_stock + $added - $damaged;
+
+            $inventory->update([
+                'current_stock'   => $newStock,
+                'added_quantity'  => $inventory->added_quantity + $added,
+                'damaged'         => $inventory->damaged + $damaged,
+                'rack_number'     => $request->rack_number,
+                'condition'       => $request->condition,
+                'supplier'        => $request->supplier,
+                'purchase_date'   => $request->purchase_date,
+                'remarks'         => $request->remarks,
+            ]);
+        } else {
+            // Create new inventory
+            $inventory = Inventory::create([
+                'book_id'        => $request->book_id,
+                'current_stock'  => $added - $damaged,
+                'added_quantity' => $added,
+                'damaged'        => $damaged,
+                'rack_number'    => $request->rack_number,
+                'condition'      => $request->condition,
+                'supplier'       => $request->supplier,
+                'purchase_date'  => $request->purchase_date,
+                'remarks'        => $request->remarks,
+            ]);
         }
 
-        // Calculate new stock using book.quantity (not inventories table)
-        $currentStock = $book->quantity ?? 0;
-        $added = $request->added_quantity;
-        $damaged = $request->damaged ?? 0;
-        $newStock = $currentStock + $added - $damaged;
+        // Update book stock column also (optional)
+        $book->update(['quantity' => $inventory->current_stock]);
 
-        // Update book stock
-        $book->update(['quantity' => $newStock]);
-
-        // Record the inventory transaction
-        Inventory::create([
-            'book_name' => $request->book_name,
-            'current_stock' => $newStock,
-            'added_quantity' => $added,
-            'damaged' => $damaged,
-            'rack_number' => $request->rack_number,
-            'condition' => $request->condition,
-            'supplier' => $request->supplier,
-            'purchase_date' => $request->purchase_date,
-            'remarks' => $request->remarks,
-        ]);
-
-        return redirect()->back()->with('success', '✅ Inventory record saved and book quantity updated!');
+        return back()->with('success', 'Inventory saved & stock updated successfully!');
     }
 
-    // AJAX - Get current stock from books table
-    public function getBookStock($name)
-    {
-        $book = Book::where('book_title', $name)->first();
-        return response()->json(['current_stock' => $book->quantity ?? 0]);
-    }
+    public function destroy($id)
+{
+    Inventory::findOrFail($id)->delete();
+    return redirect()->back()->with('success', 'Inventory deleted successfully.');
+}
+
+
+
 }

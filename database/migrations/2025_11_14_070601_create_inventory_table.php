@@ -9,7 +9,7 @@ return new class extends Migration {
     {
         Schema::create('inventories', function (Blueprint $table) {
             $table->id();
-            $table->string('book_name');
+            $table->foreignId('book_id')->constrained()->onDelete('cascade');
             $table->integer('current_stock')->default(0);
             $table->integer('added_quantity')->default(0);
             $table->integer('damaged')->default(0);

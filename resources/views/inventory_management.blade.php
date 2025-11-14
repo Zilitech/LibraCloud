@@ -44,19 +44,22 @@
             <button type="button" class="btn btn-warning btn-icon me-2"><i class="mdi mdi-refresh"></i></button>
         </div>
 <div class="d-flex align-items-center">
-    <div class="mb-xl-0 me-2">
-        <div class="dropdown">
-            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuDate1" data-bs-toggle="dropdown" aria-expanded="false">
-                Inventory Filter
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuDate1">
-                <li><a class="dropdown-item" href="javascript:void(0);">All</a></li>
-                <li><a class="dropdown-item" href="javascript:void(0);">Available</a></li>
-                <li><a class="dropdown-item" href="javascript:void(0);">Low Stock</a></li>
-                <li><a class="dropdown-item" href="javascript:void(0);">Out of Stock</a></li>
-            </ul>
-        </div>
+   <div class="mb-xl-0 me-2">
+    <div class="dropdown">
+        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuDate1"
+            data-bs-toggle="dropdown" aria-expanded="false">
+            Inventory Filter
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuDate1">
+<li><a class="dropdown-item {{ $filter=='all' ? 'active' : '' }}" href="{{ route('inventory.index', ['filter'=>'all']) }}">All</a></li>
+<li><a class="dropdown-item {{ $filter=='available' ? 'active' : '' }}" href="{{ route('inventory.index', ['filter'=>'available']) }}">Available</a></li>
+<li><a class="dropdown-item {{ $filter=='low' ? 'active' : '' }}" href="{{ route('inventory.index', ['filter'=>'low']) }}">Low Stock</a></li>
+<li><a class="dropdown-item {{ $filter=='out' ? 'active' : '' }}" href="{{ route('inventory.index', ['filter'=>'out']) }}">Out of Stock</a></li>
+
+        </ul>
     </div>
+</div>
+
 
     <div class="mb-xl-0">
         <div class="dropdown">
@@ -121,23 +124,70 @@
         @endphp
 
         <tr>
-            <td>{{ $index + 1 }}</td>
-            <td>{{ $inventory->book_name ?? 'N/A' }}</td>
-            <td>{{ $inventory->book->author_name ?? 'N/A' }}</td>
-            <td>{{ $inventory->book->category_name ?? 'N/A' }}</td>
-            <td>{{ $inventory->current_stock }}</td>
-            <td>{{ $inventory->current_stock }}</td>
-            <td>{{ $inventory->current_stock }}</td>
-            <td>{{ $inventory->damaged }}</td>
-            <td>{!! $status !!}</td>
+           
+    <td>{{ $index + 1 }}</td>
+    <td>{{ $inventory->book->book_title }}</td>
+    <td>{{ $inventory->book->author_name ?? 'N/A' }}</td>
+    <td>{{ $inventory->book->category_name ?? 'N/A' }}</td>
+    <td>{{ $inventory->current_stock }}</td>
+    <td>{{ $inventory->current_stock }}</td>
+    <td>{{ $inventory->current_stock }}</td>
+    <td>{{ $inventory->damaged }}</td>
+    <td>{!! $status !!}</td>
+
             <td>
                 <div class="hstack gap-2 flex-wrap">
-                    <a href="javascript:void(0);" class="text-warning fs-14 lh-1" title="Edit">
+                    <a href="{{ url('add_inventory') }}" class="text-warning fs-14 lh-1" title="Edit">
                         <i class="ri-edit-line"></i>
                     </a>
-                    <a href="javascript:void(0);" class="text-danger fs-14 lh-1" title="Delete">
-                        <i class="ri-delete-bin-5-line"></i>
-                    </a>
+                    <!-- Delete Inventory Icon -->
+<a href="javascript:void(0);" 
+   class="me-2 text-danger" 
+   data-bs-toggle="tooltip" 
+   title="Delete" 
+   onclick="confirmDelete({{ $inventory->id }})">
+    <i class="ri-delete-bin-5-line fs-16"></i>
+</a>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        Are you sure you want to delete this inventory entry?
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+
+        <form id="deleteForm" method="POST">
+          @csrf
+          @method('DELETE')
+          <button type="submit" class="btn btn-danger">Yes, Delete</button>
+        </form>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- JS to handle delete -->
+<script>
+    function confirmDelete(inventoryId) {
+        const form = document.getElementById('deleteForm');
+        form.action = '/inventory/' + inventoryId; // Dynamic delete route for inventory
+        const modal = new bootstrap.Modal(document.getElementById('deleteModal'));
+        modal.show();
+    }
+</script>
+
                 </div>
             </td>
         </tr>

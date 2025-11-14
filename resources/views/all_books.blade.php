@@ -97,8 +97,8 @@
         <tr>
             <td>{{ $book->book_title }}</td>
             <td>{{ $book->book_code ?? '-' }}</td>
-            <td>{{ $book->category ? $book->category->category_name : 'N/A' }}</td>
-            <td>{{ $book->author ? $book->author->author_name : 'N/A' }}</td>
+            <td>{{ $book->category_name ?? 'N/A' }}</td>
+            <td>{{ $book->author_name ?? 'N/A' }}</td>
             <td>{{ $book->quantity }}</td>
             <td>{{ $book->price ? '₹'.$book->price : '-' }}</td>
         <td class="text-center">
@@ -108,23 +108,24 @@
 </a>
 
 <!-- Edit Book Modal -->
-<div class="modal fade" id="editBookModal-{{ $book->id }}" tabindex="-1" aria-labelledby="editBookModalLabel-{{ $book->id }}" aria-hidden="true">
+<div class="modal fade" id="editBookModal-{{ $book->id }}" tabindex="-1"
+     aria-labelledby="editBookModalLabel-{{ $book->id }}" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <form action="{{ route('books.update', $book->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
-                
+
                 <div class="modal-header bg-primary text-white">
                     <h5 class="modal-title" id="editBookModalLabel-{{ $book->id }}">Edit Book</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
-                
+
                 <div class="modal-body">
                     <div class="container-fluid">
                         <div class="row g-3">
-                            
-                            <!-- Book ID (readonly) -->
+
+                            <!-- Book ID -->
                             <div class="col-md-6 d-flex align-items-center">
                                 <label class="form-label me-2" style="width:120px;">Book ID:</label>
                                 <input type="text" class="form-control" value="{{ $book->id }}" readonly>
@@ -132,62 +133,72 @@
 
                             <!-- Book Title -->
                             <div class="col-md-6 d-flex align-items-center">
-                                <label class="form-label me-2" style="width:120px;">Book Title:</label>
-                                <input type="text" name="title" class="form-control" value="{{ $book->book_title }}" required>
+                                <label class="form-label me-2" style="width:120px;">Title:</label>
+                                <input type="text" name="book_title" class="form-control"
+                                       value="{{ $book->book_title }}" required>
                             </div>
 
                             <!-- Book Code -->
                             <div class="col-md-6 d-flex align-items-center">
                                 <label class="form-label me-2" style="width:120px;">Book Code:</label>
-                                <input type="text" name="code" class="form-control" value="{{ $book->book_code }}" placeholder="e.g. CHM101">
+                                <input type="text" name="book_code" class="form-control"
+                                       value="{{ $book->book_code }}">
                             </div>
 
                             <!-- ISBN -->
                             <div class="col-md-6 d-flex align-items-center">
                                 <label class="form-label me-2" style="width:120px;">ISBN:</label>
-                                <input type="text" name="isbn" class="form-control" value="{{ $book->isbn }}" placeholder="Enter ISBN Number">
+                                <input type="text" name="isbn" class="form-control"
+                                       value="{{ $book->isbn }}">
                             </div>
 
-                            <!-- Author -->
- <div class="col-md-6 d-flex align-items-center">
+                            <!-- Author Name -->
+                            <div class="col-md-6 d-flex align-items-center">
                                 <label class="form-label me-2" style="width:120px;">Author:</label>
-                                <input type="text" name="author_name" class="form-control" value="{{ $book->author_id }}" placeholder="Enter Author Name">
+                                <input type="text" name="author_name" class="form-control"
+                                       value="{{ $book->author_name }}">
                             </div>
 
                             <!-- Publisher -->
                             <div class="col-md-6 d-flex align-items-center">
                                 <label class="form-label me-2" style="width:120px;">Publisher:</label>
-                                <input type="text" name="publisher" class="form-control" value="{{ $book->publisher }}">
+                                <input type="text" name="publisher" class="form-control"
+                                       value="{{ $book->publisher }}">
                             </div>
 
-                            <!-- Category -->
+                            <!-- Category Name -->
                             <div class="col-md-6 d-flex align-items-center">
                                 <label class="form-label me-2" style="width:120px;">Category:</label>
-                                <input type="text" name="category_name" class="form-control" value="{{ $book->category_id }}">
+                                <input type="text" name="category_name" class="form-control"
+                                       value="{{ $book->category_name }}">
                             </div>
 
                             <!-- Subject -->
                             <div class="col-md-6 d-flex align-items-center">
                                 <label class="form-label me-2" style="width:120px;">Subject:</label>
-                                <input type="text" name="subject" class="form-control" value="{{ $book->subject }}">
+                                <input type="text" name="subject" class="form-control"
+                                       value="{{ $book->subject }}">
                             </div>
 
-                            <!-- Rack Number -->
+                            <!-- Rack No -->
                             <div class="col-md-6 d-flex align-items-center">
                                 <label class="form-label me-2" style="width:120px;">Rack No:</label>
-                                <input type="text" name="rack_no" class="form-control" value="{{ $book->rack_number}}">
+                                <input type="text" name="rack_number" class="form-control"
+                                       value="{{ $book->rack_number }}">
                             </div>
 
                             <!-- Quantity -->
                             <div class="col-md-6 d-flex align-items-center">
                                 <label class="form-label me-2" style="width:120px;">Quantity:</label>
-                                <input type="number" name="quantity" class="form-control" value="{{ $book->quantity }}">
+                                <input type="number" name="quantity" class="form-control"
+                                       value="{{ $book->quantity }}">
                             </div>
 
-                            <!-- Book Price -->
+                            <!-- Price -->
                             <div class="col-md-6 d-flex align-items-center">
                                 <label class="form-label me-2" style="width:120px;">Price (₹):</label>
-                                <input type="number" name="price" class="form-control" value="{{ $book->price }}">
+                                <input type="number" name="price" class="form-control"
+                                       value="{{ $book->price }}">
                             </div>
 
                             <!-- Purchase Date -->
@@ -197,7 +208,7 @@
                                        value="{{ $book->purchase_date ? \Carbon\Carbon::parse($book->purchase_date)->format('Y-m-d') : '' }}">
                             </div>
 
-                            <!-- Book Condition -->
+                            <!-- Condition -->
                             <div class="col-md-6 d-flex align-items-center">
                                 <label class="form-label me-2" style="width:120px;">Condition:</label>
                                 <select name="condition" class="form-select">
@@ -208,7 +219,7 @@
                                 </select>
                             </div>
 
-                            <!-- Book Cover Image -->
+                            <!-- Cover Image -->
                             <div class="col-md-6 d-flex align-items-center">
                                 <label class="form-label me-2" style="width:120px;">Cover Image:</label>
                                 <div>
@@ -219,7 +230,7 @@
                                 </div>
                             </div>
 
-                            <!-- E-Book PDF -->
+                            <!-- E-Book -->
                             <div class="col-md-6 d-flex align-items-center">
                                 <label class="form-label me-2" style="width:120px;">E-Book (PDF):</label>
                                 <div>
@@ -230,7 +241,7 @@
                                 </div>
                             </div>
 
-                            <!-- Description (Full Width) -->
+                            <!-- Description -->
                             <div class="col-12 d-flex align-items-start">
                                 <label class="form-label me-2" style="width:120px;">Description:</label>
                                 <textarea name="description" class="form-control" rows="3">{{ $book->description }}</textarea>
@@ -244,16 +255,14 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-primary">Update Book</button>
                 </div>
+
             </form>
         </div>
     </div>
 </div>
 
 
-
-    
-
-   <!-- Delete Book Icon -->
+<!-- Delete Book Icon -->
 <a href="javascript:void(0);" class="me-2 text-danger" data-bs-toggle="tooltip" title="Delete"
    onclick="confirmDelete({{ $book->id }})">
     <i class="ri-delete-bin-5-line fs-16"></i>
@@ -263,24 +272,31 @@
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
+
       <div class="modal-header bg-danger text-white">
         <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
+
       <div class="modal-body">
         Are you sure you want to delete this book?
       </div>
+
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+
         <form id="deleteForm" method="POST">
           @csrf
           @method('DELETE')
           <button type="submit" class="btn btn-danger">Yes, Delete</button>
         </form>
+
       </div>
+
     </div>
   </div>
 </div>
+
 
 <!-- JS to handle delete -->
 <script>

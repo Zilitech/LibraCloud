@@ -47,25 +47,25 @@
                                 <form>
                                     <div class="mb-3">
                                         <label for="memberCategoryName" class="form-label fs-14 text-dark">Member Category Name</label>
-                                        <input type="text" class="form-control" id="memberCategoryName" placeholder="Enter member category name">
+                                        <input type="text" class="form-control" name="membercategoryname" id="memberCategoryName" placeholder="Enter member category name">
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="maxBooks" class="form-label fs-14 text-dark">Maximum Books Allowed</label>
-                                        <input type="number" class="form-control" id="maxBooks" placeholder="Enter maximum books allowed">
+                                        <input type="number" class="form-control" name="maxbooks" id="maxBooks" placeholder="Enter maximum books allowed">
                                     </div>
 
-                                    <div class="mb-3">
+                                    <!-- <div class="mb-3">
                                         <label for="borrowDays" class="form-label fs-14 text-dark">Borrow Duration (Days)</label>
-                                        <input type="number" class="form-control" id="borrowDays" placeholder="Enter number of days">
-                                    </div>
+                                        <input type="number" class="form-control" name="borrowdays" id="borrowDays" placeholder="Enter number of days">
+                                    </div> -->
 
                                     <div class="mb-3">
                                         <label for="finePerDay" class="form-label fs-14 text-dark">Fine Per Day (₹)</label>
-                                        <input type="number" class="form-control" id="finePerDay" placeholder="Enter fine amount per day">
+                                        <input type="number" class="form-control" name="fineperday" id="finePerDay" placeholder="Enter fine amount per day">
                                     </div>
 
-                                    <button class="btn btn-primary" type="submit">
+                                    <button class="btn btn-primary" type="submit" name="submit">
                                         <i class="ri-save-line me-1"></i>Save Member Category
                                     </button>
                                 </form>

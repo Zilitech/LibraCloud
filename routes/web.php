@@ -86,18 +86,17 @@ Route::post('/authors/import', [AuthorController::class, 'import'])->name('autho
 
 
 
-Route::get('/inventory_management', function(){
-    return view('inventory_management');
-});
+Route::get('/inventory_management', [InventoryController::class, 'index']);
+
 
 // Show add inventory form
 Route::get('/add_inventory', [InventoryController::class, 'add'])->name('inventory.add');
-
-// Handle form submission
 Route::post('/inventory/store', [InventoryController::class, 'store'])->name('inventory.store');
+Route::get('/books/{name}/stock', [InventoryController::class, 'getBookStock']);
+Route::delete('/inventory/{id}', [InventoryController::class, 'destroy']);
+Route::get('/inventory_management', [InventoryController::class, 'index'])->name('inventory.index');
 
-// Optional: AJAX for current stock
-Route::get('/books/{book}/stock', [InventoryController::class, 'currentStock']);
+
 
 
 Route::get('/all_member', function(){

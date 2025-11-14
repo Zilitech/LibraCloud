@@ -25,6 +25,4 @@ class Inventory extends Model
     {
         return $this->belongsTo(Book::class);
     }
-
-    
 }

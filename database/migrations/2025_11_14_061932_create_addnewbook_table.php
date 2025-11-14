@@ -12,10 +12,12 @@ return new class extends Migration {
             $table->string('book_title');
             $table->string('book_code')->nullable();
             $table->string('isbn')->nullable();
-$table->unsignedBigInteger('author_id')->nullable();
-$table->foreign('author_id')->references('id')->on('authors')->onDelete('set null');
+
+            // store names directly
+            $table->string('author_name')->nullable();
+            $table->string('category_name')->nullable();
+
             $table->string('publisher')->nullable();
-            $table->unsignedBigInteger('category_id')->nullable();
             $table->string('subject')->nullable();
             $table->string('rack_number')->nullable();
             $table->integer('quantity')->default(1);
@@ -26,8 +28,6 @@ $table->foreign('author_id')->references('id')->on('authors')->onDelete('set nul
             $table->string('ebook_file')->nullable();
             $table->text('description')->nullable();
             $table->timestamps();
-
-            $table->foreign('category_id')->references('id')->on('categories')->onDelete('set null');
         });
     }
 

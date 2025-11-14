@@ -32,182 +32,192 @@
                             </ol>
                         </nav>
                     </div>
+                          <div class="mb-xl-0">
+    <form method="POST" action="{{ route('member.import') }}" enctype="multipart/form-data">
+        @csrf
+        <div class="input-group">
+            <input type="file" class="form-control" name="csv_file" accept=".csv" required>
+            <button class="btn btn-primary" type="submit">
+                <i class="ri-upload-2-line me-1"></i> Import CSV
+            </button>
+                            <a href="{{ url('all_member') }}" class="btn btn-secondary"><i class="ri-arrow-left-line"></i> Back to All Member</a>
+
+        </div>
+
+    </form>
+
+</div>
                 </div>
 
-                <div class="row">
-                    <div class="col-xl-12">
-                        <div class="card custom-card">
-                            <div class="card-header justify-content-between">
-                                <div class="card-title">
-                                    Add New Member
-                                </div>
-                            </div>
+                <form method="POST" action="{{ route('member.store') }}" enctype="multipart/form-data">
+    @csrf
+     
+                @if(session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
 
-                            <div class="card-body">
-                                <div class="row gy-4">
+    @if(session('error'))
+        <div class="alert alert-danger">{{ session('error') }}</div>
+    @endif
 
-                                    <!-- Member ID -->
-                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                        <label class="form-label">Member ID:</label>
-                                        <input type="text" class="form-control" placeholder="Auto-generated" readonly>
-                                    </div>
-
-                                    <!-- Full Name -->
-                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                        <label class="form-label">Full Name:</label>
-                                        <input type="text" class="form-control" placeholder="Enter full name">
-                                    </div>
-
-                                    <!-- Gender -->
-                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                        <label class="form-label">Gender:</label>
-                                        <select class="form-select">
-                                            <option selected disabled>-- Select Gender --</option>
-                                            <option>Male</option>
-                                            <option>Female</option>
-                                            <option>Other</option>
-                                        </select>
-                                    </div>
-
-                                    <!-- Date of Birth -->
-                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                        <label class="form-label">Date of Birth:</label>
-                                        <input type="date" class="form-control">
-                                    </div>
-
-                                    <!-- Member Type -->
-                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                        <label class="form-label">Member Type:</label>
-                                        <select class="form-select">
-                                            <option selected disabled>-- Select Type --</option>
-                                            <option>Student</option>
-                                            <option>Faculty</option>
-                                            <option>Guest</option>
-                                        </select>
-                                    </div>
-
-                                    <!-- Department / Class -->
-                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                        <label class="form-label">Department / Class:</label>
-                                        <input type="text" class="form-control" placeholder="e.g. Computer Science / B.Sc Physics">
-                                    </div>
-
-                                    <!-- Roll No / Employee ID -->
-                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                        <label class="form-label">Roll No / Employee ID:</label>
-                                        <input type="text" class="form-control" placeholder="e.g. PH2021-05">
-                                    </div>
-
-                                    <!-- Year / Semester -->
-                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                        <label class="form-label">Year / Semester:</label>
-                                        <select class="form-select">
-                                            <option selected disabled>-- Select Year/Semester --</option>
-                                            <option>1st Year / Sem 1</option>
-                                            <option>2nd Year / Sem 2</option>
-                                            <option>3rd Year / Sem 3</option>
-                                            <option>4th Year / Sem 4</option>
-                                        </select>
-                                    </div>
-
-                                    <!-- Email -->
-                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                        <label class="form-label">Email:</label>
-                                        <input type="email" class="form-control" placeholder="Enter email address">
-                                    </div>
-
-                                    <!-- Phone -->
-                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                        <label class="form-label">Phone:</label>
-                                        <input type="number" class="form-control" placeholder="Enter phone number">
-                                    </div>
-
-                                    <!-- Address -->
-                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                                        <label class="form-label">Address:</label>
-                                        <textarea class="form-control" rows="3" placeholder="Enter full address"></textarea>
-                                    </div>
-
-                                    <!-- City -->
-                                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
-                                        <label class="form-label">City:</label>
-                                        <input type="text" class="form-control" placeholder="Enter city">
-                                    </div>
-
-                                    <!-- State -->
-                                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
-                                        <label class="form-label">State:</label>
-                                        <input type="text" class="form-control" placeholder="Enter state">
-                                    </div>
-
-                                    <!-- PIN Code -->
-                                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
-                                        <label class="form-label">PIN Code:</label>
-                                        <input type="number" class="form-control" placeholder="Enter PIN code">
-                                    </div>
-
-                                    <!-- Joining Date -->
-                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                        <label class="form-label">Joining Date:</label>
-                                        <input type="date" class="form-control">
-                                    </div>
-
-                                    <!-- Membership Type / Plan -->
-                                    <!-- <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                        <label class="form-label">Membership Type / Plan:</label>
-                                        <select class="form-select">
-                                            <option selected disabled>-- Select Plan --</option>
-                                            <option>Regular</option>
-                                            <option>Premium</option>
-                                            <option>Temporary</option>
-                                        </select>
-                                    </div> -->
-
-                                    <!-- Expiry Date -->
-                                    <!-- <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                        <label class="form-label">Membership Expiry Date:</label>
-                                        <input type="date" class="form-control">
-                                    </div> -->
-
-                                    <!-- Status -->
-                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                        <label class="form-label">Status:</label>
-                                        <select class="form-select">
-                                            <option>Active</option>
-                                            <option>Inactive</option>
-                                        </select>
-                                    </div>
-
-                                    <!-- Profile Photo -->
-                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                        <label class="form-label">Profile Photo:</label>
-                                        <input class="form-control" type="file" accept="image/*">
-                                    </div>
-
-                                    <!-- Library Card Issued -->
-                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                        <label class="form-label">Library Card Issued:</label>
-                                        <div class="form-check form-switch mt-2">
-                                            <input class="form-check-input" type="checkbox" id="cardIssued">
-                                            <label class="form-check-label" for="cardIssued">Yes</label>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                            <!-- Card Footer -->
-                            <div class="card-footer text-end">
-                                <button type="reset" class="btn btn-secondary me-2">
-                                    <i class="ri-refresh-line me-1"></i>Reset
-                                </button>
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="ri-save-line me-1"></i>Save Member
-                                </button>
-                            </div>
-                        </div>
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card custom-card">
+                <div class="card-header justify-content-between">
+                    <div class="card-title">
+                        Add New Member
                     </div>
                 </div>
+
+                <div class="card-body">
+                    <div class="row gy-4">
+
+                        <!-- Member ID -->
+                        <div class="col-xl-6">
+                            <label class="form-label">Member ID:</label>
+                            <input type="text" class="form-control" name="memberid" placeholder="member id">
+                        </div>
+
+                        <!-- Full Name -->
+                        <div class="col-xl-6">
+                            <label class="form-label">Full Name:</label>
+                            <input type="text" class="form-control" name="fullname" placeholder="Enter full name">
+                        </div>
+
+                        <!-- Gender -->
+                        <div class="col-xl-6">
+                            <label class="form-label">Gender:</label>
+                            <select class="form-select" name="gender">
+                                <option selected disabled>-- Select Gender --</option>
+                                <option>Male</option>
+                                <option>Female</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+
+                        <!-- Date of Birth -->
+                        <div class="col-xl-6">
+                            <label class="form-label">Date of Birth:</label>
+                            <input type="date" class="form-control" name="dateofbirth">
+                        </div>
+
+                        <!-- Member Type -->
+                        <div class="col-xl-6">
+                            <label class="form-label">Member Type:</label>
+                            <select class="form-select" name="membertype">
+                                <option selected disabled>-- Select Type --</option>
+                                @foreach($membercategories as $category)
+                                    <option value="{{ $category->membercategoryname}}">{{ $category->membercategoryname }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <!-- Department / Class -->
+                        <div class="col-xl-6">
+                            <label class="form-label">Department / Class:</label>
+                            <input type="text" class="form-control" name="departmentclass" placeholder="e.g. Computer Science / B.Sc Physics">
+                        </div>
+
+                        <!-- Roll No / Employee ID -->
+                        <div class="col-xl-6">
+                            <label class="form-label">Roll No / Employee ID:</label>
+                            <input type="text" class="form-control" name="rollnoemployeeid" placeholder="e.g. PH2021-05">
+                        </div>
+
+                        <!-- Year / Semester -->
+                        <div class="col-xl-6">
+                            <label class="form-label">Year / Semester:</label>
+                            <select class="form-select" name="yearsemester">
+                                <option selected disabled>-- Select Year/Semester --</option>
+                                <option>1st Year / Sem 1</option>
+                                <option>2nd Year / Sem 2</option>
+                                <option>3rd Year / Sem 3</option>
+                                <option>4th Year / Sem 4</option>
+                            </select>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="col-xl-6">
+                            <label class="form-label">Email:</label>
+                            <input type="email" class="form-control" name="email" placeholder="Enter email address">
+                        </div>
+
+                        <!-- Phone -->
+                        <div class="col-xl-6">
+                            <label class="form-label">Phone:</label>
+                            <input type="number" class="form-control" name="phone" placeholder="Enter phone number">
+                        </div>
+
+                        <!-- Address -->
+                        <div class="col-xl-12">
+                            <label class="form-label">Address:</label>
+                            <textarea class="form-control" name="address" rows="3" placeholder="Enter full address"></textarea>
+                        </div>
+
+                        <!-- City -->
+                        <div class="col-xl-4">
+                            <label class="form-label">City:</label>
+                            <input type="text" class="form-control" name="city">
+                        </div>
+
+                        <!-- State -->
+                        <div class="col-xl-4">
+                            <label class="form-label">State:</label>
+                            <input type="text" class="form-control" name="state">
+                        </div>
+
+                        <!-- PIN -->
+                        <div class="col-xl-4">
+                            <label class="form-label">PIN Code:</label>
+                            <input type="number" class="form-control" name="pincode">
+                        </div>
+
+                        <!-- Joining Date -->
+                        <div class="col-xl-6">
+                            <label class="form-label">Joining Date:</label>
+                            <input type="date" class="form-control" name="joiningdate">
+                        </div>
+
+                        <!-- Status -->
+                        <div class="col-xl-6">
+                            <label class="form-label">Status:</label>
+                            <select class="form-select" name="status">
+                                <option selected disabled>-- Select Status --</option>
+                                <option>Active</option>
+                                <option>Inactive</option>
+                            </select>
+                        </div>
+
+                        <!-- Profile Photo -->
+                        <div class="col-xl-6">
+                            <label class="form-label">Profile Photo:</label>
+                            <input class="form-control" name="profilephoto" type="file" accept="image/*">
+                        </div>
+
+                        <!-- Library Card Issued -->
+                        <div class="col-xl-6">
+                            <label class="form-label">Library Card Issued:</label>
+                            <div class="form-check form-switch mt-2">
+                                <input class="form-check-input" type="checkbox" name="cardIssued" value="1">
+                                <label class="form-check-label">Yes</label>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <div class="card-footer text-end">
+                    <button type="reset" class="btn btn-secondary">Reset</button>
+                    <button type="submit" class="btn btn-primary">Save Member</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</form>
+
 
             </div>
         </div>

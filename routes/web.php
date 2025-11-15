@@ -7,6 +7,9 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\GeneralsettingController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\MembercardController;
+
+
 
 // ✅ Show login page by default
 Route::get('/', function () {
@@ -99,13 +102,21 @@ Route::get('/inventory_management', [InventoryController::class, 'index'])->name
 
 
 
-Route::get('/all_member', function(){
-    return view('all_member');
-});
+
+
+Route::get('/membership_card', [App\Http\Controllers\MembercardController::class, 'index'])->name('membership.card');
+
+
+
 
 Route::get('/add_member', [App\Http\Controllers\MemberController::class, 'create'])->name('member.create');
 Route::post('/add_member', [App\Http\Controllers\MemberController::class, 'store'])->name('member.store');
 Route::post('/member/import', [App\Http\Controllers\MemberController::class, 'import'])->name('member.import');
+Route::get('/all_member', [App\Http\Controllers\MemberController::class, 'show'])->name('member.show');
+Route::get('/members/{member}/edit', [App\Http\Controllers\MemberController::class, 'edit'])->name('members.edit');
+Route::put('/members/{member}', [App\Http\Controllers\MemberController::class, 'update'])->name('members.update');
+Route::get('/members', [App\Http\Controllers\MemberController::class, 'index'])->name('members.index');
+Route::delete('/members/{member}', [App\Http\Controllers\MemberController::class, 'destroy'])->name('members.destroy');  
 
 Route::get('/member_category', [App\Http\Controllers\MembercategoryController::class, 'index'])->name('membercategory.index');
 Route::post('/member_category', [App\Http\Controllers\MembercategoryController::class, 'store'])->name('membercategory.store');
@@ -114,9 +125,7 @@ Route::delete('/member_category/{id}', [App\Http\Controllers\MembercategoryContr
 Route::post('/member_category/import', [App\Http\Controllers\MembercategoryController::class, 'import'])->name('membercategory.import');
 
 
-Route::get('/membership_card', function(){
-    return view('membership_card');
-});
+
 
 Route::get('/issue_book', function(){
     return view('issue_book');

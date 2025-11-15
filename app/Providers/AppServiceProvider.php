@@ -21,6 +21,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+
+        
         // Fetch general settings safely
         $settings = DB::table('general_settings')->first();
 

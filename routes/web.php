@@ -105,6 +105,8 @@ Route::get('/inventory_management', [InventoryController::class, 'index'])->name
 
 
 Route::get('/membership_card', [App\Http\Controllers\MembercardController::class, 'index'])->name('membership.card');
+Route::post('/generate-id-card', [App\Http\Controllers\MembercardController::class, 'generateIdCardPDF'])->name('generate.idcard');
+
 
 
 

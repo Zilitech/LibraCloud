@@ -36,64 +36,110 @@
             </div>
 
             <!-- E-Book Table -->
-            <div class="row">
-                <div class="col-xl-12">
-                    <div class="card custom-card">
-                        <div class="card-header justify-content-between">
-                            <div class="card-title">E-Book List</div>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table id="ebooks-table" class="table table-bordered text-nowrap w-100">
-                                    <thead class="table-light">
-                                        <tr>
-                                            <th>E-Book ID</th>
-                                            <th>Title</th>
-                                            <th>Author</th>
-                                            <th>Category</th>
-                                            <th>Upload Date</th>
-                                            <th>File Size</th>
-                                            <th>Status</th>
-                                            <th class="text-center">Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>EB-001</td>
-                                            <td>Data Structures in C</td>
-                                            <td>Mary Smith</td>
-                                            <td>Computer Science</td>
-                                            <td>2025-11-10</td>
-                                            <td>2.1 MB</td>
-                                            <td><span class="badge bg-success">Active</span></td>
-                                            <td class="text-center">
-    <a href="{{ url('e-book_reader') }}" class="btn btn-sm btn-info me-1" title="Read">
-        <i class="ri-book-read-line"></i>
-    </a>
-    <a href="{{ url('e-book') }}" class="btn btn-sm btn-warning me-1" title="Edit">
-        <i class="ri-pencil-line"></i>
-    </a>
-    <a href="{{ url('e-book/delete/EB-001') }}" class="btn btn-sm btn-danger me-1" title="Delete">
-        <i class="ri-delete-bin-line"></i>
-    </a>                        
-                                                <button class="btn btn-sm btn-primary"><i class="ri-download-line"></i></button>
-                                            </td>
-                                            
-                                        </tr>
-                                        <!-- Add more rows dynamically -->
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
+    <!-- File Export Datatable -->
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card custom-card shadow-sm mb-4">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">File Export Datatable</h5>
+                <small class="text-white-50">Export & View</small>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="file-export" class="table table-hover table-striped table-bordered text-nowrap w-100">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Name</th>
+                                <th>Position</th>
+                                <th>Office</th>
+                                <th>Age</th>
+                                <th>Start date</th>
+                                <th>Salary</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Tiger Nixon</td>
+                                <td>System Architect</td>
+                                <td>Edinburgh</td>
+                                <td>61</td>
+                                <td>2011-04-25</td>
+                                <td>$320,800</td>
+                            </tr>
+                            <tr>
+                                <td>Garrett Winters</td>
+                                <td>Accountant</td>
+                                <td>Tokyo</td>
+                                <td>63</td>
+                                <td>2011-07-25</td>
+                                <td>$170,750</td>
+                            </tr>
+                            <!-- Add more rows dynamically -->
+                        </tbody>
+                    </table>
                 </div>
             </div>
-
         </div>
     </div>
-
-    @include('footer')
 </div>
+
+<!-- E-Book List Table -->
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card custom-card shadow-sm mb-4">
+            <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">E-Book List</h5>
+                <small class="text-white-50">Manage E-Books</small>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="ebooks-table" class="table table-hover table-striped table-bordered text-nowrap w-100">
+                        <thead class="table-light">
+                            <tr>
+                                <th>E-Book ID</th>
+                                <th>Title</th>
+                                <th>Author</th>
+                                <th>Category</th>
+                                <th>Upload Date</th>
+                                <th>File Size</th>
+                                <th>Status</th>
+                                <th class="text-center">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>EB-001</td>
+                                <td>Data Structures in C</td>
+                                <td>Mary Smith</td>
+                                <td>Computer Science</td>
+                                <td>2025-11-10</td>
+                                <td>2.1 MB</td>
+                                <td><span class="badge bg-success">Active</span></td>
+                                <td class="text-center">
+                                    <a href="{{ url('e-book_reader') }}" class="btn btn-sm btn-info me-1" title="Read">
+                                        <i class="ri-book-read-line"></i>
+                                    </a>
+                                    <a href="{{ url('e-book') }}" class="btn btn-sm btn-warning me-1" title="Edit">
+                                        <i class="ri-pencil-line"></i>
+                                    </a>
+                                    <a href="{{ url('e-book/delete/EB-001') }}" class="btn btn-sm btn-danger me-1" title="Delete">
+                                        <i class="ri-delete-bin-line"></i>
+                                    </a>
+                                    <button class="btn btn-sm btn-primary"><i class="ri-download-line"></i></button>
+                                </td>
+                            </tr>
+                            <!-- Add more rows dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
 
 <!-- Upload E-Book Modal -->
 <div class="modal fade" id="uploadEbookModal" tabindex="-1" aria-hidden="true">
@@ -162,5 +208,39 @@ $(document).ready(function() {
     });
 });
 </script>
+
+<!-- Include CSS -->
+<link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css" rel="stylesheet">
+
+<!-- Include JS -->
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.flash.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+
+<script>
+$(document).ready(function() {
+    $('#file-export, #ebooks-table').DataTable({
+        dom: 'Bfrtip', // This is required to show the buttons
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ],
+        responsive: true,
+        pageLength: 10,
+        lengthMenu: [5, 10, 25, 50, 100],
+        language: {
+            search: "_INPUT_",
+            searchPlaceholder: "Search records..."
+        }
+    });
+});
+</script>
+
 </body>
 </html>

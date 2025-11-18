@@ -8,6 +8,7 @@ use App\Http\Controllers\GeneralsettingController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\MembercardController;
+use App\Http\Controllers\EbookController;
 
 
 
@@ -169,9 +170,11 @@ Route::get('/new_arrival_setting', function(){
     return view('new_arrival_setting');
 });
 
-Route::get('/e-book', function(){
-    return view('e-book');
-});
+Route::get('/e-book', [EbookController::class, 'index'])->name('ebooks.index');
+Route::post('/e-book/store', [EbookController::class, 'store'])->name('ebooks.store');
+Route::get('/ebook/download/{id}', [EbookController::class, 'download'])->name('ebooks.download');
+Route::delete('/e-book/delete/{id}', [EbookController::class, 'destroy'])->name('ebooks.destroy');
+
 
 Route::get('/e-book_reader', function(){
     return view('e-book_reader');

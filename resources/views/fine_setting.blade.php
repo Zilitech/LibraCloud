@@ -45,35 +45,41 @@
                             <div class="card-title">Library Fine Rules</div>
                         </div>
                         <div class="card-body">
-                            <form>
-                                <div class="mb-3">
-                                    <label for="due_days" class="form-label">Book Due Period (days)</label>
-                                    <input type="number" class="form-control" id="due_days" placeholder="14" min="1">
-                                    <small class="text-muted">Number of days a book can be kept without fine.</small>
-                                </div>
+                            <form action="{{ route('fine.settings.store') }}" method="POST">
+    @csrf
+    <div class="mb-3">
+        <label for="due_days" class="form-label">Book Due Period (days)</label>
+        <input type="number" name="due_days" class="form-control" id="due_days" 
+               value="{{ $fineSetting->due_days ?? 14 }}" min="1">
+        <small class="text-muted">Number of days a book can be kept without fine.</small>
+    </div>
 
-                                <div class="mb-3">
-                                    <label for="overdue_start" class="form-label">Overdue Start (days)</label>
-                                    <input type="number" class="form-control" id="overdue_start" placeholder="1" min="0">
-                                    <small class="text-muted">Fine calculation starts after this many days past due date.</small>
-                                </div>
+    <div class="mb-3">
+        <label for="overdue_start" class="form-label">Overdue Start (days)</label>
+        <input type="number" name="overdue_start" class="form-control" id="overdue_start" 
+               value="{{ $fineSetting->overdue_start ?? 1 }}" min="0">
+        <small class="text-muted">Fine calculation starts after this many days past due date.</small>
+    </div>
 
-                                <div class="mb-3">
-                                    <label for="daily_fine" class="form-label">Daily Fine Amount (₹)</label>
-                                    <input type="number" class="form-control" id="daily_fine" placeholder="10" min="0">
-                                    <small class="text-muted">Amount charged per day for overdue books.</small>
-                                </div>
+    <div class="mb-3">
+        <label for="daily_fine" class="form-label">Daily Fine Amount (₹)</label>
+        <input type="number" name="daily_fine" class="form-control" id="daily_fine" 
+               value="{{ $fineSetting->daily_fine ?? 10 }}" min="0">
+        <small class="text-muted">Amount charged per day for overdue books.</small>
+    </div>
 
-                                <div class="mb-3">
-                                    <label for="max_fine" class="form-label">Maximum Fine (₹)</label>
-                                    <input type="number" class="form-control" id="max_fine" placeholder="500" min="0">
-                                    <small class="text-muted">Optional: maximum fine limit per book.</small>
-                                </div>
+    <div class="mb-3">
+        <label for="max_fine" class="form-label">Maximum Fine (₹)</label>
+        <input type="number" name="max_fine" class="form-control" id="max_fine" 
+               value="{{ $fineSetting->max_fine ?? 500 }}" min="0">
+        <small class="text-muted">Optional: maximum fine limit per book.</small>
+    </div>
 
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="ri-save-line me-1"></i> Save Settings
-                                </button>
-                            </form>
+    <button type="submit" class="btn btn-primary">
+        <i class="ri-save-line me-1"></i> Save Settings
+    </button>
+</form>
+
                         </div>
                     </div>
                 </div>

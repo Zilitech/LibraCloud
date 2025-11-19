@@ -11,6 +11,9 @@ use App\Http\Controllers\MembercardController;
 use App\Http\Controllers\EbookController;
 use App\Http\Controllers\IssueBookController;
 use App\Http\Controllers\ReturnedBookController;
+use App\Http\Controllers\FineSettingController;
+use App\Http\Controllers\OverdueBookController;
+use App\Http\Controllers\FineController;
 
 
 
@@ -153,17 +156,25 @@ Route::get('/returned-books/reissue/{id}', [ReturnedBookController::class, 'reis
 
 
 
-Route::get('/overdue', function(){
-    return view('overdue');
-}); 
+ Route::get('/overdue', [OverdueBookController::class, 'index'])->name('overdue_books.index');
 
-Route::get('/fine_management', function(){
-    return view('fine_management');
+    // Optional: manually trigger update (if needed)
+Route::get('/overdue/update', [OverdueBookController::class, 'updateOverdueBooks'])->name('overdue_books.update');
+Route::post('/books/return/{issue_id}', [OverdueBookController::class, 'markAsReturned'])->name('books.return');
+Route::post('/books/return/{issue_id}', [OverdueBookController::class, 'markAsReturned'])->name('books.return');
+
+
+
+Route::prefix('fines')->group(function () {
+    Route::get('/', [FineController::class, 'index'])->name('fines.index');
+    Route::get('/{id}', [FineController::class, 'show'])->name('fines.show'); // ← this was missing
+    Route::post('/{id}/mark-paid', [FineController::class, 'markPaid'])->name('fines.markPaid');
+    Route::get('/{id}/print-receipt', [FineController::class, 'printReceipt'])->name('fines.printReceipt');
+    Route::delete('/{id}', [FineController::class, 'destroy'])->name('fines.destroy');
 });
 
-Route::get('/fine_setting', function(){
-    return view('fine_setting');
-});
+Route::get('/fine-settings', [FineSettingController::class, 'index'])->name('fine.settings');
+Route::post('/fine-settings', [FineSettingController::class, 'store'])->name('fine.settings.store');
 
 Route::get('/due_date_alert', function(){
     return view('due_date_alert');

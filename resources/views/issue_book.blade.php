@@ -65,6 +65,7 @@
         <tr>
             <th>Issue ID</th>
             <th>Book Title</th>
+            <th>Author</th>
             <th>Member</th>
             <th>Issue Date</th>
             <th>Due Date</th>
@@ -77,6 +78,7 @@
         <tr>
             <td>{{ $issued->issue_id }}</td>
             <td>{{ $issued->book_name }} ({{ $issued->book_isbn }})</td>
+            <td>{{ $issued->author_name }}</td>
             <td>{{ $issued->member_name }}</td>
             <td>{{ $issued->issue_date }}</td>
             <td>{{ $issued->due_date }}</td>

@@ -1,6 +1,8 @@
 @include('head')
-<link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
-<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.bootstrap.min.css">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+                <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
+ <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.bootstrap.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.bootstrap5.min.css">
 
 <body>
@@ -75,52 +77,29 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>ISS-0015</td>
-                                            <td>Introduction to Algorithms (CSC301)</td>
-                                            <td>Ravi Kumar (M004)</td>
-                                            <td>2025-10-01</td>
-                                            <td>2025-10-15</td>
-                                            <td>20</td>
-                                            <td>₹200</td>
-                                            <td><span class="badge bg-danger">Overdue</span></td>
-                                            <td class="text-center">
-                                                <button class="btn btn-sm btn-info me-1" data-bs-toggle="tooltip" title="View Details"><i class="ri-eye-line"></i></button>
-                                                <button class="btn btn-sm btn-success me-1" data-bs-toggle="tooltip" title="Mark as Returned"><i class="ri-checkbox-circle-line"></i></button>
-                                                <button class="btn btn-sm btn-warning me-1" data-bs-toggle="tooltip" title="Send Reminder"><i class="ri-mail-send-line"></i></button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>ISS-0016</td>
-                                            <td>Microeconomics (ECO102)</td>
-                                            <td>Neha Singh (M005)</td>
-                                            <td>2025-10-05</td>
-                                            <td>2025-10-20</td>
-                                            <td>15</td>
-                                            <td>₹150</td>
-                                            <td><span class="badge bg-danger">Overdue</span></td>
-                                            <td class="text-center">
-                                                <button class="btn btn-sm btn-info me-1"><i class="ri-eye-line"></i></button>
-                                                <button class="btn btn-sm btn-success me-1"><i class="ri-checkbox-circle-line"></i></button>
-                                                <button class="btn btn-sm btn-warning me-1"><i class="ri-mail-send-line"></i></button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>ISS-0017</td>
-                                            <td>Physics Fundamentals (PHY201)</td>
-                                            <td>Aditya Rao (M006)</td>
-                                            <td>2025-10-02</td>
-                                            <td>2025-10-17</td>
-                                            <td>18</td>
-                                            <td>₹180</td>
-                                            <td><span class="badge bg-danger">Overdue</span></td>
-                                            <td class="text-center">
-                                                <button class="btn btn-sm btn-info me-1"><i class="ri-eye-line"></i></button>
-                                                <button class="btn btn-sm btn-success me-1"><i class="ri-checkbox-circle-line"></i></button>
-                                                <button class="btn btn-sm btn-warning me-1"><i class="ri-mail-send-line"></i></button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
+@foreach($overdueBooks as $book)
+<tr>
+    <td>{{ $book->issue_id }}</td>
+    <td>{{ $book->book_name }}</td>
+    <td>{{ $book->member_name }}{{ $book->member_id ? ' ('.$book->member_id.')' : '' }}</td>
+    <td>{{ $book->issue_date }}</td>
+    <td>{{ $book->due_date }}</td>
+    <td>{{ $book->days_overdue }}</td>
+<td>₹{{ $book->fine ?? 0 }}</td>
+    <td><span class="badge bg-danger">{{ $book->status }}</span></td>
+    <td class="text-center">
+        <button class="btn btn-sm btn-info me-1" title="View"><i class="ri-eye-line"></i></button>
+<button class="btn btn-sm btn-success me-1 mark-returned-btn" 
+        data-issue-id="{{ $book->issue_id }}" 
+        title="Mark Returned">
+    <i class="ri-checkbox-circle-line"></i>
+</button>
+        <button class="btn btn-sm btn-warning me-1" title="Send Reminder"><i class="ri-mail-send-line"></i></button>
+    </td>
+</tr>
+@endforeach
+</tbody>
+
                                 </table>
                             </div>
                         </div>
@@ -137,19 +116,23 @@
 
 </div>
 
-<!-- Scroll To Top -->
+<!-- ✅ Scroll To Top -->
 <div class="scrollToTop">
     <span class="arrow"><i class="las la-angle-double-up"></i></span>
 </div>
 <div id="responsive-overlay"></div>
+<!-- Scroll To Top -->
 
-<!-- JS Files -->
+<!-- ✅ jQuery (must be first) -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<!-- ✅ Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-<!-- DataTables -->
+<!-- ✅ DataTables + Extensions -->
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
@@ -157,13 +140,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
 
+<!-- ✅ Your DataTable Initialization -->
 <script>
 $(document).ready(function() {
-    $('#overdue-books-table').DataTable({
+    // file export datatable (your main table)
+    $('#file-export').DataTable({
         dom: 'Bfrtip',
         buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
         language: {
-            searchPlaceholder: 'Search overdue books...',
+            searchPlaceholder: 'Search...',
             sSearch: '',
         },
         pageLength: 10,
@@ -172,15 +157,56 @@ $(document).ready(function() {
 });
 </script>
 
-<!-- Template JS -->
+<!-- ✅ Other Libraries (optional from your template) -->
 <script src="{{ asset('js/defaultmenu.min.js') }}"></script>
 <script src="{{ asset('libs/node-waves/waves.min.js') }}"></script>
 <script src="{{ asset('js/sticky.js') }}"></script>
 <script src="{{ asset('libs/simplebar/simplebar.min.js') }}"></script>
 <script src="{{ asset('js/simplebar.js') }}"></script>
 <script src="{{ asset('libs/@simonwep/pickr/pickr.es5.min.js') }}"></script>
+<script src="{{ asset('libs/apexcharts/apexcharts.min.js') }}"></script>
+<script src="{{ asset('libs/jsvectormap/js/jsvectormap.min.js') }}"></script>
+<script src="{{ asset('libs/jsvectormap/maps/world-merc.js') }}"></script>
+<script src="{{ asset('js/us-merc-en.js') }}"></script>
+<script src="{{ asset('js/index.js') }}"></script>
 <script src="{{ asset('js/custom-switcher.min.js') }}"></script>
 <script src="{{ asset('js/custom.js') }}"></script>
+
+<script>
+$(document).ready(function() {
+    // Initialize DataTable
+    $('#overdue-books-table').DataTable();
+
+    // Setup CSRF token for all AJAX requests
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    // Mark as Returned
+    $('.mark-returned-btn').click(function() {
+        if (!confirm('Are you sure you want to mark this book as returned?')) return;
+
+        let issueId = $(this).data('issue-id');
+        let btn = $(this);
+
+        $.ajax({
+            url: '/books/return/' + issueId,
+            type: 'POST',
+            success: function(res) {
+                alert(res.message);
+                btn.closest('tr').remove(); // remove row from table
+            },
+            error: function(err) {
+                console.log(err.responseJSON);
+                alert(err.responseJSON?.message || 'Something went wrong!');
+            }
+        });
+    });
+});
+</script>
+
 
 </body>
 </html>

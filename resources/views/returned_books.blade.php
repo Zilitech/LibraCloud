@@ -86,6 +86,9 @@
             <td>{{ $returned->quantity }}</td>
             <td><span class="badge bg-success">{{ $returned->status }}</span></td>
             <td class="text-center">
+                 <button class="btn btn-sm btn-info me-1" title="View">
+                    <i class="ri-eye-line"></i>
+                </button>
 
                 <!-- Re-Issue Button -->
                 <a href="{{ route('returned-book.reissue', $returned->id) }}" 

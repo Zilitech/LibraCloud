@@ -9,6 +9,8 @@ use App\Http\Controllers\BookController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\MembercardController;
 use App\Http\Controllers\EbookController;
+use App\Http\Controllers\IssueBookController;
+use App\Http\Controllers\ReturnedBookController;
 
 
 
@@ -130,17 +132,26 @@ Route::post('/member_category/import', [App\Http\Controllers\MembercategoryContr
 
 
 
-Route::get('/issue_book', function(){
-    return view('issue_book');
-});
 
-Route::get('/issue', function(){
-    return view('issue');
-});
+// Show the Issue Book form
+Route::get('/issue', [IssueBookController::class, 'create'])->name('issue-book.create');
 
-Route::get('/returned_books', function(){
-    return view('returned_books');
-});
+// Submit the Issue Book form
+Route::post('/issue', [IssueBookController::class, 'store'])->name('issue-book.store');
+Route::get('/issue_book', [IssueBookController::class, 'index'])->name('issue-book.index');
+Route::delete('/issue-book/{id}', [IssueBookController::class, 'destroy'])->name('issue-book.destroy');
+Route::get('/issue-book/return/{id}', [IssueBookController::class, 'returnBook'])->name('issue-book.return');
+
+Route::get('/returned_books', [ReturnedBookController::class, 'index'])->name('returned-book.index');
+Route::get('/returned-books/delete/{id}', [ReturnedBookController::class, 'destroy'])->name('returned-book.delete');
+Route::get('/returned-books/reissue/{id}', [ReturnedBookController::class, 'reissue'])->name('returned-book.reissue');
+
+
+
+
+
+
+
 
 Route::get('/overdue', function(){
     return view('overdue');
@@ -174,6 +185,8 @@ Route::get('/e-book', [EbookController::class, 'index'])->name('ebooks.index');
 Route::post('/e-book/store', [EbookController::class, 'store'])->name('ebooks.store');
 Route::get('/ebook/download/{id}', [EbookController::class, 'download'])->name('ebooks.download');
 Route::delete('/e-book/delete/{id}', [EbookController::class, 'destroy'])->name('ebooks.destroy');
+Route::get('/e-book_reader/{id}', [EbookController::class, 'read'])->name('ebook.read');
+
 
 
 Route::get('/e-book_reader', function(){

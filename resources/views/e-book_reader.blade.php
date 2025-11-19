@@ -27,31 +27,39 @@
                 </div>
             </div>
 
-            <!-- Reader Card -->
+            <!-- Reader -->
             <div class="row">
                 <div class="col-xl-12">
                     <div class="card custom-card">
                         <div class="card-header">
-                            <h5 class="card-title mb-0">Reading: Data Structures in C</h5>
+                            <h5 class="card-title mb-0">Reading: {{ $ebook->book_title }}</h5>
                         </div>
+
                         <div class="card-body">
-                            <!-- PDF Toolbar -->
+
+                            <!-- Toolbar -->
                             <div class="d-flex justify-content-between mb-2">
                                 <div>
                                     <button id="prevPage" class="btn btn-primary btn-sm">Prev</button>
                                     <button id="nextPage" class="btn btn-primary btn-sm">Next</button>
                                 </div>
+
                                 <div>
                                     <span>Page: <span id="pageNum">1</span> / <span id="pageCount">--</span></span>
                                 </div>
+
                                 <div>
-                                    <input type="number" id="goToPage" class="form-control form-control-sm" placeholder="Go to page" style="width: 100px; display:inline-block;">
+                                    <input type="number" id="goToPage" class="form-control form-control-sm"
+                                        placeholder="Go to page" style="width: 100px; display:inline-block;">
                                     <button id="gotoBtn" class="btn btn-secondary btn-sm">Go</button>
                                 </div>
                             </div>
 
                             <!-- PDF Canvas -->
-                            <canvas id="pdf-render" class="w-100 border" style="height:600px;"></canvas>
+<div class="pdf-container" style="width: 100%; max-width: 900px; margin: auto;">
+    <canvas id="pdf-render" class="border"></canvas>
+</div>
+
                         </div>
                     </div>
                 </div>
@@ -77,8 +85,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.6.172/pdf.min.js"></script>
 
 <script>
-const url = '/path/to/ebooks/data_structures_c.pdf'; // Replace with dynamic PDF path
 
+// ----------- DYNAMIC PDF URL -------------
+const url = "{{ url('storage/' . $ebook->file_path) }}";
+
+// ----------- PDF.js Rendering Code -------------
 let pdfDoc = null,
     pageNum = 1,
     pageRendering = false,
@@ -87,20 +98,32 @@ let pdfDoc = null,
     canvas = document.getElementById('pdf-render'),
     ctx = canvas.getContext('2d');
 
-// Render page
+// Render Page
 function renderPage(num) {
     pageRendering = true;
-    pdfDoc.getPage(num).then(function(page) {
-        const viewport = page.getViewport({ scale: scale });
-        canvas.height = viewport.height;
-        canvas.width = viewport.width;
 
-        const renderCtx = {
+    pdfDoc.getPage(num).then(function(page) {
+        const container = document.querySelector('.pdf-container');
+        const containerWidth = container.clientWidth;
+
+        let viewport = page.getViewport({ scale: 1 });
+        const scale = containerWidth / viewport.width; // scale to fit container
+        viewport = page.getViewport({ scale: scale });
+
+        const outputScale = window.devicePixelRatio || 1;
+        canvas.width = viewport.width * outputScale;
+        canvas.height = viewport.height * outputScale;
+        canvas.style.width = viewport.width + 'px';
+        canvas.style.height = viewport.height + 'px';
+
+        const renderContext = {
             canvasContext: ctx,
-            viewport: viewport
+            viewport: viewport,
+            transform: outputScale !== 1 ? [outputScale, 0, 0, outputScale, 0, 0] : null
         };
-        const renderTask = page.render(renderCtx);
-        renderTask.promise.then(function() {
+
+        const renderTask = page.render(renderContext);
+        renderTask.promise.then(() => {
             pageRendering = false;
             if (pageNumPending !== null) {
                 renderPage(pageNumPending);
@@ -112,7 +135,8 @@ function renderPage(num) {
     document.getElementById('pageNum').textContent = num;
 }
 
-// Queue render page
+
+// Queue Render
 function queueRenderPage(num) {
     if (pageRendering) {
         pageNumPending = num;
@@ -121,23 +145,24 @@ function queueRenderPage(num) {
     }
 }
 
-// Previous page
+// Prev Page
 document.getElementById('prevPage').addEventListener('click', () => {
     if (pageNum <= 1) return;
     pageNum--;
     queueRenderPage(pageNum);
 });
 
-// Next page
+// Next Page
 document.getElementById('nextPage').addEventListener('click', () => {
     if (pageNum >= pdfDoc.numPages) return;
     pageNum++;
     queueRenderPage(pageNum);
 });
 
-// Go to page
+// Go To Page
 document.getElementById('gotoBtn').addEventListener('click', () => {
     let goTo = parseInt(document.getElementById('goToPage').value);
+
     if (goTo >= 1 && goTo <= pdfDoc.numPages) {
         pageNum = goTo;
         queueRenderPage(pageNum);
@@ -150,6 +175,8 @@ pdfjsLib.getDocument(url).promise.then(function(pdfDoc_) {
     document.getElementById('pageCount').textContent = pdfDoc.numPages;
     renderPage(pageNum);
 });
+
 </script>
+
 </body>
 </html>

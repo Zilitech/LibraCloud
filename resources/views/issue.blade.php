@@ -34,109 +34,103 @@
                 </div>
 
                 <!-- Issue Form -->
-                <div class="row">
-                    <div class="col-xl-12">
-                        <div class="card custom-card">
-                            <div class="card-header justify-content-between">
-                                <div class="card-title">Issue Book to Member</div>
-                            </div>
+               <form action="{{ route('issue-book.store') }}" method="POST">
+        @csrf
+        <div class="row">
 
-                            <div class="card-body">
-                                <div class="row gy-4">
+            <!-- Issue ID -->
+            <div class="col-md-6 mb-3">
+                <label>Issue ID:</label>
+                <input type="text" class="form-control" name="issue_id" value="{{ $issue_id }}" readonly>
+            </div>
 
-                                    <!-- Issue ID -->
-                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                        <label class="form-label">Issue ID:</label>
-                                        <input type="text" class="form-control" placeholder="Auto-generated" readonly>
-                                    </div>
+            <!-- Member -->
+            <div class="col-md-6 mb-3">
+                <label>Select Member:</label>
+                <select class="form-select" name="member_name" required>
+    <option selected disabled>-- Choose Member --</option>
+    @foreach($members as $member)
+        <option value="{{ $member->fullname }}">
+            {{ $member->fullname }} ({{ $member->member_code }})
+        </option>
+    @endforeach
+</select>
+            </div>
 
-                                    <!-- Member -->
-                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                        <label class="form-label">Select Member:</label>
-                                        <select class="form-select">
-                                            <option selected disabled>-- Choose Member --</option>
-                                            <option>John Doe (M001)</option>
-                                            <option>Mary Smith (M002)</option>
-                                            <option>Rahul Patil (M003)</option>
-                                        </select>
-                                    </div>
+            <!-- Book -->
+            <div class="col-md-6 mb-3">
+                <label>Select Book:</label>
+<select class="form-select" id="bookSelect" name="book_name" required>
+    <option selected disabled>-- Choose Book --</option>
+    @foreach($books as $book)
+        <option value="{{ $book->book_title }}" data-isbn="{{ $book->isbn }}" data-author="{{ $book->author_name }}">
+            {{ $book->book_title }}
+        </option>
+    @endforeach
+</select>
+            </div>
 
-                                    <!-- Book -->
-                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                        <label class="form-label">Select Book:</label>
-                                        <select class="form-select">
-                                            <option selected disabled>-- Choose Book --</option>
-                                            <option>Organic Chemistry Vol 2 (CHM101)</option>
-                                            <option>Data Structures in C (CSC203)</option>
-                                            <option>Indian Polity (POL102)</option>
-                                        </select>
-                                    </div>
+            <!-- Book ISBN -->
+            <div class="col-md-6 mb-3">
+                <label>Book Code / ISBN:</label>
+                <input type="text" class="form-control" id="bookISBN" name="book_isbn" readonly>
+            </div>
 
-                                    <!-- Book Code / ISBN -->
-                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                        <label class="form-label">Book Code / ISBN:</label>
-                                        <input type="text" class="form-control" placeholder="Auto-filled from book" readonly>
-                                    </div>
+            <!-- Author Name -->
+            <div class="col-md-6 mb-3">
+                <label>Author Name:</label>
+                <input type="text" class="form-control" id="bookAuthor" name="author_name" readonly>
+            </div>
 
-                                    <!-- Issue Date -->
-                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                        <label class="form-label">Issue Date:</label>
-                                        <input type="date" class="form-control" value="{{ date('Y-m-d') }}">
-                                    </div>
+            <!-- Issue Date -->
+            <div class="col-md-6 mb-3">
+                <label>Issue Date:</label>
+                <input type="date" class="form-control" name="issue_date" value="{{ date('Y-m-d') }}">
+            </div>
 
-                                    <!-- Due Date -->
-                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                        <label class="form-label">Due Date:</label>
-                                        <input type="date" class="form-control">
-                                    </div>
+            <!-- Due Date -->
+            <div class="col-md-6 mb-3">
+                <label>Due Date:</label>
+                <input type="date" class="form-control" name="due_date" required>
+            </div>
 
-                                    <!-- Quantity -->
-                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                        <label class="form-label">Quantity:</label>
-                                        <input type="number" class="form-control" min="1" max="5" value="1">
-                                    </div>
+            <!-- Quantity -->
+            <div class="col-md-6 mb-3">
+                <label>Quantity:</label>
+                <input type="number" class="form-control" name="quantity" min="1" max="5" value="1">
+            </div>
 
-                                    <!-- Remarks -->
-                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                                        <label class="form-label">Remarks:</label>
-                                        <textarea class="form-control" rows="3" placeholder="Optional remarks or purpose"></textarea>
-                                    </div>
+            <!-- Remarks -->
+            <div class="col-md-12 mb-3">
+                <label>Remarks:</label>
+                <textarea class="form-control" name="remarks" rows="3"></textarea>
+            </div>
 
-                                    <!-- Status -->
-                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                        <label class="form-label">Status:</label>
-                                        <select class="form-select">
-                                            <option>Issued</option>
-                                            <option>Returned</option>
-                                            <option>Overdue</option>
-                                        </select>
-                                    </div>
+            <!-- Status -->
+            <div class="col-md-6 mb-3">
+                <label>Status:</label>
+                <select class="form-select" name="status">
+                    <option value="Issued">Issued</option>
+                    <option value="Returned">Returned</option>
+                    <option value="Overdue">Overdue</option>
+                </select>
+            </div>
 
-                                    <!-- Generate Issue Slip -->
-                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                        <label class="form-label">Generate Issue Slip:</label>
-                                        <div class="form-check form-switch mt-2">
-                                            <input class="form-check-input" type="checkbox" id="issueSlip">
-                                            <label class="form-check-label" for="issueSlip">Yes</label>
-                                        </div>
-                                    </div>
+            <div class="col-md-12 text-end">
+                <button type="reset" class="btn btn-secondary me-2">Reset</button>
+                <button type="submit" class="btn btn-success">Save & Issue</button>
+            </div>
+        </div>
+    </form>
 
-                                </div>
-                            </div>
-
-                            <!-- Buttons -->
-                            <div class="card-footer text-end">
-                                <button type="reset" class="btn btn-secondary me-2">
-                                    <i class="ri-refresh-line me-1"></i>Reset
-                                </button>
-                                <button type="submit" class="btn btn-success">
-                                    <i class="ri-bookmark-3-line me-1"></i>Save & Issue
-                                </button>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
+<script>
+    // Auto-fill ISBN and Author
+    document.getElementById('bookSelect').addEventListener('change', function() {
+        let selected = this.options[this.selectedIndex];
+        document.getElementById('bookISBN').value = selected.dataset.isbn;
+        document.getElementById('bookAuthor').value = selected.dataset.author;
+    });
+</script>
 
             </div>
         </div>

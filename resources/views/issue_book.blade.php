@@ -61,65 +61,86 @@
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table id="issued-books-table" class="table table-bordered text-nowrap w-100">
-                                    <thead class="table-light">
-                                        <tr>
-                                            <th>Issue ID</th>
-                                            <th>Book Title</th>
-                                            <th>Member</th>
-                                            <th>Issue Date</th>
-                                            <th>Due Date</th>
-                                            <th>Status</th>
-                                            <th class="text-center">Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>ISS-0012</td>
-                                            <td>Organic Chemistry Vol 2 (CHM101)</td>
-                                            <td>John Doe (M001)</td>
-                                            <td>2025-10-05</td>
-                                            <td>2025-10-20</td>
-                                            <td><span class="badge bg-success">Returned</span></td>
-                                            <td class="text-center">
-                                                <button class="btn btn-sm btn-info me-1" data-bs-toggle="tooltip" title="View"><i class="ri-eye-line"></i></button>
-                                                <button class="btn btn-sm btn-warning me-1" data-bs-toggle="tooltip" title="Renew"><i class="ri-refresh-line"></i></button>
-                                                <button class="btn btn-sm btn-danger" data-bs-toggle="tooltip" title="Delete"><i class="ri-delete-bin-5-line"></i></button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>ISS-0013</td>
-                                            <td>Data Structures in C (CSC203)</td>
-                                            <td>Mary Smith (M002)</td>
-                                            <td>2025-10-08</td>
-                                            <td>2025-10-25</td>
-                                            <td><span class="badge bg-warning">Pending</span></td>
-                                            <td class="text-center">
-                                                <button class="btn btn-sm btn-info me-1"><i class="ri-eye-line"></i></button>
-                                                <button class="btn btn-sm btn-warning me-1"><i class="ri-refresh-line"></i></button>
-                                                <button class="btn btn-sm btn-danger"><i class="ri-delete-bin-5-line"></i></button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>ISS-0014</td>
-                                            <td>Indian Polity (POL102)</td>
-                                            <td>Rahul Patil (M003)</td>
-                                            <td>2025-10-10</td>
-                                            <td>2025-10-25</td>
-                                            <td><span class="badge bg-danger">Overdue</span></td>
-                                            <td class="text-center">
-                                                <button class="btn btn-sm btn-info me-1"><i class="ri-eye-line"></i></button>
-                                                <button class="btn btn-sm btn-warning me-1"><i class="ri-refresh-line"></i></button>
-                                                <button class="btn btn-sm btn-danger"><i class="ri-delete-bin-5-line"></i></button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+    <thead class="table-light">
+        <tr>
+            <th>Issue ID</th>
+            <th>Book Title</th>
+            <th>Member</th>
+            <th>Issue Date</th>
+            <th>Due Date</th>
+            <th>Status</th>
+            <th class="text-center">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach($issuedBooks as $issued)
+        <tr>
+            <td>{{ $issued->issue_id }}</td>
+            <td>{{ $issued->book_name }} ({{ $issued->book_isbn }})</td>
+            <td>{{ $issued->member_name }}</td>
+            <td>{{ $issued->issue_date }}</td>
+            <td>{{ $issued->due_date }}</td>
+            <td><span class="badge bg-success">{{ $issued->status }}</span></td>
+            <td class="text-center">
+                <!-- View Button -->
+                <button class="btn btn-sm btn-info me-1" title="View">
+                    <i class="ri-eye-line"></i>
+                </button>
+
+                <!-- Return Button -->
+                <a href="{{ route('issue-book.return', $issued->id) }}" 
+                   class="btn btn-sm btn-warning me-1" 
+                   title="Return" 
+                   onclick="return confirm('Are you sure you want to return this book?')">
+                    <i class="ri-refresh-line"></i>
+                </a>
+
+                <!-- Delete Button -->
+                <button type="button" 
+                        class="btn btn-sm btn-danger" 
+                        data-bs-toggle="modal" 
+                        data-bs-target="#deleteModal{{ $issued->id }}">
+                    <i class="ri-delete-bin-5-line"></i>
+                </button>
+
+                <!-- Delete Confirmation Modal -->
+                <div class="modal fade" id="deleteModal{{ $issued->id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ $issued->id }}" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="deleteModalLabel{{ $issued->id }}">Confirm Delete</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                Are you sure you want to delete this issued book record?
+                            </div>
+                            <div class="modal-footer">
+                                <form action="{{ route('issue-book.destroy', $issued->id) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger">Yes, Delete</button>
+                                </form>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        @endforeach
+    </tbody>
+</table>
+
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <!-- End Issued Books Table -->
+
+
+
+
 
         </div>
     </div>

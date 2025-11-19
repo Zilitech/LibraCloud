@@ -104,11 +104,11 @@
 
             <td class="text-center">
                 <!-- READ -->
-                <a href="{{ asset('storage/' . $book->file_path) }}" 
-                   class="btn btn-sm btn-info me-1"
-                   target="_blank" title="Read E-Book">
-                    <i class="ri-book-read-line"></i>
-                </a>
+           <a href="{{ route('ebook.read', $book->id) }}" 
+   class="btn btn-sm btn-info me-1"
+   title="Read E-Book">
+    <i class="ri-book-read-line"></i>
+</a>
 
                 <!-- EDIT -->
 <button class="btn btn-sm btn-warning me-1 editBookBtn"

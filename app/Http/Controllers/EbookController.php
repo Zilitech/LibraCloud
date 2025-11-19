@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Ebook;
 use App\Models\Author;
 use App\Models\Category;
+use Spatie\PdfToImage\Pdf;
 
 class EbookController extends Controller
 {
@@ -87,4 +88,52 @@ public function destroy($id)
 
 
 
+
+    // Show PDF.js Reader
+    public function read($id)
+    {
+        $ebook = Ebook::findOrFail($id);
+        return view('e-book_reader', compact('ebook'));
+    }
+
+    // Show PDF Pages as Images
+    public function showPdf($id)
+    {
+        $ebook = Ebook::findOrFail($id);
+
+        $pdfPath = storage_path('app/public/' . $ebook->file_path);
+
+        if (!file_exists($pdfPath)) {
+            return back()->with('error', 'PDF not found!');
+        }
+
+        $pdf = new Pdf($pdfPath);
+        $totalPages = $pdf->getNumberOfPages();
+        $images = [];
+
+        $folderName = "pdf_images/ebook_" . $ebook->id;
+        $saveFolder = storage_path("app/public/" . $folderName);
+
+        if (!is_dir($saveFolder)) {
+            mkdir($saveFolder, 0777, true);
+        }
+
+        for ($page = 1; $page <= $totalPages; $page++) {
+            $imageName = $page . '.jpg';
+            $imagePath = $saveFolder . '/' . $imageName;
+
+            if (!file_exists($imagePath)) {
+                $pdf->setPage($page)->saveImage($imagePath);
+            }
+
+            $images[] = asset("storage/{$folderName}/{$imageName}");
+        }
+
+        return view('ebooks.show', compact('ebook', 'images', 'totalPages'));
+    }
 }
+
+
+
+
+

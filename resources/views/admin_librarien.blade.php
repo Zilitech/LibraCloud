@@ -6,11 +6,9 @@
 <body>
 @include('switcher')
 
-<!-- Loader -->
 <div id="loader">
     <img src="{{ asset('images/media/loader.svg') }}" alt="">
 </div>
-<!-- Loader -->
 
 <div class="page">
     @include('header')
@@ -38,7 +36,6 @@
                     </div>
                 </div>
             </div>
-            <!-- Page Header End -->
 
             <div class="alert alert-solid-secondary alert-dismissible fs-15 fade show mb-4">
                 Manage all <strong class="text-fixed-black">library staff</strong>. Add new admin or librarian, assign roles, edit or deactivate accounts.
@@ -66,61 +63,160 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @foreach($staffs as $staff)
                                         <tr>
-                                            <td>1</td>
-                                            <td>John Doe</td>
-                                            <td>john@example.com</td>
-                                            <td>Admin</td>
-                                            <td><span class="badge bg-success">Active</span></td>
+                                            <td>{{ $staff->id }}</td>
+                                            <td>{{ $staff->name }}</td>
+                                            <td>{{ $staff->email }}</td>
+                                            <td>{{ $staff->role_name ?? '-' }}</td>
+                                            <td>
+                                                @if($staff->status == 'Active')
+                                                    <span class="badge bg-success">{{ $staff->status }}</span>
+                                                @elseif($staff->status == 'Inactive')
+                                                    <span class="badge bg-danger">{{ $staff->status }}</span>
+                                                @else
+                                                    <span class="badge bg-warning">{{ $staff->status }}</span>
+                                                @endif
+                                            </td>
                                             <td class="text-center">
-                                                <button href="{{url('edit_staff/')}}" class="btn btn-sm btn-info me-1"><i class="ri-pencil-line"></i></button>
-                                                <button href="{{url('delete_staff/')}}" class="btn btn-sm btn-danger"><i class="ri-delete-bin-line"></i></button>
+                                                <button class="btn btn-sm btn-info me-1" data-bs-toggle="modal" data-bs-target="#editStaffModal{{ $staff->id }}">
+                                                    <i class="ri-pencil-line"></i>
+                                                </button>
+                                               <!-- Delete Button triggers modal -->
+<button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $staff->id }}">
+    <i class="ri-delete-bin-line"></i>
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="deleteModal{{ $staff->id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ $staff->id }}" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel{{ $staff->id }}">Confirm Delete</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete <strong>{{ $staff->name }}</strong>?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+        <form action="{{ route('staff.destroy', $staff->id) }}" method="POST" style="display:inline-block;">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-danger">Yes, Delete</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td>Jane Smith</td>
-                                            <td>jane@example.com</td>
-                                            <td>Librarian</td>
-                                            <td><span class="badge bg-success">Active</span></td>
-                                            <td class="text-center">
-                                                <button href="{{url('edit_staff/')}}" class="btn btn-sm btn-info me-1"><i class="ri-pencil-line"></i></button>
-                                                <button href="{{url('delete_staff/')}}" class="btn btn-sm btn-danger"><i class="ri-delete-bin-line"></i></button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>3</td>
-                                            <td>Mike Johnson</td>
-                                            <td>mike@example.com</td>
-                                            <td>Librarian</td>
-                                            <td><span class="badge bg-danger">Inactive</span></td>
-                                            <td class="text-center">
-                                                <button href="{{url('edit_staff/')}}" class="btn btn-sm btn-info me-1"><i class="ri-pencil-line"></i></button>
-                                                <button href="{{url('delete_staff/')}}" class="btn btn-sm btn-danger"><i class="ri-delete-bin-line"></i></button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>4</td>
-                                            <td>Emily Davis</td>
-                                            <td>emily@example.com</td>
-                                            <td>Admin</td>
-                                            <td><span class="badge bg-success">Active</span></td>
-                                            <td class="text-center">
-                                                <button href="{{url('edit_staff/')}}" class="btn btn-sm btn-info me-1"><i class="ri-pencil-line"></i></button>
-                                                <button href="{{url('delete_staff/')}}" class="btn btn-sm btn-danger"><i class="ri-delete-bin-line"></i></button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>5</td>
-                                            <td>Robert Brown</td>
-                                            <td>robert@example.com</td>
-                                            <td>Librarian</td>
-                                            <td><span class="badge bg-success">Active</span></td>
-                                            <td class="text-center">
-                                                <button href="{{url('edit_staff/')}}" class="btn btn-sm btn-info me-1"><i class="ri-pencil-line"></i></button>
-                                                <button href="{{url('delete_staff/')}}" class="btn btn-sm btn-danger"><i class="ri-delete-bin-line"></i></button>
-                                            </td>
-                                        </tr>
+
+                                        <!-- Edit Staff Modal -->
+                                        <div class="modal fade" id="editStaffModal{{ $staff->id }}" tabindex="-1" aria-hidden="true">
+                                            <div class="modal-dialog modal-lg">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">Edit Staff - {{ $staff->name }}</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form action="{{ route('staff.update', $staff->id) }}" method="POST">
+                                                            @csrf
+                                                            @method('PUT')
+
+                                                            <div class="mb-3">
+                                                                <label class="form-label">Full Name</label>
+                                                                <input type="text" class="form-control" name="name" value="{{ $staff->name }}" required>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label class="form-label">Email</label>
+                                                                <input type="email" class="form-control" name="email" value="{{ $staff->email }}" required>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label class="form-label">Phone Number</label>
+                                                                <input type="tel" class="form-control" name="phone" value="{{ $staff->phone }}">
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label class="form-label">Date of Birth</label>
+                                                                <input type="date" class="form-control" name="dob" value="{{ $staff->dob }}">
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label class="form-label">Gender</label>
+                                                                <select class="form-select" name="gender">
+                                                                    <option value="">Select</option>
+                                                                    <option value="Male" {{ $staff->gender=='Male' ? 'selected' : '' }}>Male</option>
+                                                                    <option value="Female" {{ $staff->gender=='Female' ? 'selected' : '' }}>Female</option>
+                                                                    <option value="Other" {{ $staff->gender=='Other' ? 'selected' : '' }}>Other</option>
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="mb-3">
+                                                                <label class="form-label">Role</label>
+                                                                <select class="form-select" name="role_id" required>
+                                                                    <option value="">Select Role</option>
+                                                                    @foreach($roles as $role)
+                                                                        <option value="{{ $role->membercategoryname }}" {{ $staff->role_name==$role->membercategoryname ? 'selected' : '' }}>
+                                                                            {{ $role->membercategoryname }}
+                                                                        </option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="mb-3">
+                                                                <label class="form-label">Department</label>
+                                                                <input type="text" class="form-control" name="department" value="{{ $staff->department }}">
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label class="form-label">Joining Date</label>
+                                                                <input type="date" class="form-control" name="joining_date" value="{{ $staff->joining_date }}">
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label class="form-label">Employee ID</label>
+                                                                <input type="text" class="form-control" name="employee_id" value="{{ $staff->employee_id }}">
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label class="form-label">Status</label>
+                                                                <select class="form-select" name="status">
+                                                                    <option value="Active" {{ $staff->status=='Active' ? 'selected' : '' }}>Active</option>
+                                                                    <option value="Inactive" {{ $staff->status=='Inactive' ? 'selected' : '' }}>Inactive</option>
+                                                                    <option value="On Leave" {{ $staff->status=='On Leave' ? 'selected' : '' }}>On Leave</option>
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="mb-3">
+                                                                <label class="form-label">Address</label>
+                                                                <textarea class="form-control" name="address" rows="2">{{ $staff->address }}</textarea>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label class="form-label">City</label>
+                                                                <input type="text" class="form-control" name="city" value="{{ $staff->city }}">
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label class="form-label">State</label>
+                                                                <input type="text" class="form-control" name="state" value="{{ $staff->state }}">
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label class="form-label">ZIP / Postal Code</label>
+                                                                <input type="text" class="form-control" name="zip" value="{{ $staff->zip }}">
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label class="form-label">Country</label>
+                                                                <input type="text" class="form-control" name="country" value="{{ $staff->country }}">
+                                                            </div>
+
+                                                            <div class="text-end">
+                                                                <button type="submit" class="btn btn-primary">Update Staff</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- End Edit Staff Modal -->
+
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -137,15 +233,16 @@
 
 <!-- Add Staff Modal -->
 <div class="modal fade" id="addStaffModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg"> <!-- bigger modal for more fields -->
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Add New Staff</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <form>
-                    <!-- Personal Info -->
+                <form action="{{ route('staff.store') }}" method="POST">
+                    @csrf
+
                     <div class="mb-3">
                         <label class="form-label">Full Name</label>
                         <input type="text" class="form-control" name="name" required>
@@ -154,10 +251,6 @@
                         <label class="form-label">Email</label>
                         <input type="email" class="form-control" name="email" required>
                     </div>
-                    <!-- <div class="mb-3">
-                        <label class="form-label">Password</label>
-                        <input type="password" class="form-control" name="password" required>
-                    </div> -->
                     <div class="mb-3">
                         <label class="form-label">Phone Number</label>
                         <input type="tel" class="form-control" name="phone">
@@ -176,16 +269,16 @@
                         </select>
                     </div>
 
-                    <!-- Job Info -->
                     <div class="mb-3">
                         <label class="form-label">Role</label>
-                        <select class="form-select" name="role">
-                            <option>Admin</option>
-                            <option>Librarian</option>
-                            <option>Support Staff</option>
-                            <option>Other</option>
+                        <select class="form-select" name="role_id" required>
+                            <option value="">Select Role</option>
+                            @foreach($roles as $role)
+                                <option value="{{ $role->membercategoryname }}">{{ $role->membercategoryname }}</option>
+                            @endforeach
                         </select>
                     </div>
+
                     <div class="mb-3">
                         <label class="form-label">Department</label>
                         <input type="text" class="form-control" name="department">
@@ -207,7 +300,6 @@
                         </select>
                     </div>
 
-                    <!-- Address Info -->
                     <div class="mb-3">
                         <label class="form-label">Address</label>
                         <textarea class="form-control" name="address" rows="2"></textarea>
@@ -229,16 +321,15 @@
                         <input type="text" class="form-control" name="country">
                     </div>
 
-                    <!-- Submit -->
                     <div class="text-end">
                         <button type="submit" class="btn btn-primary">Add Staff</button>
                     </div>
                 </form>
             </div>
         </div>
+        
     </div>
 </div>
-
 
 <!-- Scripts -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>

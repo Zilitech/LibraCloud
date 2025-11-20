@@ -146,4 +146,47 @@ class BookController extends Controller
     {
         return view('books.view_book', compact('book'));
     }
+
+
+    // Fetch book by scanned code
+public function scanPage()
+    {
+        return view('scan_barcode'); // Blade file for scanning
+    }
+
+    // 2️⃣ Fetch book details by barcode
+    public function getByBarcode($code)
+    {
+        $book = Book::where('book_code', $code)
+                    ->orWhere('isbn', $code)
+                    ->first();
+
+        if (!$book) {
+            return response()->json(['success' => false]);
+        }
+
+        return response()->json([
+            'success' => true,
+            'book' => [
+                'title'        => $book->book_title,
+                'author'       => $book->author_name,
+                'category'     => $book->category_name,
+                'publisher'    => $book->publisher,
+                'subject'      => $book->subject,
+                'rack_number'  => $book->rack_number,
+                'total_copies' => $book->quantity,
+                'available'    => $book->available ?? $book->quantity,
+                'issued'       => $book->issued ?? 0,
+                'price'        => $book->price,
+                'code'         => $book->book_code,
+                'isbn'         => $book->isbn,
+                'cover'        => $book->cover_image ?? asset('images/media/default_book.png'),
+                'ebook'        => $book->ebook_file ? asset($book->ebook_file) : null,
+                'description'  => $book->description,
+                'condition'    => $book->condition,
+                'purchase_date'=> $book->purchase_date,
+            ]
+        ]);
+    }
+
 }

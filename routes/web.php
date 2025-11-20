@@ -14,6 +14,7 @@ use App\Http\Controllers\ReturnedBookController;
 use App\Http\Controllers\FineSettingController;
 use App\Http\Controllers\OverdueBookController;
 use App\Http\Controllers\FineController;
+use App\Http\Controllers\BarcodeController;
 
 
 
@@ -243,9 +244,15 @@ Route::get('/scan_barcode', function(){
     return view('scan_barcode');
 });
 
-Route::get('/generate_barcode', function(){
-    return view('generate_barcode');
-});
+
+
+
+Route::get('/barcode/book', [BarcodeController::class, 'index'])->name('barcode.book');
+Route::get('/barcode/book/data', [BarcodeController::class, 'bookData'])->name('barcode.book.data');
+Route::get('/scan_barcode', [BookController::class, 'scanPage'])->name('barcode.scan');
+Route::get('/books/barcode/{code}', [BookController::class, 'getByBarcode'])->name('books.barcode');
+Route::get('/barcode/book/data/{code}', [BarcodeController::class, 'getByBarcode']);
+
 
 Route::get('/lookup_by_barcode', function(){
     return view('lookup_by_barcode');

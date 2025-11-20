@@ -112,9 +112,9 @@
                 <h5 class="fw-bold text-primary mb-3">💡 Credits</h5>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item"><strong>Developed By:</strong> Zilitech Technologies</li>
-                    <li class="list-group-item"><strong>Lead Developer:</strong> Rocky T. (Laravel Developer)</li>
-                    <li class="list-group-item"><strong>Support:</strong> <a href="mailto:support@zilitech.in">support@zilitech.in</a></li>
-                    <li class="list-group-item"><strong>Website:</strong> <a href="https://zilitech.in" target="_blank">www.zilitech.in</a></li>
+                    <li class="list-group-item"><strong>Lead Developer:</strong> Tukaram (Software Engineer)</li>
+                    <li class="list-group-item"><strong>Support:</strong> <a href="mailto:zilitechy@gmail.com">support@zilitech.in</a></li>
+                    <li class="list-group-item"><strong>Website:</strong> <a href="https://zilitech.com" target="_blank">www.zilitech.com</a></li>
                 </ul>
             </section>
 

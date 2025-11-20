@@ -15,6 +15,8 @@ use App\Http\Controllers\FineSettingController;
 use App\Http\Controllers\OverdueBookController;
 use App\Http\Controllers\FineController;
 use App\Http\Controllers\BarcodeController;
+use App\Http\Controllers\StaffController;
+
 
 
 
@@ -220,9 +222,16 @@ Route::get('/issue_return_rules', function(){
     return view('issue_return_rules');
 });
 
-Route::get('/admin_librarien', function(){
-    return view('admin_librarien');
-});
+// Route::get('/admin_librarien', function(){
+//     return view('admin_librarien');
+// });
+
+Route::get('/staff', [StaffController::class, 'index'])->name('staff.index');
+Route::post('/staff/store', [StaffController::class, 'store'])->name('staff.store');
+Route::get('/staff/edit/{id}', [StaffController::class, 'edit'])->name('staff.edit');
+Route::put('/staff/update/{id}', [StaffController::class, 'update'])->name('staff.update'); // allow PUT
+Route::delete('/staff/delete/{id}', [StaffController::class, 'destroy'])->name('staff.destroy');
+
 
 Route::get('/roles_permission', function(){
     return view('roles_permission');

@@ -63,13 +63,13 @@
                         <strong>Developer:</strong> Zilitech Technologies
                     </li>
                     <li class="list-group-item">
-                        <strong>Lead Developer:</strong> Rocky T. (Full Stack Laravel Developer)
+                        <strong>Lead Developer:</strong> Tukaram (Software Engineer)
                     </li>
                     <li class="list-group-item">
-                        <strong>Email:</strong> <a href="mailto:support@zilitech.in">support@zilitech.in</a>
+                        <strong>Email:</strong> <a href="mailto:zilitechy@gmail.com">support@zilitech.in</a>
                     </li>
                     <li class="list-group-item">
-                        <strong>Website:</strong> <a href="https://zilitech.in" target="_blank">www.zilitech.in</a>
+                        <strong>Website:</strong> <a href="https://zilitech.com/" target="_blank">www.zilitech.com</a>
                     </li>
                     <li class="list-group-item">
                         <strong>GitHub:</strong> <a href="https://github.com/Zilitech" target="_blank">github.com/Zilitech</a>
@@ -118,8 +118,8 @@
                     For technical assistance, customization, or enterprise installation:
                 </p>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item"><strong>Email:</strong> <a href="mailto:dev@zilitech.in">dev@zilitech.in</a></li>
-                    <li class="list-group-item"><strong>Phone:</strong> +91 98765 43210</li>
+                    <li class="list-group-item"><strong>Email:</strong> <a href="mailto:zilitechy@gmail.com">zilitechy@gmail.com</a></li>
+                    <li class="list-group-item"><strong>Phone:</strong> +91 9449675050</li>
                 </ul>
             </section>
 

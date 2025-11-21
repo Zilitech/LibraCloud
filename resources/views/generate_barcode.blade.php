@@ -94,9 +94,14 @@
   <div class="modal-dialog modal-lg modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header bg-primary text-white">
+        
         <h5 class="modal-title">Select Books to Generate Barcode</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
+  <div style="margin-bottom:10px;">
+    <input type="checkbox" id="selectAllBooks">
+    <label for="selectAllBooks"><b>Select All</b></label>
+</div>
       <div class="modal-body" id="allBooksList" style="max-height:400px;overflow-y:auto;">
         <!-- Book list will be injected here via JS -->
       </div>
@@ -119,7 +124,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const qtyInput = document.getElementById('barcodeQty');
     const preview = document.getElementById('barcodePreview');
 
-    // Generate Barcode Button
+    // ------------------ INDIVIDUAL BOOK BARCODE ------------------
     document.getElementById('generateBarcode').addEventListener('click', function () {
 
         const bookId = bookSelect.value;
@@ -133,7 +138,7 @@ document.addEventListener('DOMContentLoaded', function () {
         fetch(`/barcode/book/data?id=${bookId}`)
             .then(res => res.json())
             .then(book => {
-                preview.innerHTML = ""; // Clear previous
+                preview.innerHTML = "";
 
                 for (let i = 0; i < qty; i++) {
                     const card = document.createElement('div');
@@ -180,7 +185,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     });
 
-    // Print Barcode Stickers
+    // ------------------ PRINT BARCODE ------------------
     document.getElementById('printBarcode').addEventListener('click', () => {
         const printContent = preview.innerHTML;
         const original = document.body.innerHTML;
@@ -190,12 +195,14 @@ document.addEventListener('DOMContentLoaded', function () {
         location.reload();
     });
 
-    // Generate All Modal
+    // ------------------ GENERATE ALL MODAL ------------------
     const generateAllBtn = document.getElementById('generateAllBtn');
     const allBooksList = document.getElementById('allBooksList');
+    const selectAllCheckbox = document.getElementById('selectAllBooks');
 
     generateAllBtn.addEventListener('click', () => {
         allBooksList.innerHTML = '';
+
         @json($books).forEach(book => {
             const div = document.createElement('div');
             div.style.marginBottom = "8px";
@@ -208,11 +215,42 @@ document.addEventListener('DOMContentLoaded', function () {
             allBooksList.appendChild(div);
         });
 
+        // Reset Select All when modal opens
+        selectAllCheckbox.checked = false;
+        selectAllCheckbox.indeterminate = false;
+
         const modal = new bootstrap.Modal(document.getElementById('generateAllModal'));
         modal.show();
     });
 
-    // Generate selected books from modal
+    // ------------------ SELECT ALL FUNCTIONALITY ------------------
+
+    // When Select All clicked
+    selectAllCheckbox.addEventListener('change', function () {
+        const allBoxes = document.querySelectorAll('.book-checkbox');
+        allBoxes.forEach(cb => cb.checked = this.checked);
+    });
+
+    // When individual checkbox clicked → update Select All state
+    document.addEventListener('change', function (e) {
+        if (!e.target.classList.contains('book-checkbox')) return;
+
+        const allBoxes = document.querySelectorAll('.book-checkbox');
+        const checkedBoxes = document.querySelectorAll('.book-checkbox:checked');
+
+        if (checkedBoxes.length === allBoxes.length) {
+            selectAllCheckbox.checked = true;
+            selectAllCheckbox.indeterminate = false;
+        } else if (checkedBoxes.length === 0) {
+            selectAllCheckbox.checked = false;
+            selectAllCheckbox.indeterminate = false;
+        } else {
+            selectAllCheckbox.checked = false;
+            selectAllCheckbox.indeterminate = true;
+        }
+    });
+
+    // ------------------ GENERATE SELECTED BOOKS ------------------
     document.getElementById('generateSelectedBooks').addEventListener('click', () => {
         const selected = Array.from(document.querySelectorAll('.book-checkbox:checked')).map(cb => cb.value);
 
@@ -227,6 +265,7 @@ document.addEventListener('DOMContentLoaded', function () {
             fetch(`/barcode/book/data?id=${bookId}`)
                 .then(res => res.json())
                 .then(book => {
+
                     const card = document.createElement('div');
                     card.style.width = "420px";
                     card.style.border = "1px solid #222";
@@ -273,6 +312,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 });
 </script>
+
 
 </body>
 </html>

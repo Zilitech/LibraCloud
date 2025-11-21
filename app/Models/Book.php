@@ -65,4 +65,9 @@ class Book extends Model
     {
         return $this->ebook_file ? asset($this->ebook_file) : null;
     }
+
+    public function issuedBooks()
+    {
+        return $this->hasMany(IssuedBook::class, 'book_isbn', 'isbn');
+    }
 }

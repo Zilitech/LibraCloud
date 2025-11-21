@@ -33,4 +33,9 @@ class IssuedBook extends Model
         'created_at',
         'updated_at'
     ];
+
+    public function book()
+    {
+        return $this->belongsTo(Book::class, 'book_isbn', 'isbn');
+    }
 }

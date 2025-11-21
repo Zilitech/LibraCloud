@@ -6,6 +6,8 @@ use App\Models\Book;
 use App\Models\Category;
 use App\Models\Author;
 use Illuminate\Http\Request;
+use App\Models\IssuedBook;
+
 
 class BookController extends Controller
 {
@@ -16,6 +18,8 @@ class BookController extends Controller
         $authors = Author::all();
         return view('add_book', compact('categories', 'authors'));
     }
+
+    
 
     // Store book
     public function store(Request $request)
@@ -188,5 +192,35 @@ public function scanPage()
             ]
         ]);
     }
+
+
+public function getIssuedBooksByISBN($isbn)
+{
+    $issuedBooks = IssuedBook::with('book')->where('book_isbn', $isbn)->get();
+
+    if ($issuedBooks->isEmpty()) {
+        return response()->json([
+            'success' => false,
+            'html' => '<tr><td colspan="5" class="text-center">No issued books found</td></tr>'
+        ]);
+    }
+
+    $html = '';
+    foreach ($issuedBooks as $issue) {
+        $html .= '<tr>
+            <td>' . $issue->book_isbn . '</td>
+            <td>' . $issue->member_name . '</td>
+            <td>' . $issue->issue_date->format('Y-m-d') . '</td>
+            <td>' . $issue->due_date->format('Y-m-d') . '</td>
+            <td><a href="/return-book/' . $issue->id . '" class="btn btn-sm btn-warning" onclick="return confirm(\'Return this book?\')">Return</a></td>
+        </tr>';
+    }
+
+    return response()->json([
+        'success' => true,
+        'html' => $html
+    ]);
+}
+
 
 }

@@ -16,6 +16,7 @@ use App\Http\Controllers\OverdueBookController;
 use App\Http\Controllers\FineController;
 use App\Http\Controllers\BarcodeController;
 use App\Http\Controllers\StaffController;
+use App\Http\Controllers\ScanBarcodeController;
 
 
 
@@ -76,6 +77,13 @@ Route::get('/books/{book}/edit', [BookController::class, 'edit'])->name('books.e
 Route::put('/books/{book}', [BookController::class, 'update'])->name('books.update');
 Route::delete('/books/{book}', [BookController::class, 'destroy'])->name('books.destroy');
 Route::get('/books/{book}', [BookController::class, 'show'])->name('books.show');
+// web.php
+Route::get('/issued-books/isbn/{isbn}', [BookController::class, 'getIssuedBooksByISBN']);
+
+
+
+
+
 
 
 Route::get('/add_book', [BookController::class, 'create'])->name('books.create');
@@ -86,6 +94,8 @@ Route::post('/category', [CategoryController::class, 'store'])->name('category.s
 Route::post('/category/update', [CategoryController::class, 'update'])->name('category.update');
 Route::delete('/category/{id}', [CategoryController::class, 'destroy'])->name('category.destroy');
 Route::post('/category/import', [CategoryController::class, 'import'])->name('category.import');
+
+
 
 
 
@@ -147,6 +157,7 @@ Route::post('/issue', [IssueBookController::class, 'store'])->name('issue-book.s
 Route::get('/issue_book', [IssueBookController::class, 'index'])->name('issue-book.index');
 Route::delete('/issue-book/{id}', [IssueBookController::class, 'destroy'])->name('issue-book.destroy');
 Route::get('/issue-book/return/{id}', [IssueBookController::class, 'returnBook'])->name('issue-book.return');
+
 
 Route::get('/returned_books', [ReturnedBookController::class, 'index'])->name('returned-book.index');
 Route::get('/returned-books/delete/{id}', [ReturnedBookController::class, 'destroy'])->name('returned-book.delete');
@@ -252,6 +263,10 @@ Route::get('/library_report', function(){
 Route::get('/scan_barcode', function(){
     return view('scan_barcode');
 });
+
+Route::post('/get-issued-books', [ScanBarcodeController::class, 'getIssuedBooks'])->name('get.issued.books');
+
+
 
 
 

@@ -7,6 +7,8 @@ use App\Models\Ebook;
 use App\Models\Author;
 use App\Models\Category;
 use Spatie\PdfToImage\Pdf;
+use App\Models\ActivityLog;
+use Illuminate\Support\Facades\Auth;
 
 class EbookController extends Controller
 {
@@ -36,7 +38,7 @@ class EbookController extends Controller
             $filePath = $request->file('file_path')->store('pdfs', 'public');
         }
 
-        Ebook::create([
+        $ebook = Ebook::create([
             'book_title' => $request->book_title,
             'author_name' => $request->author_name,
             'category_name' => $request->category_name,
@@ -44,6 +46,14 @@ class EbookController extends Controller
             'total_pages' => $request->total_pages,
             'price' => $request->price,
             'description' => $request->description,
+        ]);
+
+        // Activity log
+        ActivityLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'Add Ebook',
+            'details' => 'Uploaded E-Book: ' . $request->book_title,
+            'status' => 'success',
         ]);
 
         return redirect()->back()->with('success', 'E-Book uploaded successfully!');
@@ -59,40 +69,61 @@ class EbookController extends Controller
     }
 
     public function download($id)
-{
-    $ebook = Ebook::findOrFail($id);
+    {
+        $ebook = Ebook::findOrFail($id);
+        $file = storage_path('app/public/' . $ebook->file_path);
 
-    $file = storage_path('app/public/' . $ebook->file_path);
+        if (!file_exists($file)) {
+            return back()->with('error', 'File not found!');
+        }
 
-    if (!file_exists($file)) {
-        return back()->with('error', 'File not found!');
+        // Activity log
+        ActivityLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'Download Ebook',
+            'details' => 'Downloaded E-Book: ' . $ebook->book_title,
+            'status' => 'success',
+        ]);
+
+        return response()->download($file);
     }
 
-    return response()->download($file);
-}
+    public function destroy($id)
+    {
+        $ebook = Ebook::findOrFail($id);
 
+        // delete file also
+        if ($ebook->file_path && file_exists(storage_path('app/public/' . $ebook->file_path))) {
+            unlink(storage_path('app/public/' . $ebook->file_path));
+        }
 
-public function destroy($id)
-{
-    $ebook = Ebook::findOrFail($id);
+        $ebookTitle = $ebook->book_title;
+        $ebook->delete();
 
-    // delete file also
-    if ($ebook->file_path && file_exists(storage_path('app/public/' . $ebook->file_path))) {
-        unlink(storage_path('app/public/' . $ebook->file_path));
+        // Activity log
+        ActivityLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'Delete Ebook',
+            'details' => 'Deleted E-Book: ' . $ebookTitle,
+            'status' => 'success',
+        ]);
+
+        return redirect()->back()->with('success', 'E-Book deleted successfully!');
     }
-
-    $ebook->delete();
-
-    return redirect()->back()->with('success', 'E-Book deleted successfully!');
-}
-
-
-
 
     // Show PDF.js Reader
     public function read($id)
     {
         $ebook = Ebook::findOrFail($id);
+
+        // Activity log
+        ActivityLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'Read Ebook',
+            'details' => 'Opened E-Book reader for: ' . $ebook->book_title,
+            'status' => 'success',
+        ]);
+
         return view('e-book_reader', compact('ebook'));
     }
 
@@ -132,8 +163,3 @@ public function destroy($id)
         return view('ebooks.show', compact('ebook', 'images', 'totalPages'));
     }
 }
-
-
-
-
-

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Member;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\ActivityLog;
+use Illuminate\Support\Facades\Auth;
 
 class MemberController extends Controller
 {
@@ -45,13 +47,18 @@ class MemberController extends Controller
             $validated['profilephoto'] = $filename;
         }
 
-        // Create the Member using Model
-        Member::create($validated);
+        $member = Member::create($validated);
+
+        // Log activity
+        ActivityLog::create([
+            'user_id' => Auth::id(),
+            'action'  => 'Add Member',
+            'details' => "Added Member: {$member->fullname} (ID: {$member->id})",
+            'status'  => 'success',
+        ]);
 
         return back()->with('success', 'Member added successfully!');
     }
-
-
 
     public function import(Request $request)
     {
@@ -61,6 +68,7 @@ class MemberController extends Controller
 
         $file = fopen($request->file('csv_file')->getRealPath(), 'r');
         $header = fgetcsv($file); // Skip first row
+        $imported = 0;
 
         while (($row = fgetcsv($file)) !== false) {
 
@@ -85,87 +93,103 @@ class MemberController extends Controller
                 'state'             => $row[12] ?? null,
                 'pincode'           => $row[13] ?? null,
                 'joiningdate'       => !empty($row[14]) ? date('Y-m-d', strtotime($row[14])) : null,
-
-                // FIXED (status cannot be null)
                 'status'            => !empty($row[15]) ? $row[15] : 'Active',
-
                 'profilephoto'      => $row[16] ?? null,
                 'cardIssued'        => $row[17] ?? 0,
             ]);
+
+            $imported++;
         }
 
         fclose($file);
+
+        // Log activity
+        ActivityLog::create([
+            'user_id' => Auth::id(),
+            'action'  => 'Import Members',
+            'details' => "Imported $imported members from CSV",
+            'status'  => 'success',
+        ]);
 
         return back()->with('success', 'CSV imported successfully!');
     }
 
     public function edit(Member $member)
-{
-    $membercategories = DB::table('membercategory')->get();
-
-    return view('members.edit_member', compact('member', 'membercategories'));
-}
-
-public function update(Request $request, Member $member)
-{
-    $request->validate([
-        'memberid'          => 'nullable|string|max:255',
-        'fullname'          => 'required|string|max:255',
-        'gender'            => 'nullable|string|max:20',
-        'dateofbirth'       => 'nullable|date',
-        'membertype'        => 'nullable|string|max:50',
-        'departmentclass'   => 'nullable|string|max:255',
-        'rollnoemployeeid'  => 'nullable|string|max:255',
-        'yearsemester'      => 'nullable|string|max:255',
-        'email'             => 'nullable|email|max:255',
-        'phone'             => 'nullable|string|max:20',
-        'address'           => 'nullable|string',
-        'city'              => 'nullable|string|max:255',
-        'state'             => 'nullable|string|max:255',
-        'pincode'           => 'nullable|string|max:20',
-        'joiningdate'       => 'nullable|date',
-        'status'            => 'required|string|max:20',
-        'profilephoto'      => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        'cardIssued'        => 'nullable|boolean',
-    ]);
-
-    // Create type if new (like category/author creation)
-    if ($request->filled('membertype')) {
-        DB::table('membercategory')->updateOrInsert(
-            ['membercategoryname' => $request->membertype]
-        );
+    {
+        $membercategories = DB::table('membercategory')->get();
+        return view('members.edit_member', compact('member', 'membercategories'));
     }
 
-    // collect updatable fields
-    $data = $request->only([
-        'memberid','fullname','gender','dateofbirth','membertype','departmentclass',
-        'rollnoemployeeid','yearsemester','email','phone','address','city','state',
-        'pincode','joiningdate','status'
-    ]);
+    public function update(Request $request, Member $member)
+    {
+        $request->validate([
+            'memberid'          => 'nullable|string|max:255',
+            'fullname'          => 'required|string|max:255',
+            'gender'            => 'nullable|string|max:20',
+            'dateofbirth'       => 'nullable|date',
+            'membertype'        => 'nullable|string|max:50',
+            'departmentclass'   => 'nullable|string|max:255',
+            'rollnoemployeeid'  => 'nullable|string|max:255',
+            'yearsemester'      => 'nullable|string|max:255',
+            'email'             => 'nullable|email|max:255',
+            'phone'             => 'nullable|string|max:20',
+            'address'           => 'nullable|string',
+            'city'              => 'nullable|string|max:255',
+            'state'             => 'nullable|string|max:255',
+            'pincode'           => 'nullable|string|max:20',
+            'joiningdate'       => 'nullable|date',
+            'status'            => 'required|string|max:20',
+            'profilephoto'      => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'cardIssued'        => 'nullable|boolean',
+        ]);
 
-    // checkbox
-    $data['cardIssued'] = $request->has('cardIssued');
-
-    // photo upload
-    if ($request->hasFile('profilephoto')) {
-
-        if ($member->profilephoto && file_exists(public_path('profile_photos/' . $member->profilephoto))) {
-            unlink(public_path('profile_photos/' . $member->profilephoto));
+        if ($request->filled('membertype')) {
+            DB::table('membercategory')->updateOrInsert(
+                ['membercategoryname' => $request->membertype]
+            );
         }
 
-        $imageName = time() . '_member.' . $request->profilephoto->extension();
-        $request->profilephoto->move(public_path('profile_photos'), $imageName);
-        $data['profilephoto'] = $imageName;
+        $data = $request->only([
+            'memberid','fullname','gender','dateofbirth','membertype','departmentclass',
+            'rollnoemployeeid','yearsemester','email','phone','address','city','state',
+            'pincode','joiningdate','status'
+        ]);
+
+        $data['cardIssued'] = $request->has('cardIssued');
+
+        if ($request->hasFile('profilephoto')) {
+            if ($member->profilephoto && file_exists(public_path('profile_photos/' . $member->profilephoto))) {
+                unlink(public_path('profile_photos/' . $member->profilephoto));
+            }
+            $imageName = time() . '_member.' . $request->profilephoto->extension();
+            $request->profilephoto->move(public_path('profile_photos'), $imageName);
+            $data['profilephoto'] = $imageName;
+        }
+
+        $changes = [];
+        foreach ($data as $key => $newValue) {
+            $oldValue = $member->$key;
+            if ($newValue != $oldValue) {
+                $changes[] = strtoupper($key) . ": {$oldValue} → {$newValue}";
+            }
+        }
+
+        $member->update($data);
+
+        // Log activity
+        $details = count($changes) > 0
+            ? "Updated Member - {$member->fullname}. Changes: " . implode(', ', $changes)
+            : "Updated Member - {$member->fullname} (no changes detected)";
+
+        ActivityLog::create([
+            'user_id' => Auth::id(),
+            'action'  => 'Edit Member',
+            'details' => $details,
+            'status'  => 'success'
+        ]);
+
+        return redirect()->route('member.show')->with('success', 'Member updated successfully!');
     }
-
-    // update
-    $member->update($data);
-
-    return redirect()->route('member.show')->with('success', 'Member updated successfully!');
-}
-
-
-
 
     public function show()
     {
@@ -178,49 +202,47 @@ public function update(Request $request, Member $member)
     {
         $member = Member::findOrFail($id);
 
-        // Delete profile photo if exists
         if ($member->profilephoto && file_exists(public_path('profile_photos/' . $member->profilephoto))) {
             unlink(public_path('profile_photos/' . $member->profilephoto));
         }
 
         $member->delete();
 
+        // Log activity
+        ActivityLog::create([
+            'user_id' => Auth::id(),
+            'action'  => 'Delete Member',
+            'details' => "Deleted Member: {$member->fullname} (ID: {$member->id})",
+            'status'  => 'success'
+        ]);
+
         return back()->with('success', 'Member deleted successfully!');
     }
 
     public function index(Request $request)
-{
-    $query = Member::query();
+    {
+        $query = Member::query();
 
-    // --- Search ---
-    if ($request->filled('search')) {
-        $search = $request->search;
-        $query->where(function ($q) use ($search) {
-            $q->where('fullname', 'LIKE', "%$search%")
-              ->orWhere('email', 'LIKE', "%$search%")
-              ->orWhere('memberid', 'LIKE', "%$search%");
-        });
-    }
-
-    // --- Filter ---
-    if ($request->filter && $request->filter !== 'All') {
-        if (in_array($request->filter, ['Active', 'Inactive'])) {
-            $query->where('status', $request->filter);
-        } else {
-            $query->where('membertype', $request->filter);
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('fullname', 'LIKE', "%$search%")
+                  ->orWhere('email', 'LIKE', "%$search%")
+                  ->orWhere('memberid', 'LIKE', "%$search%");
+            });
         }
+
+        if ($request->filter && $request->filter !== 'All') {
+            if (in_array($request->filter, ['Active', 'Inactive'])) {
+                $query->where('status', $request->filter);
+            } else {
+                $query->where('membertype', $request->filter);
+            }
+        }
+
+        $members = $query->orderBy('id', 'DESC')->paginate(10);
+        $membercategories = DB::table('membercategory')->get();
+
+        return view('all_member', compact('members', 'membercategories'));
     }
-
-    $members = $query->orderBy('id', 'DESC')->paginate(10);
-
-    // Fetch categories for dropdown
-    $membercategories = DB::table('membercategory')->get();
-
-    return view('all_member', compact('members', 'membercategories'));
-}
-
-
-
-
-
 }

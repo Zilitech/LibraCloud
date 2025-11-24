@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\ActivityLog;
+use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
@@ -21,10 +23,18 @@ class CategoryController extends Controller
             'category_name' => 'required|string|max:255',
         ]);
 
-        DB::table('categories')->insert([
+        $id = DB::table('categories')->insertGetId([
             'category_name' => $request->category_name,
             'created_at' => now(),
             'updated_at' => now(),
+        ]);
+
+        // Activity log
+        ActivityLog::create([
+            'user_id' => Auth::id(),
+            'action'  => 'Add Category',
+            'details' => 'Added category: ' . $request->category_name,
+            'status'  => 'success',
         ]);
 
         return redirect()->back()->with('success', 'Category added successfully!');
@@ -45,36 +55,66 @@ class CategoryController extends Controller
                 'updated_at' => now(),
             ]);
 
+        // Activity log
+        ActivityLog::create([
+            'user_id' => Auth::id(),
+            'action'  => 'Update Category',
+            'details' => 'Updated category ID ' . $request->id . ' to ' . $request->category_name,
+            'status'  => 'success',
+        ]);
+
         return redirect()->back()->with('success', 'Category updated successfully!');
     }
 
     // Delete category
     public function destroy($id)
     {
+        $category = DB::table('categories')->where('id', $id)->first();
         DB::table('categories')->where('id', $id)->delete();
+
+        // Activity log
+        ActivityLog::create([
+            'user_id' => Auth::id(),
+            'action'  => 'Delete Category',
+            'details' => 'Deleted category: ' . ($category->category_name ?? 'N/A') . ' (ID: ' . $id . ')',
+            'status'  => 'success',
+        ]);
+
         return redirect()->back()->with('success', 'Category deleted successfully!');
     }
 
+    // Import categories from CSV
     public function import(Request $request)
-{
-    $request->validate([
-        'csv_file' => 'required|file|mimes:csv,txt|max:2048',
-    ]);
-
-    $file = fopen($request->file('csv_file')->getRealPath(), 'r');
-    $header = fgetcsv($file); // Skip header row if present
-
-    while (($data = fgetcsv($file)) !== false) {
-        DB::table('categories')->insert([
-            'category_name' => $data[0],
-            'created_at' => now(),
-            'updated_at' => now(),
+    {
+        $request->validate([
+            'csv_file' => 'required|file|mimes:csv,txt|max:2048',
         ]);
+
+        $file = fopen($request->file('csv_file')->getRealPath(), 'r');
+        $header = fgetcsv($file); // Skip header row if present
+        $imported = 0;
+
+        while (($data = fgetcsv($file)) !== false) {
+            if (!empty($data[0])) {
+                DB::table('categories')->insert([
+                    'category_name' => $data[0],
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+                $imported++;
+            }
+        }
+
+        fclose($file);
+
+        // Activity log
+        ActivityLog::create([
+            'user_id' => Auth::id(),
+            'action'  => 'Import Categories',
+            'details' => "Imported $imported categories from CSV file",
+            'status'  => 'success',
+        ]);
+
+        return redirect()->back()->with('success', 'Categories imported successfully!');
     }
-
-    fclose($file);
-
-    return redirect()->back()->with('success', 'Categories imported successfully!');
-}
-
 }

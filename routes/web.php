@@ -18,6 +18,7 @@ use App\Http\Controllers\BarcodeController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\ScanBarcodeController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\ActivityLogController;
 
 
 
@@ -260,9 +261,10 @@ Route::delete('/staff/delete/{id}', [StaffController::class, 'destroy'])->name('
 
 
 
-Route::get('/activity_log', function(){
-    return view('activity_log');
-});
+Route::get('/activity_log', [ActivityLogController::class, 'index'])->name('activity.logs');
+Route::get('/activity_log/fetch', [ActivityLogController::class, 'fetchLogs'])->name('activity.logs.fetch');
+
+
 
 Route::get('/system_backup', function(){
     return view('system_backup');

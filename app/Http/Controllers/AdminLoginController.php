@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Admin;
+use App\Models\ActivityLog;
+use Illuminate\Support\Facades\Auth;
+
 
 class AdminLoginController extends Controller
 {
@@ -18,13 +21,22 @@ class AdminLoginController extends Controller
             'password' => 'required',
         ]);
 
-        // Find active admin using case-insensitive email and status
+        // Find active admin
         $admin = Admin::whereRaw('LOWER(email) = ?', [strtolower($request->email)])
                       ->where('status', true)
                       ->first();
 
         // Check if admin exists and password is correct
         if (!$admin || !Hash::check($request->password, $admin->password)) {
+
+            // Log failed login attempt
+            ActivityLog::create([
+                'user_id' => $admin->id ?? null, // null if email not found
+                'action'  => 'Admin Login Attempt',
+                'details' => 'Failed login for email: ' . $request->email,
+                'status'  => 'failed',
+            ]);
+
             return back()->with('error', 'Invalid email or password.');
         }
 
@@ -37,6 +49,14 @@ class AdminLoginController extends Controller
 
         // Update last login time
         $admin->update(['last_login_at' => now()]);
+
+        // Log successful login
+        ActivityLog::create([
+            'user_id' => $admin->id,
+            'action'  => 'Admin Login',
+            'details' => 'Admin logged in successfully: ' . $admin->name,
+            'status'  => 'success',
+        ]);
 
         return redirect()->route('admin.dashboard');
     }
@@ -62,7 +82,19 @@ class AdminLoginController extends Controller
      */
     public function logout()
     {
+        $adminId = session('admin_id');
+        $adminName = session('admin_name');
+
+        // Log logout
+        ActivityLog::create([
+            'user_id' => $adminId,
+            'action'  => 'Admin Logout',
+            'details' => 'Admin logged out successfully: ' . $adminName,
+            'status'  => 'success',
+        ]);
+
         session()->flush();
+
         return redirect()->route('admin.login.form')
                          ->with('error', 'You have been logged out.');
     }

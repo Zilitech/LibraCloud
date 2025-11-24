@@ -6,6 +6,8 @@ use App\Models\Member;
 use Illuminate\Http\Request;
 use Milon\Barcode\DNS1D;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Models\ActivityLog;
+use Illuminate\Support\Facades\Auth;
 
 class MembercardController extends Controller
 {
@@ -21,7 +23,6 @@ class MembercardController extends Controller
         return view('membership_card', compact('members'));
     }
 
-    
     public function generateIdCardPDF(Request $request)
     {
         $request->validate([
@@ -35,6 +36,14 @@ class MembercardController extends Controller
         foreach ($members as $member) {
             $member->barcode_base64 = 'data:image/png;base64,' . $d1->getBarcodePNG($member->memberid, 'C128', 2, 50);
         }
+
+        // Log activity
+        ActivityLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'Generate Membership Cards PDF',
+            'details' => 'Generated PDF for member IDs: ' . implode(',', $request->member_ids),
+            'status' => 'success',
+        ]);
 
         // Load Blade view for multiple cards
         $pdf = Pdf::loadView('idcards_pdf', compact('members'))

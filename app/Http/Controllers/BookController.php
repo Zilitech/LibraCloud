@@ -7,6 +7,8 @@ use App\Models\Category;
 use App\Models\Author;
 use Illuminate\Http\Request;
 use App\Models\IssuedBook;
+use App\Helpers\ActivityLogger;
+
 
 
 class BookController extends Controller
@@ -90,55 +92,90 @@ class BookController extends Controller
         return view('books.edit_book', compact('book','categories','authors'));
     }
 
-    public function update(Request $request, Book $book)
-    {
-        $request->validate([
-            'book_title'   => 'required|string|max:255',
-            'book_code'    => 'nullable|string|max:100',
-            'isbn'         => 'nullable|string|max:100',
-            'author_name'  => 'nullable|string|max:255',
-            'category_name'=> 'required|string|max:255',
-            'publisher'    => 'nullable|string|max:255',
-            'subject'      => 'nullable|string|max:255',
-            'rack_number'  => 'nullable|string|max:100',
-            'quantity'     => 'required|integer|min:1',
-            'price'        => 'nullable|numeric',
-            'purchase_date'=> 'nullable|date',
-            'condition'    => 'nullable|string|max:20',
-            'cover_image'  => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-            'ebook_file'   => 'nullable|mimes:pdf|max:10240',
-            'description'  => 'nullable|string',
-        ]);
 
-        if ($request->filled('category_name')) {
-            Category::firstOrCreate(['category_name' => $request->category_name]);
-        }
+public function update(Request $request, Book $book)
+{
+    $request->validate([
+        'book_title'   => 'required|string|max:255',
+        'book_code'    => 'nullable|string|max:100',
+        'isbn'         => 'nullable|string|max:100',
+        'author_name'  => 'nullable|string|max:255',
+        'category_name'=> 'required|string|max:255',
+        'publisher'    => 'nullable|string|max:255',
+        'subject'      => 'nullable|string|max:255',
+        'rack_number'  => 'nullable|string|max:100',
+        'quantity'     => 'required|integer|min:1',
+        'price'        => 'nullable|numeric',
+        'purchase_date'=> 'nullable|date',
+        'condition'    => 'nullable|string|max:20',
+        'cover_image'  => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        'ebook_file'   => 'nullable|mimes:pdf|max:10240',
+        'description'  => 'nullable|string',
+    ]);
 
-        if ($request->filled('author_name')) {
-            Author::firstOrCreate(['author_name' => $request->author_name]);
-        }
-
-        $data = $request->only([
-            'book_title','book_code','isbn','author_name','publisher','category_name',
-            'subject','rack_number','quantity','price','purchase_date','condition','description'
-        ]);
-
-        if ($request->hasFile('cover_image')) {
-            $imageName = time() . '_cover.' . $request->cover_image->extension();
-            $request->cover_image->move(public_path('uploads/books/covers'), $imageName);
-            $data['cover_image'] = 'uploads/books/covers/' . $imageName;
-        }
-
-        if ($request->hasFile('ebook_file')) {
-            $fileName = time() . '_ebook.' . $request->ebook_file->extension();
-            $request->ebook_file->move(public_path('uploads/books/ebooks'), $fileName);
-            $data['ebook_file'] = 'uploads/books/ebooks/' . $fileName;
-        }
-
-        $book->update($data);
-
-        return redirect()->route('books.all')->with('success', 'Book updated successfully!');
+    if ($request->filled('category_name')) {
+        Category::firstOrCreate(['category_name' => $request->category_name]);
     }
+
+    if ($request->filled('author_name')) {
+        Author::firstOrCreate(['author_name' => $request->author_name]);
+    }
+
+    $data = $request->only([
+        'book_title','book_code','isbn','author_name','publisher','category_name',
+        'subject','rack_number','quantity','price','purchase_date','condition','description'
+    ]);
+
+    if ($request->hasFile('cover_image')) {
+        $imageName = time() . '_cover.' . $request->cover_image->extension();
+        $request->cover_image->move(public_path('uploads/books/covers'), $imageName);
+        $data['cover_image'] = 'uploads/books/covers/' . $imageName;
+    }
+
+    if ($request->hasFile('ebook_file')) {
+        $fileName = time() . '_ebook.' . $request->ebook_file->extension();
+        $request->ebook_file->move(public_path('uploads/books/ebooks'), $fileName);
+        $data['ebook_file'] = 'uploads/books/ebooks/' . $fileName;
+    }
+
+    // ------------------------------------------
+    // ✅ Detect changed fields for logging
+    // ------------------------------------------
+    $changes = [];
+
+    foreach ($data as $key => $newValue) {
+        $oldValue = $book->$key;
+
+        if ($newValue != $oldValue) {
+            $changes[] = strtoupper($key) . ": {$oldValue} → {$newValue}";
+        }
+    }
+
+    // Update book
+    $book->update($data);
+
+    // ------------------------------------------
+    // ✅ Log Activity (only if something changed)
+    // ------------------------------------------
+    if (count($changes) > 0) {
+        $text = "Updated Book - {$book->book_title}. Changes: " . implode(', ', $changes);
+
+        ActivityLogger::log(
+            'Edit Book',
+            $text,
+            'success'
+        );
+    } else {
+        ActivityLogger::log(
+            'Edit Book',
+            "Book '{$book->book_title}' updated (no changes detected)",
+            'success'
+        );
+    }
+
+    return redirect()->route('books.all')->with('success', 'Book updated successfully!');
+}
+
 
     public function destroy(Book $book)
     {

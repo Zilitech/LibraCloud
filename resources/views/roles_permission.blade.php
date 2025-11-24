@@ -46,46 +46,50 @@
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table id="roles-table" class="table table-bordered text-nowrap w-100">
-                                    <thead>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Role Name</th>
-                                            <th>Permissions</th>
-                                            <th class="text-center">Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <!-- Dummy Data -->
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Admin</td>
-                                            <td>
-                                                <span class="badge bg-primary mb-1">Add/Edit Books</span>
-                                                <span class="badge bg-primary mb-1">Issue/Return</span>
-                                                <span class="badge bg-primary mb-1">Manage Users</span>
-                                                <span class="badge bg-primary mb-1">View Reports</span>
-                                                <span class="badge bg-primary mb-1">System Settings</span>
-                                            </td>
-                                            <td class="text-center">
-                                                <button class="btn btn-sm btn-info me-1" data-bs-toggle="modal" data-bs-target="#editRoleModal2"><i class="ri-pencil-line"></i></button>
-                                                <button class="btn btn-sm btn-danger"><i class="ri-delete-bin-line"></i></button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td>Librarian</td>
-                                            <td>
-                                                <span class="badge bg-success mb-1">Add/Edit Books</span>
-                                                <span class="badge bg-success mb-1">Issue/Return</span>
-                                                <span class="badge bg-success mb-1">View Reports</span>
-                                            </td>
-                                            <td class="text-center">
-                                                <button class="btn btn-sm btn-info me-1" data-bs-toggle="modal" data-bs-target="#editRoleModal2"><i class="ri-pencil-line"></i></button>
-                                                <button class="btn btn-sm btn-danger"><i class="ri-delete-bin-line"></i></button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Role Name</th>
+            <th>Permissions</th>
+            <th class="text-center">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach($roles as $role)
+            <tr>
+                <td>{{ $role->id }}</td>
+                <td>{{ $role->name }}</td>
+                <td>
+                    @if($role->permissions->count() > 0)
+                        @foreach($role->permissions as $permission)
+                            <span class="badge {{ $role->id == 1 ? 'bg-primary' : 'bg-success' }} mb-1">{{ $permission->name }}</span>
+                        @endforeach
+                    @else
+                        <span class="text-muted">No Permissions</span>
+                    @endif
+                </td>
+                <td class="text-center">
+                    <!-- Edit Button -->
+                    <button class="btn btn-sm btn-info me-1" data-bs-toggle="modal" data-bs-target="#editRoleModal{{ $role->id }}">
+                        <i class="ri-pencil-line"></i>
+                    </button>
+
+                    <!-- Delete Button -->
+                    <form action="{{ route('roles.destroy', $role->id) }}" method="POST" style="display:inline-block;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure to delete this role?')">
+                            <i class="ri-delete-bin-line"></i>
+                        </button>
+                    </form>
+                </td>
+            </tr>
+
+            <!-- Optional: Edit Modal for each role -->
+        @endforeach
+    </tbody>
+</table>
+
                             </div>
                         </div>
                     </div>
@@ -107,80 +111,84 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <form>
-                    <div class="mb-3">
-                        <label class="form-label">Role Name</label>
-                        <input type="text" class="form-control" name="role_name" required>
-                    </div>
+                <form action="{{ route('roles.store') }}" method="POST">
+    @csrf
+    <div class="mb-3">
+        <label class="form-label">Role Name</label>
+        <input type="text" class="form-control" name="role_name" required>
+    </div>
 
-                    <div class="mb-3">
-                        <label class="form-label">Permissions</label>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="manage_books" id="permBooks">
-                                    <label class="form-check-label" for="permBooks">Add/Edit Books</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="manage_categories" id="permCategories">
-                                    <label class="form-check-label" for="permCategories">Manage Categories</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="manage_authors" id="permAuthors">
-                                    <label class="form-check-label" for="permAuthors">Manage Authors</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="manage_inventory" id="permInventory">
-                                    <label class="form-check-label" for="permInventory">Inventory Management</label>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="issue_return" id="permIssueReturn">
-                                    <label class="form-check-label" for="permIssueReturn">Issue / Return Books</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="manage_members" id="permMembers">
-                                    <label class="form-check-label" for="permMembers">Manage Members</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="view_reports" id="permReports">
-                                    <label class="form-check-label" for="permReports">View Reports</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="fine_management" id="permFines">
-                                    <label class="form-check-label" for="permFines">Fine Management</label>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="library_settings" id="permSettings">
-                                    <label class="form-check-label" for="permSettings">Library Settings</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="user_management" id="permUsers">
-                                    <label class="form-check-label" for="permUsers">User Management</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="barcode_management" id="permBarcode">
-                                    <label class="form-check-label" for="permBarcode">Barcode / QR Management</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="ebook_management" id="permEbooks">
-                                    <label class="form-check-label" for="permEbooks">E-Book Management</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+    <div class="mb-3">
+        <label class="form-label">Permissions</label>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="permissions[]" value="manage_books" id="permBooks">
+                    <label class="form-check-label" for="permBooks">Add/Edit Books</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="permissions[]" value="manage_categories" id="permCategories">
+                    <label class="form-check-label" for="permCategories">Manage Categories</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="permissions[]" value="manage_authors" id="permAuthors">
+                    <label class="form-check-label" for="permAuthors">Manage Authors</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="permissions[]" value="manage_inventory" id="permInventory">
+                    <label class="form-check-label" for="permInventory">Inventory Management</label>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="permissions[]" value="issue_return" id="permIssueReturn">
+                    <label class="form-check-label" for="permIssueReturn">Issue / Return Books</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="permissions[]" value="manage_members" id="permMembers">
+                    <label class="form-check-label" for="permMembers">Manage Members</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="permissions[]" value="view_reports" id="permReports">
+                    <label class="form-check-label" for="permReports">View Reports</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="permissions[]" value="fine_management" id="permFines">
+                    <label class="form-check-label" for="permFines">Fine Management</label>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="permissions[]" value="library_settings" id="permSettings">
+                    <label class="form-check-label" for="permSettings">Library Settings</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="permissions[]" value="user_management" id="permUsers">
+                    <label class="form-check-label" for="permUsers">User Management</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="permissions[]" value="barcode_management" id="permBarcode">
+                    <label class="form-check-label" for="permBarcode">Barcode / QR Management</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="permissions[]" value="ebook_management" id="permEbooks">
+                    <label class="form-check-label" for="permEbooks">E-Book Management</label>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                    <div class="text-end">
-                        <button type="submit" class="btn btn-primary">Add Role</button>
-                    </div>
-                </form>
+    <div class="text-end">
+        <button type="submit" class="btn btn-primary">Add Role</button>
+    </div>
+</form>
+
             </div>
         </div>
     </div>
 </div>
+
+
 <!-- Edit Role Modal for Admin -->
 <div class="modal fade" id="editRoleModal1" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg">

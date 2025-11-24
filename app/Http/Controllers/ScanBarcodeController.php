@@ -29,6 +29,19 @@ class ScanBarcodeController extends Controller
         return response()->json($issuedBooks);
     }
 
+ public function index()
+    {
+        // Fetch all members from DB
+        $all_members = Member::select('id', 'member_id', 'name', 'phone')->get();
 
+        // Pass to Blade
+        return view('scan_barcode', compact('all_members'));
+    }
+
+    public function returnBook(Request $request)
+    {
+        // Your return book logic here…
+        return response()->json(['status' => 'success']);
+    }
 
 }

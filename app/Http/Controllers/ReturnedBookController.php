@@ -48,4 +48,35 @@ class ReturnedBookController extends Controller
 
         return redirect()->back()->with('success', 'Book re-issued successfully!');
     }
+
+    public function returnBook(Request $request)
+    {
+        $issueId = $request->id;   // book.id from button
+
+        // Find issued book
+        $issuedBook = IssuedBook::find($issueId);
+
+        if (!$issuedBook) {
+            return response()->json(['error' => 'Issued book not found'], 404);
+        }
+
+        // Insert into returned_books table
+        ReturnedBook::create([
+            'issue_id'     => $issuedBook->issue_id,
+            'member_name'  => $issuedBook->member_name,
+            'book_name'    => $issuedBook->book_name,
+            'book_isbn'    => $issuedBook->book_isbn,
+            'author_name'  => $issuedBook->author_name,
+            'issue_date'   => $issuedBook->issue_date,
+            'due_date'     => $issuedBook->due_date,
+            'quantity'     => $issuedBook->quantity,
+            'status'       => 'Returned',
+            'remarks'      => 'Book returned successfully',
+        ]);
+
+        // Delete from issued_books table
+        $issuedBook->delete();
+
+        return response()->json(['success' => 'Book returned successfully']);
+    }
 }

@@ -8,6 +8,8 @@ use App\Models\Book;
 use App\Models\IssuedBook;
 use Illuminate\Support\Str;
 use App\Models\ReturnedBook;
+use App\Models\ActivityLog;
+use Illuminate\Support\Facades\Auth;
 
 class IssueBookController extends Controller
 {
@@ -25,49 +27,54 @@ class IssueBookController extends Controller
         return view('issue', compact('members', 'books', 'issue_id'));
     }
 
-    
-
     // Store issued book
     public function store(Request $request)
-{
-    $validated = $request->validate([
-        'issue_id' => 'required|unique:issued_books,issue_id',
-        'member_name' => 'required|string',
-        'book_name' => 'required|string',
-        'book_isbn' => 'required|string',
-        'author_name' => 'required|string',
-        'issue_date' => 'required|date',
-        'due_date' => 'required|date|after_or_equal:issue_date',
-        'quantity' => 'required|integer|min:1',
-    ]);
+    {
+        $validated = $request->validate([
+            'issue_id' => 'required|unique:issued_books,issue_id',
+            'member_name' => 'required|string',
+            'book_name' => 'required|string',
+            'book_isbn' => 'required|string',
+            'author_name' => 'required|string',
+            'issue_date' => 'required|date',
+            'due_date' => 'required|date|after_or_equal:issue_date',
+            'quantity' => 'required|integer|min:1',
+        ]);
 
-    $book = Book::where('isbn', $request->book_isbn)->first();
-    if (!$book) {
-        return response()->json(['status' => 'error', 'message' => 'Book not found!']);
+        $book = Book::where('isbn', $request->book_isbn)->first();
+        if (!$book) {
+            return response()->json(['status' => 'error', 'message' => 'Book not found!']);
+        }
+
+        if ($request->quantity > $book->quantity) {
+            return response()->json(['status' => 'error', 'message' => 'Requested quantity exceeds available stock!']);
+        }
+
+        $book->decrement('quantity', $request->quantity);
+
+        IssuedBook::create([
+            'issue_id' => $request->issue_id,
+            'member_name' => $request->member_name,
+            'book_name' => $request->book_name,
+            'book_isbn' => $request->book_isbn,
+            'author_name' => $request->author_name,
+            'issue_date' => $request->issue_date,
+            'due_date' => $request->due_date,
+            'quantity' => $request->quantity,
+            'status' => $request->status ?? 'Issued',
+            'remarks' => $request->remarks,
+        ]);
+
+        // Log activity
+        ActivityLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'Issue Book',
+            'details' => 'Book: ' . $request->book_name . ' | Member: ' . $request->member_name . ' | Quantity: ' . $request->quantity,
+            'status' => 'success',
+        ]);
+
+        return response()->json(['status' => 'success', 'message' => 'Book issued successfully!']);
     }
-
-    if ($request->quantity > $book->quantity) {
-        return response()->json(['status' => 'error', 'message' => 'Requested quantity exceeds available stock!']);
-    }
-
-    $book->decrement('quantity', $request->quantity);
-
-    IssuedBook::create([
-        'issue_id' => $request->issue_id,
-        'member_name' => $request->member_name,
-        'book_name' => $request->book_name,
-        'book_isbn' => $request->book_isbn,
-        'author_name' => $request->author_name,
-        'issue_date' => $request->issue_date,
-        'due_date' => $request->due_date,
-        'quantity' => $request->quantity,
-        'status' => $request->status ?? 'Issued',
-        'remarks' => $request->remarks,
-    ]);
-
-    return response()->json(['status' => 'success', 'message' => 'Book issued successfully!']);
-}
-
 
     // List all issued books
     public function index()
@@ -89,6 +96,14 @@ class IssueBookController extends Controller
         }
 
         $issuedBook->delete();
+
+        // Log activity
+        ActivityLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'Delete Issued Book',
+            'details' => 'Book: ' . ($book->book_title ?? 'Unknown') . ' | Member: ' . $issuedBook->member_name,
+            'status' => 'success',
+        ]);
 
         return redirect()->back()->with('success', 'Issued book deleted successfully!');
     }
@@ -122,31 +137,38 @@ class IssueBookController extends Controller
         // Delete from issued_books
         $issuedBook->delete();
 
+        // Log activity
+        ActivityLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'Return Book',
+            'details' => 'Book: ' . ($book->book_title ?? 'Unknown') . ' | Member: ' . $issuedBook->member_name . ' | Quantity: ' . $issuedBook->quantity,
+            'status' => 'success',
+        ]);
+
         return redirect()->back()->with('success', 'Book returned successfully!');
     }
 
-     public function getBookByBarcode($barcode)
-{
-    // Fetch issued book(s) by ID or barcode
-    $books = IssuedBook::where('id', $barcode)->get(); // or ->where('barcode', $barcode)
-    
-    if($books->count() > 0){
-        return response()->json([
-            'success' => true,
-            'book' => $books->map(function($book){
-                return [
-                    'id' => $book->id,
-                    'name' => $book->book_name,
-                    'author' => $book->author,
-                    'issue' => $book->issue_date,
-                    'due' => $book->due_date,
-                    'status' => $book->status,
-                ];
-            })
-        ]);
-    } else {
-        return response()->json(['success' => false]);
+    public function getBookByBarcode($barcode)
+    {
+        // Fetch issued book(s) by ID or barcode
+        $books = IssuedBook::where('id', $barcode)->get(); // or ->where('barcode', $barcode)
+        
+        if($books->count() > 0){
+            return response()->json([
+                'success' => true,
+                'book' => $books->map(function($book){
+                    return [
+                        'id' => $book->id,
+                        'name' => $book->book_name,
+                        'author' => $book->author,
+                        'issue' => $book->issue_date,
+                        'due' => $book->due_date,
+                        'status' => $book->status,
+                    ];
+                })
+            ]);
+        } else {
+            return response()->json(['success' => false]);
+        }
     }
-}
-
 }

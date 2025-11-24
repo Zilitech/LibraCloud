@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\ActivityLog;
+use Illuminate\Support\Facades\Auth;
 
 class AuthorController extends Controller
 {
@@ -21,10 +23,18 @@ class AuthorController extends Controller
             'author_name' => 'required|string|max:255',
         ]);
 
-        DB::table('authors')->insert([
+        $authorId = DB::table('authors')->insertGetId([
             'author_name' => $request->author_name,
             'created_at' => now(),
             'updated_at' => now(),
+        ]);
+
+        // Log activity
+        ActivityLog::create([
+            'user_id' => Auth::id(), // optional user
+            'action'  => 'Add Author',
+            'details' => 'Added author: ' . $request->author_name,
+            'status'  => 'success',
         ]);
 
         return redirect()->back()->with('success', 'Author added successfully!');
@@ -38,6 +48,9 @@ class AuthorController extends Controller
             'author_name' => 'required|string|max:255',
         ]);
 
+        // Get old name for logging
+        $oldAuthor = DB::table('authors')->where('id', $request->id)->first();
+
         DB::table('authors')
             ->where('id', $request->id)
             ->update([
@@ -45,13 +58,33 @@ class AuthorController extends Controller
                 'updated_at' => now(),
             ]);
 
+        // Log activity
+        ActivityLog::create([
+            'user_id' => Auth::id(),
+            'action'  => 'Edit Author',
+            'details' => "Updated author: '{$oldAuthor->author_name}' → '{$request->author_name}'",
+            'status'  => 'success',
+        ]);
+
         return redirect()->back()->with('success', 'Author updated successfully!');
     }
 
     // Delete author
     public function destroy($id)
     {
+        // Get author name for logging
+        $author = DB::table('authors')->where('id', $id)->first();
+
         DB::table('authors')->where('id', $id)->delete();
+
+        // Log activity
+        ActivityLog::create([
+            'user_id' => Auth::id(),
+            'action'  => 'Delete Author',
+            'details' => 'Deleted author: ' . ($author->author_name ?? 'N/A'),
+            'status'  => 'success',
+        ]);
+
         return redirect()->back()->with('success', 'Author deleted successfully!');
     }
 
@@ -82,6 +115,14 @@ class AuthorController extends Controller
         }
 
         fclose($file);
+
+        // Log activity
+        ActivityLog::create([
+            'user_id' => Auth::id(),
+            'action'  => 'Import Authors',
+            'details' => "Imported $imported authors from CSV file",
+            'status'  => 'success',
+        ]);
 
         return redirect()->back()->with('success', "$imported authors imported successfully!");
     }

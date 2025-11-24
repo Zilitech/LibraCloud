@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\ReturnedBook;
 use App\Models\IssuedBook;
+use App\Models\ActivityLog;
+use Illuminate\Support\Facades\Auth;
 
 class ReturnedBookController extends Controller
 {
@@ -20,6 +22,14 @@ class ReturnedBookController extends Controller
     {
         $returnedBook = ReturnedBook::findOrFail($id);
         $returnedBook->delete();
+
+        // Log activity
+        ActivityLog::create([
+            'user_id' => Auth::id(),
+            'action'  => 'Delete Returned Book',
+            'details' => "Deleted returned book: {$returnedBook->book_name} of member: {$returnedBook->member_name}",
+            'status'  => 'success'
+        ]);
 
         return redirect()->back()->with('success', 'Returned book record deleted successfully.');
     }
@@ -46,9 +56,18 @@ class ReturnedBookController extends Controller
         // Delete from returned_books table
         $returnedBook->delete();
 
+        // Log activity
+        ActivityLog::create([
+            'user_id' => Auth::id(),
+            'action'  => 'Reissue Returned Book',
+            'details' => "Re-issued book: {$returnedBook->book_name} to member: {$returnedBook->member_name}",
+            'status'  => 'success'
+        ]);
+
         return redirect()->back()->with('success', 'Book re-issued successfully!');
     }
 
+    // Return a book from issued_books
     public function returnBook(Request $request)
     {
         $issueId = $request->id;   // book.id from button
@@ -76,6 +95,14 @@ class ReturnedBookController extends Controller
 
         // Delete from issued_books table
         $issuedBook->delete();
+
+        // Log activity
+        ActivityLog::create([
+            'user_id' => Auth::id(),
+            'action'  => 'Return Book',
+            'details' => "Book returned: {$issuedBook->book_name} by member: {$issuedBook->member_name}",
+            'status'  => 'success'
+        ]);
 
         return response()->json(['success' => 'Book returned successfully']);
     }

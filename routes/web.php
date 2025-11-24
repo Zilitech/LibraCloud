@@ -18,6 +18,9 @@ use App\Http\Controllers\BarcodeController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\ScanBarcodeController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\ActivityLogController;
+use App\Http\Controllers\BackupController;
+
 
 
 
@@ -88,6 +91,10 @@ Route::get('/books', [BookController::class, 'index'])->middleware('permission:m
 
 
 
+Route::get('/library_report', [BookController::class, 'library_report'])->name('library.report');
+Route::get('/library_report', [App\Http\Controllers\MemberController::class, 'member_report'])->name('member.report');
+
+
 
 
 
@@ -135,6 +142,7 @@ Route::get('/inventory_management', [InventoryController::class, 'index'])->name
 
 Route::get('/membership_card', [App\Http\Controllers\MembercardController::class, 'index'])->name('membership.card');
 Route::post('/generate-id-card', [App\Http\Controllers\MembercardController::class, 'generateIdCardPDF'])->name('generate.idcard');
+
 
 
 
@@ -260,17 +268,24 @@ Route::delete('/staff/delete/{id}', [StaffController::class, 'destroy'])->name('
 
 
 
-Route::get('/activity_log', function(){
-    return view('activity_log');
+Route::get('/activity_log', [ActivityLogController::class, 'index'])->name('activity.logs');
+Route::get('activity-logs/fetch', [ActivityLogController::class, 'fetchLogs'])
+    ->name('activity.logs.fetch');
+
+Route::get('/activity_log', [ActivityLogController::class, 'index'])->name('activity_logs.index');
+
+
+
+
+Route::prefix('system_backup')->group(function () {
+    Route::get('/', [BackupController::class, 'index'])->name('system.backup.index');
+    Route::post('/run', [BackupController::class, 'runBackup'])->name('system.backup.run');
+    Route::get('/download/{id}', [BackupController::class, 'download'])->name('system.backup.download');
+    Route::delete('/delete/{id}', [BackupController::class, 'destroy'])->name('system.backup.delete');
 });
 
-Route::get('/system_backup', function(){
-    return view('system_backup');
-});
 
-Route::get('/library_report', function(){
-    return view('library_report');
-});
+
 
 Route::get('/scan_barcode', function(){
     return view('scan_barcode');

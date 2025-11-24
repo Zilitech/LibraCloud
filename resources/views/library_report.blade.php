@@ -76,40 +76,40 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Organic Chemistry Volume 2</td>
-                    <td>Dr. B. Kumar</td>
-                    <td>Science</td>
-                    <td>12</td>
-                    <td>8</td>
-                    <td>4</td>
-                    <td>0</td>
-                    <td><span class="badge bg-success-transparent">Available</span></td>
-                    <td>
-                        <div class="hstack gap-2 flex-wrap">
-                            <a href="javascript:void(0);" class="text-info fs-14 lh-1" title="View"><i class="ri-eye-line"></i></a>
-                            <a href="javascript:void(0);" class="text-warning fs-14 lh-1" title="Edit"><i class="ri-edit-line"></i></a>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>World History</td>
-                    <td>Prof. A. Sharma</td>
-                    <td>History</td>
-                    <td>10</td>
-                    <td>7</td>
-                    <td>3</td>
-                    <td>0</td>
-                    <td><span class="badge bg-success-transparent">Available</span></td>
-                    <td>
-                        <div class="hstack gap-2 flex-wrap">
-                            <a href="javascript:void(0);" class="text-info fs-14 lh-1"><i class="ri-eye-line"></i></a>
-                            <a href="javascript:void(0);" class="text-warning fs-14 lh-1"><i class="ri-edit-line"></i></a>
-                        </div>
-                    </td>
-                </tr>
+                @forelse($libraryBooks as $index => $book)
+    <tr>
+        <td>{{ $index + 1 }}</td>
+        <td>{{ $book->book_title }}</td>
+        <td>{{ $book->author_name }}</td>
+        <td>{{ $book->category_name }}</td>
+        <td>{{ $book->quantity }}</td>
+        <td>{{ $book->available }}</td>
+        <td>{{ $book->issued }}</td>
+        <td>{{ $book->damaged }}</td>
+        <td>
+            @if($book->available > 0)
+                <span class="badge bg-success-transparent">Available</span>
+            @else
+                <span class="badge bg-danger-transparent">Not Available</span>
+            @endif
+        </td>
+        <td>
+            <div class="hstack gap-2 flex-wrap">
+                <a href="{{ route('books.show', $book->id) }}" class="text-info fs-14 lh-1" title="View">
+                    <i class="ri-eye-line"></i>
+                </a>
+                <a href="{{ route('books.edit', $book->id) }}" class="text-warning fs-14 lh-1" title="Edit">
+                    <i class="ri-edit-line"></i>
+                </a>
+            </div>
+        </td>
+    </tr>
+@empty
+<tr>
+    <td colspan="10" class="text-center">No books found in the library</td>
+</tr>
+@endforelse
+
             </tbody>
         </table>
     </div>
@@ -117,38 +117,37 @@
 
                 <!-- Member Management Reports -->
                 <div class="tab-pane fade" id="memberReports" role="tabpanel">
-                    <h4>👥 Member Management Reports</h4>
-                    <table id="memberTable" class="table table-bordered table-striped w-100">
-                        <thead>
-                            <tr>
-                                <th>Member ID</th>
-                                <th>Name</th>
-                                <th>Category</th>
-                                <th>Email</th>
-                                <th>Total Issued Books</th>
-                                <th>Fines Pending</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>101</td>
-                                <td>Riya Sharma</td>
-                                <td>Student</td>
-                                <td>riya@gmail.com</td>
-                                <td>5</td>
-                                <td>₹50</td>
-                            </tr>
-                            <tr>
-                                <td>102</td>
-                                <td>Mr. Rajesh Kumar</td>
-                                <td>Faculty</td>
-                                <td>rajesh@gmail.com</td>
-                                <td>2</td>
-                                <td>₹0</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+    <h4>👥 Member Management Reports</h4>
+    <table id="memberTable" class="table table-bordered table-striped w-100">
+        <thead>
+            <tr>
+                <th>Member ID</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Email</th>
+                <th>Total Issued Books</th>
+                <th>Fines Pending</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse($members as $member)
+            <tr>
+                <td>{{ $member->memberid ?? $member->id }}</td>
+                <td>{{ $member->fullname }}</td>
+                <td>{{ $member->membertype ?? '-' }}</td>
+                <td>{{ $member->email ?? '-' }}</td>
+                <td>{{ $member->issued_books_count ?? 0 }}</td>
+                <td>₹{{ $member->fines_pending ?? 0 }}</td>
+            </tr>
+            @empty
+            <tr>
+                <td colspan="6" class="text-center">No members found.</td>
+            </tr>
+            @endforelse
+        </tbody>
+    </table>
+</div>
+
 
                 <!-- Issue & Return Reports -->
                 <div class="tab-pane fade" id="issueReports" role="tabpanel">

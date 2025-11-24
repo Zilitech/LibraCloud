@@ -7,7 +7,9 @@ use App\Models\Fine;
 use App\Models\OverdueBook;
 use App\Models\ReturnedBook;
 use App\Models\FineSetting;
+use App\Models\ActivityLog;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class FineController extends Controller
 {
@@ -61,6 +63,14 @@ class FineController extends Controller
         $fine = Fine::findOrFail($id);
         $fine->status = 'Paid';
         $fine->save();
+
+        // Activity log
+        ActivityLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'Mark Fine Paid',
+            'details' => 'Fine ID: ' . $fine->id . ' marked as Paid for Member ID: ' . ($fine->member_id ?? 'N/A'),
+            'status' => 'success',
+        ]);
 
         return redirect()->route('fines.index')->with('success', 'Fine marked as paid.');
     }

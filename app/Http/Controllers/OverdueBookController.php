@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\IssuedBook;
 use App\Models\OverdueBook;
 use App\Models\ReturnedBook;
+use App\Models\ActivityLog;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class OverdueBookController extends Controller
 {
@@ -44,6 +46,14 @@ class OverdueBookController extends Controller
                     'status' => 'Overdue'
                 ]
             );
+
+            // Log activity
+            ActivityLog::create([
+                'user_id' => Auth::id(),
+                'action' => 'Update Overdue',
+                'details' => "Updated overdue book: {$book->book_name} for member: {$book->member_name}, Days overdue: $daysOverdue, Fine: ₹$fine",
+                'status' => 'success'
+            ]);
         }
     }
 
@@ -69,6 +79,14 @@ class OverdueBookController extends Controller
 
             $issuedBook->delete();
             if ($overdueBook) $overdueBook->delete();
+
+            // Log activity
+            ActivityLog::create([
+                'user_id' => Auth::id(),
+                'action' => 'Return Overdue Book',
+                'details' => "Book returned: {$issuedBook->book_name} by member: {$issuedBook->member_name}. Overdue fine: " . ($overdueBook->fine ?? 0),
+                'status' => 'success'
+            ]);
 
             return response()->json(['status' => 'success', 'message' => 'Book marked as returned']);
 

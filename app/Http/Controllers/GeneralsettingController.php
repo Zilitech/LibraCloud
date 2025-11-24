@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\ActivityLog;
+use Illuminate\Support\Facades\Auth;
 
 class GeneralsettingController extends Controller
 {
@@ -84,6 +86,14 @@ class GeneralsettingController extends Controller
 
         // Insert or update record in DB
         DB::table('general_settings')->updateOrInsert(['id' => 1], $data);
+
+        // Activity Log
+        ActivityLog::create([
+            'user_id' => Auth::id(), // optional if logged in
+            'action'  => 'Update General Settings',
+            'details' => 'Library: '.$request->library_name.', Site: '.$request->site_name.', Email: '.$request->email,
+            'status'  => 'success',
+        ]);
 
         return redirect()->back()->with('success', 'General settings updated successfully!');
     }

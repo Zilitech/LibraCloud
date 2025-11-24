@@ -17,6 +17,7 @@ use App\Http\Controllers\FineController;
 use App\Http\Controllers\BarcodeController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\ScanBarcodeController;
+use App\Http\Controllers\RoleController;
 
 
 
@@ -83,17 +84,26 @@ Route::get('/issued-books/isbn/{isbn}', [BookController::class, 'getIssuedBooksB
 
 
 
+Route::get('/books', [BookController::class, 'index'])->middleware('permission:manage_books');
+
+
+
 
 
 
 Route::get('/add_book', [BookController::class, 'create'])->name('books.create');
 Route::post('/add_book', [BookController::class, 'store'])->name('books.store');
 
+Route::get('/books', [BookController::class, 'index'])->middleware('permission:manage_books');
+
+
 Route::get('/category', [CategoryController::class, 'index'])->name('category.index');
 Route::post('/category', [CategoryController::class, 'store'])->name('category.store');
 Route::post('/category/update', [CategoryController::class, 'update'])->name('category.update');
 Route::delete('/category/{id}', [CategoryController::class, 'destroy'])->name('category.destroy');
 Route::post('/category/import', [CategoryController::class, 'import'])->name('category.import');
+
+
 
 
 
@@ -159,9 +169,13 @@ Route::delete('/issue-book/{id}', [IssueBookController::class, 'destroy'])->name
 Route::get('/issue-book/return/{id}', [IssueBookController::class, 'returnBook'])->name('issue-book.return');
 
 
+
 Route::get('/returned_books', [ReturnedBookController::class, 'index'])->name('returned-book.index');
 Route::get('/returned-books/delete/{id}', [ReturnedBookController::class, 'destroy'])->name('returned-book.delete');
 Route::get('/returned-books/reissue/{id}', [ReturnedBookController::class, 'reissue'])->name('returned-book.reissue');
+Route::post('/return-book', [ReturnBookController::class, 'returnBook'])
+    ->name('return.book');
+
 
 
 
@@ -244,9 +258,7 @@ Route::put('/staff/update/{id}', [StaffController::class, 'update'])->name('staf
 Route::delete('/staff/delete/{id}', [StaffController::class, 'destroy'])->name('staff.destroy');
 
 
-Route::get('/roles_permission', function(){
-    return view('roles_permission');
-});
+
 
 Route::get('/activity_log', function(){
     return view('activity_log');
@@ -265,6 +277,13 @@ Route::get('/scan_barcode', function(){
 });
 
 Route::post('/get-issued-books', [ScanBarcodeController::class, 'getIssuedBooks'])->name('get.issued.books');
+Route::get('/scan_barcode', [ScanBarcodeController::class, 'index']);
+Route::post('/return-book', [ScanBarcodeController::class, 'returnBook']);
+
+
+
+
+
 
 
 
@@ -317,3 +336,12 @@ Route::get('/adminLogin', function(){
 Route::get('/database_connection', function(){
     return view('database_connection');
 });
+
+
+Route::get('/roles_permission', [RoleController::class, 'index'])->name('roles_permission.index');
+Route::post('/roles/store', [RoleController::class, 'store'])->name('roles.store');
+Route::delete('/roles/{role}', [RoleController::class, 'destroy'])->name('roles.destroy');
+
+// Optional: Edit Role
+Route::get('/roles/{role}/edit', [RoleController::class, 'edit'])->name('roles.edit');
+Route::put('/roles/{role}', [RoleController::class, 'update'])->name('roles.update');

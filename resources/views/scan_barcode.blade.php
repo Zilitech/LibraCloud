@@ -211,46 +211,52 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-<button class="btn btn-warning" id="returnBook"><i class="ri-refresh-line"></i> Return Book</button>
+<button class="btn btn-warning" id="returnBook">
+    <i class="ri-refresh-line"></i> Return Book
+</button>
 
 <div id="tableContainer" class="mt-4" style="display: none;">
     <table class="table table-bordered table-striped">
         <thead class="table-dark">
             <tr>
-                <th>Issue ID</th> 
-                <th>Member Name</th> 
+                <th>Issue ID</th>
+                <th>Member Name</th>
                 <th>Issue Date</th>
                 <th>Due Date</th>
-                <th>Action</th> 
+                <th>Action</th>
             </tr>
         </thead>
-        <tbody id="tableBody">
-            <!-- Records will be injected here -->
-        </tbody>
+        <tbody id="tableBody"></tbody>
     </table>
 </div>
 
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script>
 $(document).ready(function() {
 
+    // ================================
+    // 1️⃣ Load issued books by ISBN
+    // ================================
     $('#returnBook').click(function() {
-        // Get ISBN from scanned book details
+
         var isbn = $('#isbn').text().trim();
 
-        if(!isbn || isbn === '-') {
-            alert('No book selected! Please scan a book first.');
+        if (!isbn || isbn === '-') {
+            alert("No book selected! Please scan a book first.");
             return;
         }
 
         $.ajax({
             url: "{{ route('get.issued.books') }}",
-            type: 'POST',
+            type: "POST",
             data: {
                 _token: "{{ csrf_token() }}",
                 isbn: isbn
             },
             success: function(data) {
+
                 let html = '';
                 data.forEach(book => {
                     html += `
@@ -260,7 +266,11 @@ $(document).ready(function() {
                             <td>${book.issue_date}</td>
                             <td>${book.due_date}</td>
                             <td>
-                                <button class="btn btn-success return-btn" data-id="${book.id}">Return</button>
+                                <a href="/issue-book/return/${book.id}" 
+                                   class="btn btn-sm btn-warning"
+                                   onclick="return confirm('Are you sure you want to return this book?')">
+                                    <i class="ri-refresh-line"></i> Return
+                                </a>
                             </td>
                         </tr>
                     `;
@@ -269,25 +279,17 @@ $(document).ready(function() {
                 $('#tableBody').html(html);
                 $('#tableContainer').show();
             },
-            error: function(xhr) {
+
+            error: function() {
                 $('#tableBody').html('<tr><td colspan="5" class="text-center">No record found!</td></tr>');
                 $('#tableContainer').show();
             }
         });
-    });
 
-    // Optional: handle Return button click
-    $(document).on('click', '.return-btn', function() {
-        var id = $(this).data('id');
-        alert('Return Book ID: ' + id); 
-        // Call a route to mark book as returned if needed
     });
 
 });
-
 </script>
-
-
 
 
 

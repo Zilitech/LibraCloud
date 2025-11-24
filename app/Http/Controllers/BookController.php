@@ -259,5 +259,20 @@ public function getIssuedBooksByISBN($isbn)
     ]);
 }
 
+public function library_report()
+    {
+        // Fetch books with issuedBooks and inventory relationships
+        $libraryBooks = Book::with('issuedBooks', 'inventory')->get()->map(function($book) {
+            $book->issued = $book->issuedBooks->count();             // Total issued
+            $book->available = $book->quantity - $book->issued;     // Available = total - issued
+            $book->damaged = $book->inventory?->damaged ?? 0;       // From inventory if exists
+            return $book;
+        });
+
+        return view('library_report', compact('libraryBooks'));
+    }
+
+
+
 
 }

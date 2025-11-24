@@ -245,4 +245,32 @@ class MemberController extends Controller
 
         return view('all_member', compact('members', 'membercategories'));
     }
+
+   public function member_report(Request $request)
+{
+    $query = Member::query();
+
+    if ($request->filled('search')) {
+        $search = $request->search;
+        $query->where(function ($q) use ($search) {
+            $q->where('fullname', 'LIKE', "%$search%")
+              ->orWhere('email', 'LIKE', "%$search%")
+              ->orWhere('memberid', 'LIKE', "%$search%");
+        });
+    }
+
+    if ($request->filter && $request->filter !== 'All') {
+        if (in_array($request->filter, ['Active', 'Inactive'])) {
+            $query->where('status', $request->filter);
+        } else {
+            $query->where('membertype', $request->filter);
+        }
+    }
+
+    $members = $query->orderBy('id', 'DESC')->get(); // use get() for non-paginated table
+    $membercategories = DB::table('membercategory')->get();
+
+    return view('library_report', compact('members', 'membercategories'));
+}
+
 }

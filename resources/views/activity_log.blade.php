@@ -44,7 +44,6 @@
 
                                 <!-- Filters -->
                                 <div class="row mb-3">
-
                                     <!-- USER FILTER -->
                                     <div class="col-md-3">
                                         <select class="form-select" id="filterUser">
@@ -131,46 +130,48 @@
     @include('foot')
 
     <!-- DataTables AJAX -->
-    <script>
-        $(document).ready(function() {
-            var table = $('#activityLogTable').DataTable({
-                dom: 'Bfrtip',
-                buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
-                language: { searchPlaceholder: 'Search...', sSearch: '' },
-                pageLength: 10,
-                responsive: true,
-                processing: true,
-                serverSide: true,
-                ajax: {
-                    url: '{{ route("activity.logs.fetch") }}',
-                    data: function(d) {
-                        d.user_id = $('#filterUser').val();
-                        d.action = $('#filterAction').val();
-                        d.date = $('#filterDate').val();
-                    }
-                },
-                columns: [
-                    { data: 'id', name: 'id' },
-                    { data: 'user', name: 'user' },
-                    { data: 'action', name: 'action' },
-                    { data: 'details', name: 'details' },
-                    { data: 'status', name: 'status', orderable: false, searchable: false },
-                    { data: 'created_at', name: 'created_at' }
-                ]
-            });
+   <script>
+$(document).ready(function() {
+    var table = $('#activityLogTable').DataTable({
+        dom: 'Bfrtip',
+        buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
+        language: { searchPlaceholder: 'Search...', sSearch: '' },
+        pageLength: 10,
+        responsive: true,
+        processing: true,
+        serverSide: true,
+        ajax: {
+            url: '{{ route("activity.logs.fetch") }}', // Make sure this route exists
+            data: function(d) {
+                d.user_id = $('#filterUser').val();
+                d.action = $('#filterAction').val();
+                d.date = $('#filterDate').val();
+            }
+        },
+        columns: [
+            { data: 'id', name: 'id' },
+            { data: 'user', name: 'user' },
+            { data: 'action', name: 'action' },
+            { data: 'details', name: 'details' },
+            { data: 'status', name: 'status', orderable: false, searchable: false }, // remove render
+            { data: 'created_at', name: 'created_at' }
+        ]
+    });
 
-            $('#applyFilters').on('click', function() {
-                table.ajax.reload();
-            });
+    // Apply Filters
+    $('#applyFilters').on('click', function() {
+        table.ajax.reload();
+    });
 
-            $('#refreshTable').on('click', function() {
-                $('#filterUser').val('');
-                $('#filterAction').val('');
-                $('#filterDate').val('');
-                table.ajax.reload();
-            });
-        });
-    </script>
+    // Reset Filters
+    $('#refreshTable').on('click', function() {
+        $('#filterUser').val('');
+        $('#filterAction').val('');
+        $('#filterDate').val('');
+        table.ajax.reload();
+    });
+});
+</script>
 
 </body>
 </html>

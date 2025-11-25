@@ -37,14 +37,14 @@
 <div class="container mt-4">
     <div class="card shadow-sm border-0 rounded-4">
         <div class="card-header bg-primary text-white py-3 rounded-top-4">
-            <h4 class="mb-0"><i class="bi bi-box-seam me-2"></i> LibraCloud Version Information</h4>
+            <h4 class="mb-0"> LibraCloud Version Information</h4>
         </div>
 
         <div class="card-body p-4">
 
             <!-- System Overview -->
             <section class="mb-5">
-                <h5 class="fw-bold text-primary mb-3">🧭 System Overview</h5>
+                <h5 class="fw-bold text-primary mb-3">System Overview</h5>
                 <p>
                     <strong>LibraCloud</strong> is a next-generation Library Management System developed by 
                     <strong>Zilitech Technologies</strong>.  
@@ -55,7 +55,7 @@
 
             <!-- Version Details -->
             <section class="mb-5">
-                <h5 class="fw-bold text-primary mb-3">📦 Version Details</h5>
+                <h5 class="fw-bold text-primary mb-3">Version Details</h5>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item"><strong>Application Name:</strong> LibraCloud Admin Panel</li>
                     <li class="list-group-item"><strong>Version:</strong> 1.0.0 (Single Institution Edition)</li>
@@ -69,7 +69,7 @@
 
             <!-- Change Log -->
             <section class="mb-5">
-                <h5 class="fw-bold text-primary mb-3">🧾 Change Log (v1.0.0)</h5>
+                <h5 class="fw-bold text-primary mb-3"> Change Log (v1.0.0)</h5>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">✅ Added Dashboard with real-time statistics & charts</li>
                     <li class="list-group-item">✅ Implemented Book Management (Add, Edit, Delete, Search)</li>
@@ -87,7 +87,7 @@
 
             <!-- Upcoming Features -->
             <section class="mb-5">
-                <h5 class="fw-bold text-primary mb-3">🚀 Upcoming Features (v1.1.0 - Planned)</h5>
+                <h5 class="fw-bold text-primary mb-3"> Upcoming Features (v1.1.0 - Planned)</h5>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">🔹 Multi-branch support (for group institutions)</li>
                     <li class="list-group-item">🔹 SMS Gateway & WhatsApp Notifications</li>
@@ -99,7 +99,7 @@
 
             <!-- License Info -->
             <section class="mb-5">
-                <h5 class="fw-bold text-primary mb-3">⚖️ License & Usage</h5>
+                <h5 class="fw-bold text-primary mb-3"> License & Usage</h5>
                 <p>
                     LibraCloud is licensed under the <strong>Zilitech Institutional License</strong>.  
                     It is provided for internal library use within one institution. Redistribution, resale, or
@@ -109,10 +109,10 @@
 
             <!-- Credits -->
             <section>
-                <h5 class="fw-bold text-primary mb-3">💡 Credits</h5>
+                <h5 class="fw-bold text-primary mb-3"> Credits</h5>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item"><strong>Developed By:</strong> Zilitech Technologies</li>
-                    <li class="list-group-item"><strong>Lead Developer:</strong> Tukaram (Software Engineer)</li>
+                    <li class="list-group-item"><strong>Developed By:</strong> SRZili Technology Private Limited</li>
+                    <li class="list-group-item"><strong>Developer:</strong> Tukaram (Software Engineer)</li>
                     <li class="list-group-item"><strong>Support:</strong> <a href="mailto:zilitechy@gmail.com">support@zilitech.in</a></li>
                     <li class="list-group-item"><strong>Website:</strong> <a href="https://zilitech.com" target="_blank">www.zilitech.com</a></li>
                 </ul>

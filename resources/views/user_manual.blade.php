@@ -18,7 +18,7 @@
 
                 <!-- Page Header -->
                 <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h4 class="page-title mb-0">📖 User Manual</h4>
+                    <h4 class="page-title mb-0">User Manual</h4>
                     <a href="{{ url('/') }}" class="btn btn-secondary">
                         <i class="ri-arrow-left-line"></i> Back to Dashboard
                     </a>
@@ -37,7 +37,7 @@
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="headingDashboard">
                             <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDashboard">
-                                🏠 Dashboard Overview
+                                Dashboard Overview
                             </button>
                         </h2>
                         <div id="collapseDashboard" class="accordion-collapse collapse show" data-bs-parent="#manualAccordion">
@@ -55,7 +55,7 @@
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="headingBook">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBook">
-                                📚 Book Management
+                                 Book Management
                             </button>
                         </h2>
                         <div id="collapseBook" class="accordion-collapse collapse" data-bs-parent="#manualAccordion">
@@ -74,7 +74,7 @@
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="headingBarcode">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBarcode">
-                                📸 Barcode Management
+                                 Barcode Management
                             </button>
                         </h2>
                         <div id="collapseBarcode" class="accordion-collapse collapse" data-bs-parent="#manualAccordion">
@@ -92,7 +92,7 @@
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="headingMembers">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMembers">
-                                👥 Member Management
+                                 Member Management
                             </button>
                         </h2>
                         <div id="collapseMembers" class="accordion-collapse collapse" data-bs-parent="#manualAccordion">
@@ -109,7 +109,7 @@
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="headingIssue">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseIssue">
-                                🔁 Issue & Return Management
+                                 Issue & Return Management
                             </button>
                         </h2>
                         <div id="collapseIssue" class="accordion-collapse collapse" data-bs-parent="#manualAccordion">
@@ -127,7 +127,7 @@
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="headingReports">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseReports">
-                                📄 Reports & Analytics
+                                 Reports & Analytics
                             </button>
                         </h2>
                         <div id="collapseReports" class="accordion-collapse collapse" data-bs-parent="#manualAccordion">
@@ -145,7 +145,7 @@
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="headingNotifications">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNotifications">
-                                🔔 Notifications
+                                 Notifications
                             </button>
                         </h2>
                         <div id="collapseNotifications" class="accordion-collapse collapse" data-bs-parent="#manualAccordion">
@@ -162,7 +162,7 @@
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="headingEbooks">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEbooks">
-                                📘 E-Books Module
+                                 E-Books Module
                             </button>
                         </h2>
                         <div id="collapseEbooks" class="accordion-collapse collapse" data-bs-parent="#manualAccordion">
@@ -179,7 +179,7 @@
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="headingSettings">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSettings">
-                                ⚙️ Library Settings
+                                 Library Settings
                             </button>
                         </h2>
                         <div id="collapseSettings" class="accordion-collapse collapse" data-bs-parent="#manualAccordion">
@@ -196,7 +196,7 @@
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="headingUsers">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseUsers">
-                                👤 User Management
+                                 User Management
                             </button>
                         </h2>
                         <div id="collapseUsers" class="accordion-collapse collapse" data-bs-parent="#manualAccordion">
@@ -213,7 +213,7 @@
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="headingLogs">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseLogs">
-                                🗂️ Logs & Maintenance
+                                 Logs & Maintenance
                             </button>
                         </h2>
                         <div id="collapseLogs" class="accordion-collapse collapse" data-bs-parent="#manualAccordion">

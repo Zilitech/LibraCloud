@@ -44,7 +44,7 @@
 
             <!-- Project Overview -->
             <section class="mb-5">
-                <h5 class="fw-bold text-primary mb-3">📘 Project Overview</h5>
+                <h5 class="fw-bold text-primary mb-3"> Project Overview</h5>
                 <p>
                     <strong>LibraCloud</strong> is a modern web-based Library Management System built using 
                     <strong>Laravel 10</strong> and <strong>Bootstrap 5</strong>.  
@@ -57,13 +57,13 @@
 
             <!-- Development Info -->
             <section class="mb-5">
-                <h5 class="fw-bold text-primary mb-3">👨‍💻 Developed By</h5>
+                <h5 class="fw-bold text-primary mb-3"> Developed By</h5>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
-                        <strong>Developer:</strong> Zilitech Technologies
+                        <strong>Developed By:</strong> SRZili Technology Private Limited
                     </li>
                     <li class="list-group-item">
-                        <strong>Lead Developer:</strong> Tukaram (Software Engineer)
+                        <strong>Developer:</strong> Tukaram (Software Engineer)
                     </li>
                     <li class="list-group-item">
                         <strong>Email:</strong> <a href="mailto:zilitechy@gmail.com">support@zilitech.in</a>
@@ -79,7 +79,7 @@
 
             <!-- Technical Details -->
             <section class="mb-5">
-                <h5 class="fw-bold text-primary mb-3">🧩 Technical Stack</h5>
+                <h5 class="fw-bold text-primary mb-3"> Technical Stack</h5>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item"><strong>Framework:</strong> Laravel 10</li>
                     <li class="list-group-item"><strong>Frontend:</strong> Bootstrap 5, jQuery, Blade Templates</li>
@@ -93,7 +93,7 @@
 
             <!-- Contribution -->
             <section class="mb-5">
-                <h5 class="fw-bold text-primary mb-3">🤝 Contribute</h5>
+                <h5 class="fw-bold text-primary mb-3"> Contribute</h5>
                 <p>
                     We welcome contributions and improvements!  
                     You can fork the project, report issues, or suggest new features via our 
@@ -103,7 +103,7 @@
 
             <!-- Version Info -->
             <section class="mb-5">
-                <h5 class="fw-bold text-primary mb-3">📦 Version Info</h5>
+                <h5 class="fw-bold text-primary mb-3"> Version Info</h5>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item"><strong>Version:</strong> 1.0.0 (Single Institution Edition)</li>
                     <li class="list-group-item"><strong>Release Date:</strong> November 2025</li>
@@ -113,7 +113,7 @@
 
             <!-- Contact -->
             <section>
-                <h5 class="fw-bold text-primary mb-3">📞 Contact & Support</h5>
+                <h5 class="fw-bold text-primary mb-3"> Contact & Support</h5>
                 <p>
                     For technical assistance, customization, or enterprise installation:
                 </p>

@@ -285,13 +285,13 @@ Route::get('/activity_log', [ActivityLogController::class, 'index'])->name('acti
 
 
 
+Route::get('/system/backup', [BackupController::class, 'index'])->name('system.backup.index');
+Route::post('/system/backup/run', [BackupController::class, 'runBackup'])->name('system.backup.run');
+Route::get('/system/backup/download/{id}', [BackupController::class, 'download'])->name('system.backup.download');
+Route::delete('/system/backup/delete/{id}', [BackupController::class, 'destroy'])->name('system.backup.delete');
 
-Route::prefix('system_backup')->group(function () {
-    Route::get('/', [BackupController::class, 'index'])->name('system.backup.index');
-    Route::post('/run', [BackupController::class, 'runBackup'])->name('system.backup.run');
-    Route::get('/download/{id}', [BackupController::class, 'download'])->name('system.backup.download');
-    Route::delete('/delete/{id}', [BackupController::class, 'destroy'])->name('system.backup.delete');
-});
+// NEW: Latest 2 AM backup route
+Route::get('/system/backup/latest2am', [BackupController::class, 'latest2am'])->name('system.backup.latest2am');
 
 
 

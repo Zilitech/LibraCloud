@@ -11,20 +11,20 @@ class Fine extends Model
 
     protected $fillable = [
         'fine_id',
-        'overdue_book_id',
-        'member',
-        'book_title',
+        'member_id',
+        'book_id',
         'issue_date',
         'due_date',
         'return_date',
         'days_overdue',
         'fine_amount',
         'status',
+        'college_id',
     ];
 
     // Relation to overdue book
     public function overdueBook()
     {
-        return $this->belongsTo(OverdueBook::class);
+        return $this->belongsTo(OverdueBook::class, 'book_id', 'id');
     }
 }

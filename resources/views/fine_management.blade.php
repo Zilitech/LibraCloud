@@ -12,14 +12,26 @@
         display: inline-block;
     }
 
-    /* Optional: Responsive table scroll for small screens */
+    /* Table cell vertical alignment */
     table.dataTable tbody td {
         vertical-align: middle;
     }
 
-    /* Fix Actions column width for better visibility */
-    table.dataTable td:last-child {
-        white-space: nowrap;
+    /* Compact Actions Column */
+    .actions-cell .btn {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.85rem;
+    }
+
+    .actions-cell .d-flex {
+        flex-wrap: nowrap; /* Keep buttons in one line */
+        gap: 0.25rem;      /* Space between buttons */
+        justify-content: center;
+    }
+
+    /* Optional: Tooltip fix for small buttons */
+    .actions-cell [data-bs-toggle="tooltip"] {
+        pointer-events: auto;
     }
 </style>
 
@@ -57,37 +69,7 @@
             </div>
 
             <!-- Fine Summary Cards -->
-            <div class="row">
-                @php
-                    $totalFines = $fines->sum('fine_amount');
-                    $pendingFines = $fines->where('status','Pending')->sum('fine_amount');
-                    $clearedFines = $fines->where('status','Paid')->sum('fine_amount');
-                    $membersWithFines = $fines->pluck('member')->unique()->count();
-                @endphp
-
-                @foreach ([
-                    ['title'=>'Total Fines Collected','value'=>$totalFines,'icon'=>'ri-money-dollar-circle-line','color'=>'primary-transparent'],
-                    ['title'=>'Pending Fines','value'=>$pendingFines,'icon'=>'ri-time-line','color'=>'warning-transparent'],
-                    ['title'=>'Cleared Fines','value'=>$clearedFines,'icon'=>'ri-check-double-line','color'=>'success-transparent'],
-                    ['title'=>'Members with Fines','value'=>$membersWithFines,'icon'=>'ri-user-line','color'=>'info-transparent']
-                ] as $card)
-                <div class="col-xl-3 col-md-6">
-                    <div class="card custom-card">
-                        <div class="card-body d-flex align-items-center">
-                            <div class="me-3">
-                                <span class="avatar bg-{{ $card['color'] }}">
-                                    <i class="{{ $card['icon'] }} fs-24"></i>
-                                </span>
-                            </div>
-                            <div>
-                                <p class="mb-1 text-muted">{{ $card['title'] }}</p>
-                                <h5 class="mb-0 fw-semibold">{{ is_numeric($card['value']) ? '₹'.number_format($card['value'],2) : $card['value'] }}</h5>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                @endforeach
-            </div>
+           
 
             <!-- Fine Records Table -->
             <div class="row">
@@ -106,7 +88,6 @@
                                             <th>Book Title</th>
                                             <th>Issue Date</th>
                                             <th>Due Date</th>
-                                            <th>Return Date</th>
                                             <th>Days Overdue</th>
                                             <th>Fine Amount (₹)</th>
                                             <th>Status</th>
@@ -114,16 +95,15 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($fines as $fine)
+                                        @foreach($all_overdue as $fine)
                                         <tr>
-                                            <td>{{ $fine['fine_id'] }}</td>
-                                            <td>{{ $fine['member'] }}</td>
-                                            <td>{{ $fine['book_title'] }}</td>
-                                            <td>{{ \Carbon\Carbon::parse($fine['issue_date'])->format('Y-m-d') }}</td>
-                                            <td>{{ \Carbon\Carbon::parse($fine['due_date'])->format('Y-m-d') }}</td>
-                                            <td>{{ \Carbon\Carbon::parse($fine['return_date'])->format('Y-m-d') }}</td>
-                                            <td>{{ $fine['days_overdue'] }}</td>
-                                            <td>₹{{ number_format($fine['fine_amount'],2) }}</td>
+                                            <td>{{ $fine->issue_id }}</td>
+                                            <td>{{$fine->member_name}}</td>
+                                            <td>{{ $fine->book_name }}</td>
+                                            <td>{{ $fine->issue_date }}</td>
+                                            <td>{{ $fine->due_date}}</td>
+                                            <td>{{ $fine->days_overdue }}</td>
+                                            <td>₹{{ $fine->fine }}</td>
                                             <td class="text-center status-badge">
                                                 @if($fine['status'] == 'Paid')
                                                     <span class="badge bg-success">Paid</span>
@@ -133,49 +113,31 @@
                                                     <span class="badge bg-danger">Overdue</span>
                                                 @endif
                                             </td>
-                                           <td class="text-center">
-    @if($fine['status'] == 'Pending')
-        <!-- Mark as Paid -->
-        <form action="{{ route('fines.markPaid', $fine['id']) }}" method="POST" style="display:inline-block;">
+                                           <td class="text-center actions-cell">
+    <div class="d-flex flex-wrap gap-1 justify-content-center">
+        @if($fine['status'] != 'Paid')
+            <form action="{{ route('fines.markAsPaid', $fine['id']) }}" method="POST" class="d-inline">
+                @csrf
+                <button class="btn btn-sm btn-success" title="Mark as Paid">
+                    <i class="ri-check-line"></i>
+                </button>
+            </form>
+        @endif
+
+        @if($fine['status'] == 'Paid')
+            <a href="{{ route('fines.printReceipt', $fine['id']) }}" class="btn btn-sm btn-secondary" title="Print Receipt">
+                <i class="ri-printer-line"></i>
+            </a>
+        @endif
+
+        <form action="{{ route('fines.destroy', $fine['id']) }}" method="POST" class="d-inline">
             @csrf
-            <button class="btn btn-sm btn-success me-1" title="Mark as Paid">
-                <i class="ri-check-line"></i>
+            @method('DELETE')
+            <button class="btn btn-sm btn-danger" title="Delete">
+                <i class="ri-delete-bin-5-line"></i>
             </button>
         </form>
-    @elseif($fine['status'] == 'Overdue')
-        <!-- Send Reminder -->
-        <button class="btn btn-sm btn-warning me-1" data-bs-toggle="tooltip" title="Send Reminder">
-            <i class="ri-mail-send-line"></i>
-        </button>
-        <!-- Mark as Paid -->
-        <form action="{{ route('fines.markPaid', $fine['id']) }}" method="POST" style="display:inline-block;">
-            @csrf
-            <button class="btn btn-sm btn-success me-1" title="Mark as Paid">
-                <i class="ri-check-line"></i>
-            </button>
-        </form>
-    @endif
-
-    <!-- View -->
-    <a href="{{ route('fines.show', $fine['id']) }}" class="btn btn-sm btn-info me-1" title="View">
-        <i class="ri-eye-line"></i>
-    </a>
-
-    <!-- Optional: Print Receipt -->
-    @if($fine['status'] == 'Paid')
-    <a href="{{ route('fines.printReceipt', $fine['id']) }}" class="btn btn-sm btn-secondary me-1" title="Print Receipt">
-        <i class="ri-printer-line"></i>
-    </a>
-    @endif
-
-    <!-- Delete -->
-    <form action="{{ route('fines.destroy', $fine['id']) }}" method="POST" style="display:inline-block;">
-        @csrf
-        @method('DELETE')
-        <button class="btn btn-sm btn-danger" title="Delete">
-            <i class="ri-delete-bin-5-line"></i>
-        </button>
-    </form>
+    </div>
 </td>
 
                                         </tr>
@@ -222,8 +184,14 @@ $(document).ready(function() {
         responsive: true,
         columnDefs: [
             { width: '100px', targets: 8 }, // Status
-            { width: '150px', targets: -1 } // Actions
+            { width: '180px', targets: -1 } // Actions
         ]
+    });
+
+    // Initialize Bootstrap tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
     });
 });
 </script>

@@ -20,6 +20,8 @@ use App\Http\Controllers\ScanBarcodeController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\BackupController;
+use App\Http\Controllers\LibraryReportController;
+
 
 
 
@@ -91,8 +93,8 @@ Route::get('/books', [BookController::class, 'index'])->middleware('permission:m
 
 
 
-Route::get('/library_report', [BookController::class, 'library_report'])->name('library.report');
-Route::get('/library_report', [App\Http\Controllers\MemberController::class, 'member_report'])->name('member.report');
+Route::get('/library/report', [LibraryReportController::class, 'index'])->name('library.report');
+
 
 
 
@@ -202,12 +204,19 @@ Route::post('/books/return/{issue_id}', [OverdueBookController::class, 'markAsRe
 
 
 Route::prefix('fines')->group(function () {
+    // Show Fine Management page
     Route::get('/', [FineController::class, 'index'])->name('fines.index');
-    Route::get('/{id}', [FineController::class, 'show'])->name('fines.show'); // ← this was missing
-    Route::post('/{id}/mark-paid', [FineController::class, 'markPaid'])->name('fines.markPaid');
-    Route::get('/{id}/print-receipt', [FineController::class, 'printReceipt'])->name('fines.printReceipt');
-    Route::delete('/{id}', [FineController::class, 'destroy'])->name('fines.destroy');
-});
+
+    // Mark fine as paid
+    Route::post('{id}/mark-paid', [FineController::class, 'markAsPaid'])->name('fines.markAsPaid');
+
+    // Delete fine
+    Route::delete('{id}', [FineController::class, 'destroy'])->name('fines.destroy');
+
+    // Optional: Print receipt route (if you later implement this method in controller)
+    // Route::get('{id}/print', [FineController::class, 'printReceipt'])->name('fines.printReceipt');
+}); // optional
+
 
 Route::get('/fine-settings', [FineSettingController::class, 'index'])->name('fine.settings');
 Route::post('/fine-settings', [FineSettingController::class, 'store'])->name('fine.settings.store');

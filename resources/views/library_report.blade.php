@@ -38,16 +38,16 @@
         <!-- Sidebar: Modules -->
         <div class="col-md-3 mb-4">
             <div class="list-group" id="moduleList" role="tablist">
-                <a class="list-group-item list-group-item-action active" data-bs-toggle="list" href="#bookReports" role="tab">📚 Book Management</a>
-                <a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#memberReports" role="tab">👥 Member Management</a>
-                <a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#issueReports" role="tab">🔁 Issue & Return</a>
-                <a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#barcodeReports" role="tab">📸 Barcode Management</a>
-                <a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#ebookReports" role="tab">📘 E-Books</a>
-                <a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#notificationReports" role="tab">🔔 Notifications</a>
-                <a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#settingsReports" role="tab">⚙️ Settings</a>
-                <a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#userReports" role="tab">👤 User Management</a>
-                <a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#logReports" role="tab">🗂️ Logs & Maintenance</a>
-                <a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#dashboardReports" role="tab">📊 Dashboard</a>
+                <a class="list-group-item list-group-item-action active" data-bs-toggle="list" href="#bookReports" role="tab">Book Management</a>
+                <a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#memberReports" role="tab"> Member Management</a>
+                <a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#issueReports" role="tab">Issue & Return</a>
+                <a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#barcodeReports" role="tab"> Barcode Management</a>
+                <a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#ebookReports" role="tab"> E-Books</a>
+                <a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#notificationReports" role="tab">Notifications</a>
+                <a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#settingsReports" role="tab">Settings</a>
+                <a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#userReports" role="tab">User Management</a>
+                <a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#logReports" role="tab"> Logs & Maintenance</a>
+                <a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#dashboardReports" role="tab">Dashboard</a>
             </div>
         </div>
 
@@ -58,51 +58,32 @@
                 <!-- Book Management Reports -->
 <!-- Book Management Reports -->
 <div class="tab-pane fade show active" id="bookReports" role="tabpanel">
-    <h4>📚 Book Management Reports</h4>
+    <h4>Book Management Reports</h4>
     <div class="table-responsive">
         <table id="bookTable" class="table table-bordered text-nowrap w-100">
             <thead>
                 <tr>
                     <th>S.No</th>
+                                        <th>Code</th>
+
                     <th>Book Title</th>
                     <th>Author</th>
                     <th>Category</th>
                     <th>Total Copies</th>
-                    <th>Available</th>
-                    <th>Issued</th>
-                    <th>Damaged/Lost</th>
-                    <th>Status</th>
-                    <th>Action</th>
+                    <th>Price</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse($libraryBooks as $index => $book)
     <tr>
         <td>{{ $index + 1 }}</td>
+                <td>{{ $book->book_code }}</td>
+
         <td>{{ $book->book_title }}</td>
         <td>{{ $book->author_name }}</td>
         <td>{{ $book->category_name }}</td>
         <td>{{ $book->quantity }}</td>
-        <td>{{ $book->available }}</td>
-        <td>{{ $book->issued }}</td>
-        <td>{{ $book->damaged }}</td>
-        <td>
-            @if($book->available > 0)
-                <span class="badge bg-success-transparent">Available</span>
-            @else
-                <span class="badge bg-danger-transparent">Not Available</span>
-            @endif
-        </td>
-        <td>
-            <div class="hstack gap-2 flex-wrap">
-                <a href="{{ route('books.show', $book->id) }}" class="text-info fs-14 lh-1" title="View">
-                    <i class="ri-eye-line"></i>
-                </a>
-                <a href="{{ route('books.edit', $book->id) }}" class="text-warning fs-14 lh-1" title="Edit">
-                    <i class="ri-edit-line"></i>
-                </a>
-            </div>
-        </td>
+        <td>{{ $book->price }}</td>
     </tr>
 @empty
 <tr>
@@ -117,7 +98,7 @@
 
                 <!-- Member Management Reports -->
                 <div class="tab-pane fade" id="memberReports" role="tabpanel">
-    <h4>👥 Member Management Reports</h4>
+    <h4>Member Management Reports</h4>
     <table id="memberTable" class="table table-bordered table-striped w-100">
         <thead>
             <tr>
@@ -125,8 +106,8 @@
                 <th>Name</th>
                 <th>Category</th>
                 <th>Email</th>
-                <th>Total Issued Books</th>
-                <th>Fines Pending</th>
+                <th>Phone</th>
+                <th>department</th>
             </tr>
         </thead>
         <tbody>
@@ -136,8 +117,8 @@
                 <td>{{ $member->fullname }}</td>
                 <td>{{ $member->membertype ?? '-' }}</td>
                 <td>{{ $member->email ?? '-' }}</td>
-                <td>{{ $member->issued_books_count ?? 0 }}</td>
-                <td>₹{{ $member->fines_pending ?? 0 }}</td>
+                <td>{{ $member->phone}}</td>
+                <td>{{ $member->departmentclass }}</td>
             </tr>
             @empty
             <tr>
@@ -151,7 +132,7 @@
 
                 <!-- Issue & Return Reports -->
                 <div class="tab-pane fade" id="issueReports" role="tabpanel">
-                    <h4>🔁 Issue & Return Reports</h4>
+                    <h4>Issued Reports</h4>
                     <table id="issueTable" class="table table-bordered table-striped w-100">
                         <thead>
                             <tr>
@@ -165,31 +146,60 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @forelse($issued_books as $issue)
                             <tr>
-                                <td>1001</td>
-                                <td>Organic Chemistry Volume 2</td>
-                                <td>Riya Sharma</td>
-                                <td>2025-11-01</td>
-                                <td>2025-11-10</td>
-                                <td>Returned</td>
-                                <td>₹0</td>
+                                <td>{{$issue->issue_id}}</td>
+                                <td>{{$issue->book_name}}</td>
+                                <td>{{$issue->book_isbn}}</td>
+                                <td>{{$issue->author_name}}</td>
+                                <td>{{$issue->member_name}}</td>
+                                <td>{{$issue->issue_date}}</td>
+                                <td>{{$issue->due_date}}</td>
                             </tr>
+                             @empty
+            <tr>
+                <td colspan="6" class="text-center">No members found.</td>
+            </tr>
+            @endforelse
+                        </tbody>
+                    </table>
+                    <h4> Returnd Reports</h4>
+                    <table id="issueTable" class="table table-bordered table-striped w-100">
+                        <thead>
                             <tr>
-                                <td>1002</td>
-                                <td>World History</td>
-                                <td>Mr. Rajesh Kumar</td>
-                                <td>2025-11-03</td>
-                                <td>2025-11-12</td>
-                                <td>Issued</td>
-                                <td>₹0</td>
+                                <th>Issue ID</th>
+                                <th>Book</th>
+                                <th>ISBN</th>
+                                <th>Author</th>
+                                <th>Member</th>
+                                <th>Issue Date</th>
+                                <th>Return Date</th>
                             </tr>
+                        </thead>
+                        <tbody>
+                            @forelse($returned_books as $return)
+                            <tr>
+                                <td>{{$return->issue_id}}</td>
+                                <td>{{$return->book_name}}</td>
+                                <td>{{$return->book_isbn}}</td>
+                                <td>{{$return->author_name}}</td>
+                                <td>{{$return->member_name}}</td>
+                                <td>{{$return->issue_date}}</td>
+                                <td>{{$return->due_date}}</td>
+                            </tr>
+                     
+                             @empty
+            <tr>
+                <td colspan="6" class="text-center">No members found.</td>
+            </tr>
+            @endforelse
                         </tbody>
                     </table>
                 </div>
 
                 <!-- Barcode Management Reports -->
                 <div class="tab-pane fade" id="barcodeReports" role="tabpanel">
-                    <h4>📸 Barcode Management Reports</h4>
+                    <h4>Barcode Management Reports</h4>
                     <table id="barcodeTable" class="table table-bordered table-striped w-100">
                         <thead>
                             <tr>
@@ -218,32 +228,40 @@
 
                 <!-- E-Books Reports -->
                 <div class="tab-pane fade" id="ebookReports" role="tabpanel">
-                    <h4>📘 E-Books Reports</h4>
+                    <h4>E-Books Reports</h4>
                     <table id="ebookTable" class="table table-bordered table-striped w-100">
                         <thead>
                             <tr>
                                 <th>E-Book ID</th>
                                 <th>Title</th>
-                                <th>Uploaded By</th>
-                                <th>Upload Date</th>
-                                <th>Download Count</th>
+                                <th>Author</th>
+                                <th>Category</th>
+                                <th>Price</th>
+                                <th>Uploaded</th>
                             </tr>
                         </thead>
                         <tbody>
+                            @forelse($ebooks as $ebook)
                             <tr>
-                                <td>EB101</td>
-                                <td>Physics Fundamentals</td>
-                                <td>Admin</td>
-                                <td>2025-11-01</td>
-                                <td>25</td>
+                                <td>{{$ebook->id}}</td>
+                                <td>{{$ebook->book_title}}</td>
+                                <td>{{$ebook->author_name}}</td>
+                                <td>{{$ebook->category_name}}</td>
+                                <td>{{$ebook->price}}</td>
+                                <td>{{$ebook->created_at}}</td>
                             </tr>
+                            @empty
+            <tr>
+                <td colspan="6" class="text-center">No members found.</td>
+            </tr>
+            @endforelse
                         </tbody>
                     </table>
                 </div>
 
                 <!-- Notifications Reports -->
                 <div class="tab-pane fade" id="notificationReports" role="tabpanel">
-                    <h4>🔔 Notifications Reports</h4>
+                    <h4>Notifications Reports</h4>
                     <table id="notificationTable" class="table table-bordered table-striped w-100">
                         <thead>
                             <tr>
@@ -268,7 +286,7 @@
 
                 <!-- Settings Reports -->
                 <div class="tab-pane fade" id="settingsReports" role="tabpanel">
-                    <h4>⚙️ Settings Reports</h4>
+                    <h4>Settings Reports</h4>
                     <table id="settingsTable" class="table table-bordered table-striped w-100">
                         <thead>
                             <tr>
@@ -291,64 +309,71 @@
 
                 <!-- User Management Reports -->
                 <div class="tab-pane fade" id="userReports" role="tabpanel">
-                    <h4>👤 User Management Reports</h4>
+                    <h4>User Management Reports</h4>
                     <table id="userTable" class="table table-bordered table-striped w-100">
                         <thead>
                             <tr>
-                                <th>User ID</th>
+                                <th>Emp ID</th>
                                 <th>Name</th>
+                                <th>D.O.B</th>
+                                <th>department</th>
                                 <th>Role</th>
-                                <th>Email</th>
-                                <th>Last Login</th>
+                                <th>Phone</th>
                             </tr>
                         </thead>
                         <tbody>
+                            @forelse($all_staff as $staff)
                             <tr>
-                                <td>1</td>
-                                <td>Admin</td>
-                                <td>Admin</td>
-                                <td>admin@library.com</td>
-                                <td>2025-11-09 10:00</td>
+                                <td>{{$staff->employee_id}}</td>
+                                <td>{{$staff->name}}</td>
+                                <td>{{$staff->dob}}</td>
+                                <td>{{$staff->department}}</td>
+                                <td>{{$staff->role_name}}</td>
+                                <td>{{$staff->phone}}</td>
                             </tr>
+                           @empty
+            <tr>
+                <td colspan="6" class="text-center">No members found.</td>
+            </tr>
+            @endforelse
                         </tbody>
                     </table>
                 </div>
 
                 <!-- Logs & Maintenance Reports -->
                 <div class="tab-pane fade" id="logReports" role="tabpanel">
-                    <h4>🗂️ Logs & Maintenance Reports</h4>
+                    <h4>Logs & Maintenance Reports</h4>
                     <table id="logTable" class="table table-bordered table-striped w-100">
                         <thead>
                             <tr>
                                 <th>Log ID</th>
-                                <th>Type</th>
-                                <th>Description</th>
-                                <th>User</th>
+                                <th>User ID</th>
+                                <th>Action</th>
+                                <th>Details</th>
                                 <th>Date</th>
                             </tr>
                         </thead>
                         <tbody>
+                            @forelse($activity_logs as $logs)
                             <tr>
-                                <td>LOG101</td>
-                                <td>Activity</td>
-                                <td>Issued Organic Chemistry Volume 2 to Riya Sharma</td>
-                                <td>Admin</td>
-                                <td>2025-11-01 10:00</td>
+                                <td>{{$logs->id}}</td>
+                                <td>{{$logs->user_id}}</td>
+                                <td>{{$logs->action}}</td>
+                                <td>{{$logs->details}}</td>
+                                <td>{{$logs->created_at}}</td>
                             </tr>
-                            <tr>
-                                <td>LOG102</td>
-                                <td>Error</td>
-                                <td>Failed login attempt for user test@library.com</td>
-                                <td>System</td>
-                                <td>2025-11-05 08:30</td>
-                            </tr>
+                           @empty
+            <tr>
+                <td colspan="6" class="text-center">No members found.</td>
+            </tr>
+            @endforelse
                         </tbody>
                     </table>
                 </div>
 
                 <!-- Dashboard Reports -->
                 <div class="tab-pane fade" id="dashboardReports" role="tabpanel">
-                    <h4>📊 Dashboard Reports</h4>
+                    <h4>Dashboard Reports</h4>
                     <table id="dashboardTable" class="table table-bordered table-striped w-100">
                         <thead>
                             <tr>

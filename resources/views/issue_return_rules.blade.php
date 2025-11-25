@@ -29,6 +29,17 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
 
+            @php
+                // Dummy data
+                $settings = (object) [
+                    'max_books_per_member' => 5,
+                    'issue_duration_days' => 14,
+                    'allow_renewal' => 1,
+                    'max_renewals' => 2,
+                    'overdue_fine_apply' => 1,
+                ];
+            @endphp
+
             <div class="row">
                 <div class="col-xl-12">
                     <div class="card custom-card">
@@ -43,28 +54,28 @@
                                 <div class="row g-3">
                                     <div class="col-md-6">
                                         <label class="form-label">Max Books per Member</label>
-                                        <input type="number" class="form-control" name="max_books_per_member" value="{{ old('max_books_per_member', $settings->max_books_per_member ?? '') }}" required>
+                                        <input type="number" class="form-control" name="max_books_per_member" value="{{ old('max_books_per_member', $settings->max_books_per_member) }}" required>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label">Issue Duration (Days)</label>
-                                        <input type="number" class="form-control" name="issue_duration_days" value="{{ old('issue_duration_days', $settings->issue_duration_days ?? '') }}" required>
+                                        <input type="number" class="form-control" name="issue_duration_days" value="{{ old('issue_duration_days', $settings->issue_duration_days) }}" required>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label">Allow Renewal</label>
                                         <select class="form-select" name="allow_renewal">
-                                            <option value="1" {{ (isset($settings) && $settings->allow_renewal) ? 'selected' : '' }}>Yes</option>
-                                            <option value="0" {{ (isset($settings) && !$settings->allow_renewal) ? 'selected' : '' }}>No</option>
+                                            <option value="1" {{ ($settings->allow_renewal) ? 'selected' : '' }}>Yes</option>
+                                            <option value="0" {{ (!$settings->allow_renewal) ? 'selected' : '' }}>No</option>
                                         </select>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label">Max Renewals per Book</label>
-                                        <input type="number" class="form-control" name="max_renewals" value="{{ old('max_renewals', $settings->max_renewals ?? 0) }}">
+                                        <input type="number" class="form-control" name="max_renewals" value="{{ old('max_renewals', $settings->max_renewals) }}">
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label">Apply Overdue Fine</label>
                                         <select class="form-select" name="overdue_fine_apply">
-                                            <option value="1" {{ (isset($settings) && $settings->overdue_fine_apply) ? 'selected' : '' }}>Yes</option>
-                                            <option value="0" {{ (isset($settings) && !$settings->overdue_fine_apply) ? 'selected' : '' }}>No</option>
+                                            <option value="1" {{ ($settings->overdue_fine_apply) ? 'selected' : '' }}>Yes</option>
+                                            <option value="0" {{ (!$settings->overdue_fine_apply) ? 'selected' : '' }}>No</option>
                                         </select>
                                     </div>
                                 </div>

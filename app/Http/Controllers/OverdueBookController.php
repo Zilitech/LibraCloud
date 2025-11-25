@@ -30,34 +30,38 @@ class OverdueBookController extends Controller
             ->get();
 
         foreach ($issuedBooks as $book) {
+            // Calculate days overdue
             $daysOverdue = $today->diffInDays(Carbon::parse($book->due_date));
-            $fine = $daysOverdue * 10; // ₹10 per day
+            
+            // Fine calculation: ₹10 per day overdue
+            $fine = $daysOverdue * 10;
 
             OverdueBook::updateOrCreate(
                 ['issue_id' => $book->issue_id],
                 [
-                    'book_name' => $book->book_name,
-                    'member_name' => $book->member_name,
-                    'member_id' => $book->member_id ?? null,
-                    'issue_date' => $book->issue_date,
-                    'due_date' => $book->due_date,
+                    'book_id'      => $book->book_id ?? null,
+                    'book_name'    => $book->book_name,
+                    'member_id'    => $book->member_id ?? null,
+                    'member_name'  => $book->member_name,
+                    'issue_date'   => $book->issue_date,
+                    'due_date'     => $book->due_date,
                     'days_overdue' => $daysOverdue,
-                    'fine' => $fine,
-                    'status' => 'Overdue'
+                    'fine'         => $fine,
+                    'status'       => 'Overdue'
                 ]
             );
 
             // Log activity
             ActivityLog::create([
                 'user_id' => Auth::id(),
-                'action' => 'Update Overdue',
+                'action'  => 'Update Overdue',
                 'details' => "Updated overdue book: {$book->book_name} for member: {$book->member_name}, Days overdue: $daysOverdue, Fine: ₹$fine",
-                'status' => 'success'
+                'status'  => 'success'
             ]);
         }
     }
 
-    // Mark book as returned (no CSRF check required)
+    // Mark book as returned
     public function markAsReturned($issue_id)
     {
         try {
@@ -83,9 +87,9 @@ class OverdueBookController extends Controller
             // Log activity
             ActivityLog::create([
                 'user_id' => Auth::id(),
-                'action' => 'Return Overdue Book',
+                'action'  => 'Return Overdue Book',
                 'details' => "Book returned: {$issuedBook->book_name} by member: {$issuedBook->member_name}. Overdue fine: " . ($overdueBook->fine ?? 0),
-                'status' => 'success'
+                'status'  => 'success'
             ]);
 
             return response()->json(['status' => 'success', 'message' => 'Book marked as returned']);

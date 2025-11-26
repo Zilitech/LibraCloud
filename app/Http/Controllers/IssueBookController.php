@@ -32,6 +32,7 @@ class IssueBookController extends Controller
     {
         $validated = $request->validate([
             'issue_id' => 'required|unique:issued_books,issue_id',
+            'member_id' => 'required|exists:members,memberid',
             'member_name' => 'required|string',
             'book_name' => 'required|string',
             'book_isbn' => 'required|string',
@@ -54,6 +55,7 @@ class IssueBookController extends Controller
 
         IssuedBook::create([
             'issue_id' => $request->issue_id,
+            'member_id' => $request->member_id,
             'member_name' => $request->member_name,
             'book_name' => $request->book_name,
             'book_isbn' => $request->book_isbn,
@@ -69,7 +71,10 @@ class IssueBookController extends Controller
         ActivityLog::create([
             'user_id' => Auth::id(),
             'action' => 'Issue Book',
-            'details' => 'Book: ' . $request->book_name . ' | Member: ' . $request->member_name . ' | Quantity: ' . $request->quantity,
+            'details' => 'Book: ' . $request->book_name . 
+                         ' | Member: ' . $request->member_name .
+                         ' | Member ID: ' . $request->member_id .
+                         ' | Quantity: ' . $request->quantity,
             'status' => 'success',
         ]);
 
@@ -88,7 +93,6 @@ class IssueBookController extends Controller
     {
         $issuedBook = IssuedBook::findOrFail($id);
 
-        // Restore quantity back to books table
         $book = Book::where('isbn', $issuedBook->book_isbn)->first();
         if ($book) {
             $book->quantity += $issuedBook->quantity;
@@ -97,11 +101,12 @@ class IssueBookController extends Controller
 
         $issuedBook->delete();
 
-        // Log activity
         ActivityLog::create([
             'user_id' => Auth::id(),
             'action' => 'Delete Issued Book',
-            'details' => 'Book: ' . ($book->book_title ?? 'Unknown') . ' | Member: ' . $issuedBook->member_name,
+            'details' => 'Book: ' . ($book->book_title ?? 'Unknown') . 
+                         ' | Member: ' . $issuedBook->member_name . 
+                         ' | Member ID: ' . $issuedBook->member_id,
             'status' => 'success',
         ]);
 
@@ -113,9 +118,9 @@ class IssueBookController extends Controller
     {
         $issuedBook = IssuedBook::findOrFail($id);
 
-        // Store in returned_books table
         ReturnedBook::create([
             'issue_id' => $issuedBook->issue_id,
+            'member_id' => $issuedBook->member_id,
             'member_name' => $issuedBook->member_name,
             'book_name' => $issuedBook->book_name,
             'book_isbn' => $issuedBook->book_isbn,
@@ -127,21 +132,21 @@ class IssueBookController extends Controller
             'remarks' => $issuedBook->remarks,
         ]);
 
-        // Restore quantity in books table
         $book = Book::where('isbn', $issuedBook->book_isbn)->first();
         if ($book) {
             $book->quantity += $issuedBook->quantity;
             $book->save();
         }
 
-        // Delete from issued_books
         $issuedBook->delete();
 
-        // Log activity
         ActivityLog::create([
             'user_id' => Auth::id(),
             'action' => 'Return Book',
-            'details' => 'Book: ' . ($book->book_title ?? 'Unknown') . ' | Member: ' . $issuedBook->member_name . ' | Quantity: ' . $issuedBook->quantity,
+            'details' => 'Book: ' . ($book->book_title ?? 'Unknown') .
+                         ' | Member: ' . $issuedBook->member_name . 
+                         ' | Member ID: ' . $issuedBook->member_id .
+                         ' | Quantity: ' . $issuedBook->quantity,
             'status' => 'success',
         ]);
 
@@ -150,8 +155,7 @@ class IssueBookController extends Controller
 
     public function getBookByBarcode($barcode)
     {
-        // Fetch issued book(s) by ID or barcode
-        $books = IssuedBook::where('id', $barcode)->get(); // or ->where('barcode', $barcode)
+        $books = IssuedBook::where('id', $barcode)->get();
         
         if($books->count() > 0){
             return response()->json([
@@ -160,7 +164,7 @@ class IssueBookController extends Controller
                     return [
                         'id' => $book->id,
                         'name' => $book->book_name,
-                        'author' => $book->author,
+                        'author' => $book->author_name,
                         'issue' => $book->issue_date,
                         'due' => $book->due_date,
                         'status' => $book->status,

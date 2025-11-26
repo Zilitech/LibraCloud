@@ -62,41 +62,44 @@ class OverdueBookController extends Controller
     }
 
     // Mark book as returned
-    public function markAsReturned($issue_id)
-    {
-        try {
-            $issuedBook = IssuedBook::where('issue_id', $issue_id)->firstOrFail();
-            $overdueBook = OverdueBook::where('issue_id', $issue_id)->first();
+    // Mark book as returned
+public function markAsReturned($issue_id)
+{
+    try {
+        $issuedBook = IssuedBook::where('issue_id', $issue_id)->firstOrFail();
+        $overdueBook = OverdueBook::where('issue_id', $issue_id)->first();
 
-            ReturnedBook::create([
-                'issue_id'    => $issuedBook->issue_id,
-                'member_name' => $issuedBook->member_name,
-                'book_name'   => $issuedBook->book_name,
-                'book_isbn'   => $issuedBook->book_isbn ?? null,
-                'author_name' => $issuedBook->author_name ?? null,
-                'issue_date'  => $issuedBook->issue_date,
-                'due_date'    => $issuedBook->due_date,
-                'quantity'    => $issuedBook->quantity ?? 1,
-                'status'      => 'Returned',
-                'remarks'     => $overdueBook ? "Overdue: ₹{$overdueBook->fine}, Days: {$overdueBook->days_overdue}" : null
-            ]);
+        ReturnedBook::create([
+            'issue_id'    => $issuedBook->issue_id,
+            'member_id'   => $issuedBook->member_id, // <-- Added this
+            'member_name' => $issuedBook->member_name,
+            'book_name'   => $issuedBook->book_name,
+            'book_isbn'   => $issuedBook->book_isbn ?? null,
+            'author_name' => $issuedBook->author_name ?? null,
+            'issue_date'  => $issuedBook->issue_date,
+            'due_date'    => $issuedBook->due_date,
+            'quantity'    => $issuedBook->quantity ?? 1,
+            'status'      => 'Returned',
+            'remarks'     => $overdueBook ? "Overdue: ₹{$overdueBook->fine}, Days: {$overdueBook->days_overdue}" : null
+        ]);
 
-            $issuedBook->delete();
-            if ($overdueBook) $overdueBook->delete();
+        // Delete issued and overdue record
+        $issuedBook->delete();
+        if ($overdueBook) $overdueBook->delete();
 
-            // Log activity
-            ActivityLog::create([
-                'user_id' => Auth::id(),
-                'action'  => 'Return Overdue Book',
-                'details' => "Book returned: {$issuedBook->book_name} by member: {$issuedBook->member_name}. Overdue fine: " . ($overdueBook->fine ?? 0),
-                'status'  => 'success'
-            ]);
+        // Log activity
+        ActivityLog::create([
+            'user_id' => Auth::id(),
+            'action'  => 'Return Overdue Book',
+            'details' => "Book returned: {$issuedBook->book_name} by member: {$issuedBook->member_name} ({$issuedBook->member_id}). Overdue fine: " . ($overdueBook->fine ?? 0),
+            'status'  => 'success'
+        ]);
 
-            return response()->json(['status' => 'success', 'message' => 'Book marked as returned']);
+        return response()->json(['status' => 'success', 'message' => 'Book marked as returned']);
 
-        } catch (\Exception $e) {
-            \Log::error('Mark returned error: '.$e->getMessage());
-            return response()->json(['status' => 'error', 'message' => 'Something went wrong: '.$e->getMessage()], 500);
-        }
+    } catch (\Exception $e) {
+        \Log::error('Mark returned error: '.$e->getMessage());
+        return response()->json(['status' => 'error', 'message' => 'Something went wrong: '.$e->getMessage()], 500);
     }
+}
 }

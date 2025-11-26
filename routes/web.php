@@ -204,18 +204,18 @@ Route::post('/books/return/{issue_id}', [OverdueBookController::class, 'markAsRe
 
 
 Route::prefix('fines')->group(function () {
-    // Show Fine Management page
     Route::get('/', [FineController::class, 'index'])->name('fines.index');
 
-    // Mark fine as paid
-    Route::post('{id}/mark-paid', [FineController::class, 'markAsPaid'])->name('fines.markAsPaid');
+    // Mark as paid
+    Route::post('{issue_id}/mark-paid', [FineController::class, 'markAsPaid'])->name('fines.markAsPaid');
 
     // Delete fine
     Route::delete('{id}', [FineController::class, 'destroy'])->name('fines.destroy');
 
-    // Optional: Print receipt route (if you later implement this method in controller)
-    // Route::get('{id}/print', [FineController::class, 'printReceipt'])->name('fines.printReceipt');
-}); // optional
+    // Optional: print receipt
+    Route::get('{id}/print', [FineController::class, 'printReceipt'])->name('fines.printReceipt');
+});
+
 
 
 Route::get('/fine-settings', [FineSettingController::class, 'index'])->name('fine.settings');

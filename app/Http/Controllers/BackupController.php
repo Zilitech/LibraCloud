@@ -31,38 +31,13 @@ class BackupController extends Controller
             $dbPass = env('DB_PASSWORD', '12345');
             $dbName = env('DB_DATABASE', 'libracloud');
 
-            // Use the correct PostgreSQL bin path wrapped in quotes for Windows
-            $pgDumpPath = "C:/Program Files/PostgreSQL/18/bin/pg_dump.exe";
+            $pgDumpPath = '"C:/Program Files/PostgreSQL/18/bin/pg_dump.exe"';
 
-            $command = [
-                $pgDumpPath,
-                '-h', $dbHost,
-                '-U', $dbUser,
-                '-F', 'c',
-                $dbName,
-                '-f', $filePath
-            ];
+            // Windows-friendly command with password inline
+            $command = "set PGPASSWORD={$dbPass} && $pgDumpPath -h $dbHost -U $dbUser -F c -f \"$filePath\" $dbName";
 
-            $env = ['PGPASSWORD' => $dbPass];
-
-            $process = proc_open(
-                $command,
-                [1 => ['pipe', 'w'], 2 => ['pipe', 'w']],
-                $pipes,
-                null,
-                $env
-            );
-
-            if (is_resource($process)) {
-                $output = stream_get_contents($pipes[1]);
-                $error = stream_get_contents($pipes[2]);
-                fclose($pipes[1]);
-                fclose($pipes[2]);
-                $returnVar = proc_close($process);
-            } else {
-                $error = "Unable to start pg_dump process.";
-                $returnVar = 1;
-            }
+            // Execute command and capture output & return code
+            exec($command . ' 2>&1', $output, $returnVar);
 
             $status = $returnVar === 0 ? 'completed' : 'failed';
             $size = $status === 'completed' && file_exists($filePath) ? round(filesize($filePath) / 1024 / 1024, 2) . ' MB' : null;
@@ -75,13 +50,13 @@ class BackupController extends Controller
                 'status' => $status
             ]);
 
-            if ($status === 'failed') Log::error("Backup failed: " . $error);
+            if ($status === 'failed') Log::error("Backup failed: " . implode("\n", $output));
 
             return response()->json([
                 'success' => $status === 'completed',
                 'message' => $status === 'completed' ? 'Backup completed successfully!' : 'Backup failed! Check logs.',
                 'download_url' => $status === 'completed' ? route('system.backup.download', $backup->id) : null,
-                'error_details' => $error
+                'error_details' => implode("\n", $output)
             ]);
 
         } catch (\Exception $e) {
@@ -144,25 +119,13 @@ class BackupController extends Controller
             $dbPass = env('DB_PASSWORD', '12345');
             $dbName = env('DB_DATABASE', 'libracloud');
 
-            $pgDumpPath = "C:/Program Files/PostgreSQL/18/bin/pg_dump.exe";
-            $command = [$pgDumpPath, '-h', $dbHost, '-U', $dbUser, '-F', 'c', $dbName, '-f', $filePath];
-            $env = ['PGPASSWORD' => $dbPass];
+            $pgDumpPath = '"C:/Program Files/PostgreSQL/18/bin/pg_dump.exe"';
+            $command = "set PGPASSWORD={$dbPass} && $pgDumpPath -h $dbHost -U $dbUser -F c -f \"$filePath\" $dbName";
 
-            $process = proc_open($command, [1 => ['pipe', 'w'], 2 => ['pipe', 'w']], $pipes, null, $env);
-
-            if (is_resource($process)) {
-                $output = stream_get_contents($pipes[1]);
-                $error = stream_get_contents($pipes[2]);
-                fclose($pipes[1]);
-                fclose($pipes[2]);
-                $returnVar = proc_close($process);
-            } else {
-                $error = "Unable to start pg_dump process.";
-                $returnVar = 1;
-            }
+            exec($command . ' 2>&1', $output, $returnVar);
 
             $status = $returnVar === 0 ? 'completed' : 'failed';
-            $size = $status === 'completed' && file_exists($filePath) ? round(filesize($filePath) / 1024 / 1024, 2) . ' MB' : null;
+            $size = $status === 'completed' && file_exists($filePath) ? round(filesize($filePath)/1024/1024,2).' MB' : null;
 
             Backup::create([
                 'name' => $fileName,
@@ -172,7 +135,7 @@ class BackupController extends Controller
                 'status' => $status
             ]);
 
-            if ($status === 'failed') Log::error("Automatic backup failed: " . $error);
+            if ($status === 'failed') Log::error("Automatic backup failed: " . implode("\n", $output));
 
         } catch (\Exception $e) {
             Log::error("Automatic backup exception: " . $e->getMessage());

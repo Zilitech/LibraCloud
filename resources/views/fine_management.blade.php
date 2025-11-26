@@ -4,7 +4,6 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.bootstrap5.min.css">
 
 <style>
-    /* Ensure Status badges fully visible */
     .status-badge {
         white-space: nowrap;
         overflow: visible;
@@ -12,24 +11,21 @@
         display: inline-block;
     }
 
-    /* Table cell vertical alignment */
     table.dataTable tbody td {
         vertical-align: middle;
     }
 
-    /* Compact Actions Column */
     .actions-cell .btn {
         padding: 0.25rem 0.5rem;
         font-size: 0.85rem;
     }
 
     .actions-cell .d-flex {
-        flex-wrap: nowrap; /* Keep buttons in one line */
-        gap: 0.25rem;      /* Space between buttons */
+        flex-wrap: nowrap;
+        gap: 0.25rem;
         justify-content: center;
     }
 
-    /* Optional: Tooltip fix for small buttons */
     .actions-cell [data-bs-toggle="tooltip"] {
         pointer-events: auto;
     }
@@ -44,6 +40,7 @@
 
     <div class="main-content app-content">
         <div class="container-fluid">
+
             <!-- Page Header -->
             <div class="d-md-flex d-block align-items-center justify-content-between my-4 page-header-breadcrumb">
                 <div class="my-auto">
@@ -68,9 +65,6 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
 
-            <!-- Fine Summary Cards -->
-           
-
             <!-- Fine Records Table -->
             <div class="row">
                 <div class="col-xl-12">
@@ -83,8 +77,9 @@
                                 <table id="fine-table" class="table table-bordered text-nowrap w-100">
                                     <thead class="table-light">
                                         <tr>
-                                            <th>Fine ID</th>
+                                            <th>Issue ID</th>
                                             <th>Member</th>
+                                            <th>Member ID</th>
                                             <th>Book Title</th>
                                             <th>Issue Date</th>
                                             <th>Due Date</th>
@@ -95,50 +90,123 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($all_overdue as $fine)
+                                        @foreach($all_fines as $fine)
                                         <tr>
                                             <td>{{ $fine->issue_id }}</td>
-                                            <td>{{$fine->member_name}}</td>
+                                            <td>{{ $fine->member_name }}</td>
+                                            <td>{{ $fine->member_id }}</td>
                                             <td>{{ $fine->book_name }}</td>
                                             <td>{{ $fine->issue_date }}</td>
-                                            <td>{{ $fine->due_date}}</td>
+                                            <td>{{ $fine->due_date }}</td>
                                             <td>{{ $fine->days_overdue }}</td>
-                                            <td>₹{{ $fine->fine }}</td>
+                                            <td>₹{{ $fine->fine_amount ?? $fine->fine }}</td>
                                             <td class="text-center status-badge">
-                                                @if($fine['status'] == 'Paid')
-                                                    <span class="badge bg-success">Paid</span>
-                                                @elseif($fine['status'] == 'Pending')
-                                                    <span class="badge bg-warning">Pending</span>
-                                                @else
-                                                    <span class="badge bg-danger">Overdue</span>
-                                                @endif
-                                            </td>
-                                           <td class="text-center actions-cell">
+    @php
+        // Find the fine status for this row's issue_id
+        $fineStatus = $fines_status->firstWhere('issue_id', $fine->issue_id);
+    @endphp
+
+    @if($fineStatus)
+        @if($fineStatus->status === 'Paid')
+            <span class="badge bg-success">Paid</span>
+        @elseif($fineStatus->status === 'Pending')
+            <span class="badge bg-warning">Pending</span>
+        @else
+            <span class="badge bg-danger">Overdue</span>
+        @endif
+    @else
+            <span class="badge bg-danger">Overdue</span>
+    @endif
+</td>
+
+</td>
+<td class="text-center actions-cell">
     <div class="d-flex flex-wrap gap-1 justify-content-center">
-        @if($fine['status'] != 'Paid')
-            <form action="{{ route('fines.markAsPaid', $fine['id']) }}" method="POST" class="d-inline">
+
+        {{-- Mark as Paid --}}
+        @if($fine->status !== 'Paid')
+            <form action="{{ route('fines.markAsPaid', $fine->issue_id) }}" method="POST" class="d-inline mark-paid-form" data-issue-id="{{ $fine->issue_id }}">
                 @csrf
-                <button class="btn btn-sm btn-success" title="Mark as Paid">
+                <button type="submit" class="btn btn-sm btn-success" title="Mark as Paid">
                     <i class="ri-check-line"></i>
                 </button>
             </form>
-        @endif
-
-        @if($fine['status'] == 'Paid')
-            <a href="{{ route('fines.printReceipt', $fine['id']) }}" class="btn btn-sm btn-secondary" title="Print Receipt">
+        @else
+            {{-- Print Receipt --}}
+            <a href="{{ route('fines.printReceipt', $fine->id) }}" class="btn btn-sm btn-secondary print-receipt-btn" title="Print Receipt">
                 <i class="ri-printer-line"></i>
             </a>
         @endif
 
-        <form action="{{ route('fines.destroy', $fine['id']) }}" method="POST" class="d-inline">
+        {{-- Delete Fine --}}
+        <form action="{{ route('fines.destroy', $fine->id) }}" method="POST" class="d-inline delete-fine-form" onsubmit="return confirm('Are you sure you want to delete this fine?');">
             @csrf
             @method('DELETE')
             <button class="btn btn-sm btn-danger" title="Delete">
                 <i class="ri-delete-bin-5-line"></i>
             </button>
         </form>
+
     </div>
 </td>
+<script>
+$(document).ready(function() {
+
+    // Initialize DataTable
+    var table = $('#fine-table').DataTable({
+        dom: 'Bfrtip',
+        buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
+        pageLength: 10,
+        responsive: true,
+        columnDefs: [
+            { width: '100px', targets: 8 },
+            { width: '180px', targets: -1 }
+        ]
+    });
+
+    // Mark as Paid via AJAX
+    $('#fine-table').on('submit', '.mark-paid-form', function(e) {
+        e.preventDefault();
+
+        let form = $(this);
+        let issueId = form.data('issue-id');
+        let token = form.find('input[name="_token"]').val();
+        let row = table.row(form.closest('tr')); // get DataTable row
+
+        $.ajax({
+            url: form.attr('action'),
+            type: 'POST',
+            data: { _token: token },
+            success: function(response) {
+                // Update status badge column (8th index)
+                let rowData = row.data();
+                rowData[8] = '<span class="badge bg-success">Paid</span>';
+
+                // Replace Mark as Paid button with Print button in actions column (9th index)
+                rowData[9] = `<div class="d-flex justify-content-center">
+                                    <a href="/fines/${response.fine_id}/print" class="btn btn-sm btn-secondary print-receipt-btn" title="Print Receipt">
+                                        <i class="ri-printer-line"></i>
+                                    </a>
+                                </div>`;
+
+                // Update the row in DataTable
+                row.data(rowData).draw(false);
+
+                // Optional: show a toast or alert
+                alert('Fine marked as paid successfully.');
+            },
+            error: function(xhr) {
+                console.error(xhr.responseText);
+                alert('Something went wrong while marking fine as paid.');
+            }
+        });
+    });
+
+});
+</script>
+
+
+
 
                                         </tr>
                                         @endforeach
@@ -183,12 +251,11 @@ $(document).ready(function() {
         pageLength: 10,
         responsive: true,
         columnDefs: [
-            { width: '100px', targets: 8 }, // Status
-            { width: '180px', targets: -1 } // Actions
+            { width: '100px', targets: 8 },
+            { width: '180px', targets: -1 }
         ]
     });
 
-    // Initialize Bootstrap tooltips
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
     tooltipTriggerList.map(function (tooltipTriggerEl) {
         return new bootstrap.Tooltip(tooltipTriggerEl);

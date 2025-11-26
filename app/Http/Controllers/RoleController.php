@@ -1,5 +1,6 @@
 <?php
 
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -10,11 +11,11 @@ use Illuminate\Support\Facades\Auth;
 
 class RoleController extends Controller
 {
-    // Load the page with all roles and their permissions
+    // Display all roles with their permissions
     public function index()
     {
         $roles = Role::with('permissions')->get(); // fetch roles with permissions
-        return view('roles_permission', compact('roles')); // pass $roles to Blade
+        return view('roles_permission', compact('roles'));
     }
 
     // Store a new role along with permissions
@@ -28,7 +29,7 @@ class RoleController extends Controller
         // 1️⃣ Create the Role
         $role = Role::create(['name' => $request->role_name]);
 
-        // 2️⃣ Attach Permissions
+        // 2️⃣ Attach Permissions if provided
         $attachedPermissions = [];
         if ($request->has('permissions')) {
             $permissionIds = [];
@@ -43,7 +44,7 @@ class RoleController extends Controller
             $role->permissions()->sync($permissionIds);
         }
 
-        // Log activity
+        // 3️⃣ Log activity
         ActivityLog::create([
             'user_id' => Auth::id(),
             'action'  => 'Create Role',
@@ -54,13 +55,13 @@ class RoleController extends Controller
         return redirect()->back()->with('success', 'Role and permissions added successfully!');
     }
 
-    // Delete a role
+    // Delete a role along with detaching permissions
     public function destroy(Role $role)
     {
         $roleName = $role->name;
         $permissions = $role->permissions->pluck('name')->toArray();
 
-        // Detach all permissions first (optional, but recommended)
+        // Detach all permissions (optional but recommended)
         $role->permissions()->detach();
 
         // Delete the role

@@ -14,17 +14,19 @@ class IssuedBook extends Model
 
     // Mass assignable fields
     protected $fillable = [
-        'issue_id',
-        'member_name',
-        'book_name',
-        'book_isbn',
-        'author_name',
-        'issue_date',
-        'due_date',
-        'quantity',
-        'status',
-        'remarks',
-    ];
+    'issue_id',
+    'member_id',   // NEW
+    'member_name',
+    'book_name',
+    'book_isbn',
+    'author_name',
+    'issue_date',
+    'due_date',
+    'quantity',
+    'status',
+    'remarks',
+];
+
 
     // Optional: cast dates
     protected $dates = [

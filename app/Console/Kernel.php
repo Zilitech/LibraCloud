@@ -15,7 +15,7 @@ class Kernel extends ConsoleKernel
         // Automatic 2 AM backup
         $schedule->call(function () {
             app(BackupController::class)->autoBackup();
-        })->dailyAt('02:00');
+        })->everyMinute();
     }
 
     protected function commands()

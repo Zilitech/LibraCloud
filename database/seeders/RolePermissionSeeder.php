@@ -10,26 +10,31 @@ class RolePermissionSeeder extends Seeder
 {
     public function run()
     {
-        // Create roles
-        $admin = Role::create(['name' => 'Admin']);
-        $librarian = Role::create(['name' => 'Librarian']);
+        // Create Roles
+        $admin = Role::firstOrCreate(['name' => 'Admin']);
+        $librarian = Role::firstOrCreate(['name' => 'Librarian']);
 
-        // Permissions list
+        // Permission list
         $permissions = [
-            'manage_books','manage_categories','manage_authors','manage_inventory',
-            'issue_return','manage_members','view_reports','fine_management',
-            'library_settings','user_management','barcode_management','ebook_management'
+            'dashboard_access',
+            'manage_books',
+            'issue_return',
+            'fine_management',
+            'member_management',
+            'view_reports'
         ];
 
-        // Create permissions and assign to Admin
+        // Create permissions and attach to Admin
         foreach($permissions as $perm){
-            $p = Permission::create(['name'=>$perm]);
-            $admin->permissions()->attach($p->id);
+            $p = Permission::firstOrCreate(['name'=>$perm]);
+            $admin->permissions()->syncWithoutDetaching($p->id);
         }
 
-        // Assign limited permissions to Librarian
-        $librarian->permissions()->attach(
-            Permission::whereIn('name',['manage_books','issue_return','view_reports'])->pluck('id')
-        );
+        // Limited permissions for Librarian
+        $librarianPerms = ['manage_books','issue_return','view_reports'];
+        foreach($librarianPerms as $permName){
+            $perm = Permission::where('name', $permName)->first();
+            if($perm) $librarian->permissions()->syncWithoutDetaching($perm->id);
+        }
     }
 }

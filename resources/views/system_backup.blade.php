@@ -118,60 +118,45 @@
 <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
 
 <script>
-(function($){
-    $(document).ready(function(){
-
-        if($('#backup-table').length){
-            $('#backup-table').DataTable({
-                dom: 'Bfrtip',
-                buttons: ['copy','csv','excel','pdf','print'],
-                pageLength: 10,
-                responsive: true
-            });
-        }
-
-        // Run Backup & auto download
-        $('#runBackupBtn').click(function(){
-            var $btn = $(this);
-            $btn.prop('disabled',true).html('<i class="ri-refresh-line me-1"></i> Running Backup...');
-            $.ajax({
-                url: "{{ route('system.backup.run') }}",
-                type: "POST",
-                data: {_token: '{{ csrf_token() }}'},
-                success: function(res){
-                    if(res.message) alert(res.message);
-                    if(res.success && res.download_url){
-                        const link = document.createElement('a');
-                        link.href = res.download_url;
-                        document.body.appendChild(link);
-                        link.click();
-                        document.body.removeChild(link);
-                    }
-                    location.reload();
-                },
-                error: function(err){
-                    alert('Backup failed!');
-                    console.error(err);
-                },
-                complete: function(){
-                    $btn.prop('disabled',false).html('<i class="ri-refresh-line me-1"></i> Run Backup');
+    $('#runBackupBtn').click(function(){
+    var $btn = $(this);
+    $btn.prop('disabled',true).html('<i class="ri-refresh-line me-1"></i> Running Backup...');
+    
+    $.ajax({
+        url: "{{ route('system.backup.run') }}",
+        type: "POST",
+        data: {_token: '{{ csrf_token() }}'},
+        success: function(res){
+            if(res.message){
+                if(res.success){
+                    alert(res.message);
+                } else {
+                    // Show detailed error
+                    alert(res.message + "\n\n" + (res.error_details || 'No further info.'));
                 }
-            });
-        });
+            }
 
-        // Download latest 2 AM
-        $('#backupAndDownloadBtn').click(function(e){
-            e.preventDefault();
-            window.location.href = "{{ route('system.backup.latest2am') }}";
-        });
+            if(res.success && res.download_url){
+                const link = document.createElement('a');
+                link.href = res.download_url;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
 
-        // Auto Backup Toggle
-        $('#autoBackupSwitch').change(function(){
-            alert(this.checked ? 'Automatic backups enabled' : 'Automatic backups disabled');
-        });
-
+            // Reload page after backup attempt
+            location.reload();
+        },
+        error: function(err){
+            alert('Backup request failed!');
+            console.error(err);
+        },
+        complete: function(){
+            $btn.prop('disabled',false).html('<i class="ri-refresh-line me-1"></i> Run Backup');
+        }
     });
-})(jQuery);
+});
+
 </script>
 
 

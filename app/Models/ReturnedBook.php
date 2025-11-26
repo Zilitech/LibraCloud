@@ -13,6 +13,7 @@ class ReturnedBook extends Model
 
     protected $fillable = [
         'issue_id',
+        'member_id',    // added
         'member_name',
         'book_name',
         'book_isbn',

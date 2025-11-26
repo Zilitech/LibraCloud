@@ -9,9 +9,12 @@ class CheckPermission
 {
     public function handle(Request $request, Closure $next, $permission)
     {
-        if (!auth()->user() || !auth()->user()->hasPermission($permission)) {
+        $user = auth()->user();
+
+        if (!$user || !$user->hasPermission($permission)) {
             abort(403, 'Unauthorized');
         }
+
         return $next($request);
     }
 }

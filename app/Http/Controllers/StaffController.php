@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Staff;
-use App\Models\MemberCategory;
+use App\Models\Role;
 use App\Models\ActivityLog;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,21 +13,29 @@ class StaffController extends Controller
     // Display all staff
     public function index()
     {
-        $staffs = Staff::orderBy('id', 'desc')->get();
-        $roles = MemberCategory::all();
-        return view('admin_librarien', compact('staffs', 'roles'));
+        $staffs = Staff::with('role')->orderBy('id', 'desc')->get();
+        $all_roles = Role::all();
+        return view('admin_librarien', compact('staffs', 'all_roles'));
+    }
+
+    // Show edit form
+    public function edit($id)
+    {
+        $staff = Staff::findOrFail($id);
+        $all_roles = Role::all();
+        return view('staff.edit', compact('staff', 'all_roles'));
     }
 
     // Store new staff
     public function store(Request $request)
     {
-        $request->validate([
+        $data = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:staff,email',
             'phone' => 'nullable|string|max:15',
             'dob' => 'nullable|date',
             'gender' => 'nullable|in:Male,Female,Other',
-            'role_id' => 'required|string|exists:membercategory,membercategoryname',
+            'role_id' => 'required|exists:roles,id',
             'department' => 'nullable|string|max:255',
             'joining_date' => 'nullable|date',
             'employee_id' => 'nullable|string|unique:staff,employee_id',
@@ -39,27 +47,11 @@ class StaffController extends Controller
             'country' => 'nullable|string',
         ]);
 
-        $role = MemberCategory::where('membercategoryname', $request->role_id)->firstOrFail();
+        $role = Role::findOrFail($data['role_id']);
+        $data['role_name'] = $role->name; // store role name
 
-        $staff = Staff::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'dob' => $request->dob,
-            'gender' => $request->gender,
-            'role_name' => $role->membercategoryname,
-            'department' => $request->department,
-            'joining_date' => $request->joining_date,
-            'employee_id' => $request->employee_id,
-            'status' => $request->status,
-            'address' => $request->address,
-            'city' => $request->city,
-            'state' => $request->state,
-            'zip' => $request->zip,
-            'country' => $request->country,
-        ]);
+        $staff = Staff::create($data);
 
-        // Optional: Log activity
         ActivityLog::create([
             'user_id' => Auth::id(),
             'action' => 'Add Staff',
@@ -70,26 +62,18 @@ class StaffController extends Controller
         return redirect()->route('staff.index')->with('success', 'Staff added successfully!');
     }
 
-    // Show edit form
-    public function edit($id)
-    {
-        $staff = Staff::findOrFail($id);
-        $roles = MemberCategory::all();
-        return view('staff.edit', compact('staff', 'roles'));
-    }
-
     // Update staff
     public function update(Request $request, $id)
     {
         $staff = Staff::findOrFail($id);
 
-        $request->validate([
+        $data = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:staff,email,'.$staff->id,
             'phone' => 'nullable|string|max:15',
             'dob' => 'nullable|date',
             'gender' => 'nullable|in:Male,Female,Other',
-            'role_id' => 'required|string',
+            'role_id' => 'required|exists:roles,id',
             'department' => 'nullable|string|max:255',
             'joining_date' => 'nullable|date',
             'employee_id' => 'nullable|string|unique:staff,employee_id,'.$staff->id,
@@ -101,40 +85,19 @@ class StaffController extends Controller
             'country' => 'nullable|string',
         ]);
 
-        $role = MemberCategory::where('membercategoryname', $request->role_id)->first();
-        if (!$role) {
-            return redirect()->back()->withErrors(['role_id' => 'Selected role does not exist']);
-        }
+        $role = Role::findOrFail($data['role_id']);
+        $data['role_name'] = $role->name;
 
+        // Track changes for logging
         $changes = [];
-        foreach ($request->only([
-            'name','email','phone','dob','gender','department','joining_date',
-            'employee_id','status','address','city','state','zip','country'
-        ]) as $key => $value) {
+        foreach ($data as $key => $value) {
             if ($staff->$key != $value) {
                 $changes[] = strtoupper($key) . ": {$staff->$key} → {$value}";
             }
         }
 
-        $staff->update([
-            'name' => $request->name,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'dob' => $request->dob,
-            'gender' => $request->gender,
-            'role_name' => $role->membercategoryname,
-            'department' => $request->department,
-            'joining_date' => $request->joining_date,
-            'employee_id' => $request->employee_id,
-            'status' => $request->status,
-            'address' => $request->address,
-            'city' => $request->city,
-            'state' => $request->state,
-            'zip' => $request->zip,
-            'country' => $request->country,
-        ]);
+        $staff->update($data);
 
-        // Optional: Log activity
         ActivityLog::create([
             'user_id' => Auth::id(),
             'action' => 'Update Staff',
@@ -151,7 +114,6 @@ class StaffController extends Controller
         $staff = Staff::findOrFail($id);
         $staff->delete();
 
-        // Optional: Log activity
         ActivityLog::create([
             'user_id' => Auth::id(),
             'action' => 'Delete Staff',

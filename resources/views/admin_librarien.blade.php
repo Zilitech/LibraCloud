@@ -156,9 +156,9 @@
                                                                 <label class="form-label">Role</label>
                                                                 <select class="form-select" name="role_id" required>
                                                                     <option value="">Select Role</option>
-                                                                    @foreach($roles as $role)
-                                                                        <option value="{{ $role->membercategoryname }}" {{ $staff->role_name==$role->membercategoryname ? 'selected' : '' }}>
-                                                                            {{ $role->membercategoryname }}
+                                                                    @foreach($all_roles as $role)
+                                                                        <option value="{{ $role->id }}" {{ $staff->role_id==$role->id ? 'selected' : '' }}>
+                                                                            {{ $role->name }}
                                                                         </option>
                                                                     @endforeach
                                                                 </select>
@@ -273,8 +273,8 @@
                         <label class="form-label">Role</label>
                         <select class="form-select" name="role_id" required>
                             <option value="">Select Role</option>
-                            @foreach($roles as $role)
-                                <option value="{{ $role->membercategoryname }}">{{ $role->membercategoryname }}</option>
+                            @foreach($all_roles as $role)
+                                <option value="{{ $role->id }}">{{ $role->name }}</option>
                             @endforeach
                         </select>
                     </div>

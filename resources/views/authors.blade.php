@@ -71,7 +71,7 @@
 
 <!-- Start:: row -->
 <div class="row">
-    <div class="col-xl-6">
+    <div class="col-xl-4">
         <div class="card custom-card">
             <div class="card-header justify-content-between">
                 <div class="card-title">Add New Author</div>
@@ -95,7 +95,7 @@
         </div>
     </div>
 
-    <div class="col-xl-6">
+    <div class="col-xl-8">
         <div class="card custom-card">
             <div class="card-header">
                 <div class="card-title">Authors List</div>
@@ -107,7 +107,6 @@
                             <tr>
                                 <th>S.No</th>
                                 <th>Author Name</th>
-                                <th>Books Count</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -117,7 +116,6 @@
                                 <tr>
                                     <td>{{ $index + 1 }}</td>
                                     <td>{{ $author->author_name }}</td>
-                                    <td>0</td> {{-- Replace with real count later --}}
                                     <td><span class="badge bg-success-transparent">Active</span></td>
                                     <td>
                                         <div class="hstack gap-2 flex-wrap">

@@ -46,17 +46,24 @@
                             <button type="button" class="btn btn-warning  btn-icon me-2"><i class="mdi mdi-refresh"></i></button>
                         </div>
                         <div class="mb-xl-0">
-                            <div class="dropdown">
-                                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuDate" data-bs-toggle="dropdown" aria-expanded="false">
-                                    14 Aug 2019
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuDate">
-                                  <li><a class="dropdown-item" href="javascript:void(0);">2015</a></li>
-                                  <li><a class="dropdown-item" href="javascript:void(0);">2016</a></li>
-                                  <li><a class="dropdown-item" href="javascript:void(0);">2017</a></li>
-                                  <li><a class="dropdown-item" href="javascript:void(0);">2018</a></li>
-                                </ul>
-                            </div>
+                            <!-- Import Books Dropdown -->
+<div class="dropdown">
+    <button class="btn btn-success dropdown-toggle" type="button" id="importDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+        Import Books
+    </button>
+    <ul class="dropdown-menu p-3" aria-labelledby="importDropdown">
+        <li>
+            <form action="{{ route('books.import') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="mb-2">
+                    <input type="file" name="import_file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Upload</button>
+            </form>
+        </li>
+    </ul>
+</div>
+
                         </div>
                     </div>
                 </div>
@@ -315,11 +322,7 @@
     </a>
 
     <!-- Update Inventory (check if route exists to avoid errors) -->
-    @if(Route::has('inventory.add'))
-        <a href="{{ route('inventory.add', $book->id) }}" class="text-success" data-bs-toggle="tooltip" title="Update Inventory">
-            <i class="ri-archive-line fs-16"></i>
-        </a>
-    @endif
+
 </td>
 
         </tr>

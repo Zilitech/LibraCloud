@@ -8,8 +8,7 @@ use App\Models\Author;
 use Illuminate\Http\Request;
 use App\Models\IssuedBook;
 use App\Helpers\ActivityLogger;
-
-
+use App\Models\AutoNumber;
 
 class BookController extends Controller
 {
@@ -21,34 +20,32 @@ class BookController extends Controller
         return view('add_book', compact('categories', 'authors'));
     }
 
-    
-
     // Store book
     public function store(Request $request)
     {
         $request->validate([
-            'book_title'   => 'required|string|max:255',
-            'book_code'    => 'nullable|string|max:100',
-            'isbn'         => 'nullable|string|max:100',
-            'author_name'  => 'nullable|string|max:255',
-            'category_name'=> 'required|string|max:255',
-            'publisher'    => 'nullable|string|max:255',
-            'subject'      => 'nullable|string|max:255',
-            'rack_number'  => 'nullable|string|max:100',
-            'quantity'     => 'required|integer|min:1',
-            'price'        => 'nullable|numeric',
-            'purchase_date'=> 'nullable|date',
-            'condition'    => 'nullable|string|max:20',
-            'cover_image'  => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-            'ebook_file'   => 'nullable|mimes:pdf|max:10240',
-            'description'  => 'nullable|string',
+            'book_title'    => 'required|string|max:255',
+            'book_code'     => 'nullable|string|max:100',
+            'isbn'          => 'nullable|string|max:100',
+            'author_name'   => 'nullable|string|max:255',
+            'category_name' => 'required|string|max:255',
+            'publisher'     => 'nullable|string|max:255',
+            'subject'       => 'nullable|string|max:255',
+            'rack_number'   => 'nullable|string|max:100',
+            'quantity'      => 'required|integer|min:1',
+            'price'         => 'nullable|numeric',
+            'purchase_date' => 'nullable|date',
+            'condition'     => 'nullable|string|max:20',
+            'cover_image'   => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'ebook_file'    => 'nullable|mimes:pdf|max:10240',
+            'description'   => 'nullable|string',
+            'auto_generate' => 'nullable|string|in:enable,disable',
         ]);
 
-        // Ensure category & author exist in their tables (optional but useful)
+        // Ensure category & author exist
         if ($request->filled('category_name')) {
             Category::firstOrCreate(['category_name' => $request->category_name]);
         }
-
         if ($request->filled('author_name')) {
             Author::firstOrCreate(['author_name' => $request->author_name]);
         }
@@ -58,7 +55,21 @@ class BookController extends Controller
             'subject','rack_number','quantity','price','purchase_date','condition','description'
         ]);
 
-        // handle files
+        // -----------------------------
+        // Auto-generate book_code
+        // -----------------------------
+        if ($request->auto_generate === 'enable' || empty($data['book_code'])) {
+            $autoBook = AutoNumber::where('type', 'book_code')->first();
+            if ($autoBook) {
+                $autoBook->last_number += 1;
+                $autoBook->save();
+                $data['book_code'] = $autoBook->prefix . str_pad($autoBook->last_number, $autoBook->digits, '0', STR_PAD_LEFT);
+            } else {
+                $data['book_code'] = 'BK' . date('YmdHis'); // fallback
+            }
+        }
+
+        // Handle file uploads
         if ($request->hasFile('cover_image')) {
             $imageName = time() . '_cover.' . $request->cover_image->extension();
             $request->cover_image->move(public_path('uploads/books/covers'), $imageName);
@@ -71,12 +82,19 @@ class BookController extends Controller
             $data['ebook_file'] = 'uploads/books/ebooks/' . $fileName;
         }
 
-        Book::create($data);
+        $book = Book::create($data);
 
-        return redirect()->route('books.all')->with('success', 'Book added successfully!');
+        // Log activity
+        ActivityLogger::log(
+            'Add Book',
+            "Added Book: {$book->book_title} (Code: {$book->book_code})",
+            'success'
+        );
+
+        return redirect()->route('books.all')->with('success', 'Book added successfully! Generated Code: ' . $data['book_code']);
     }
 
-    // Other methods (edit, update, allBooks, show, destroy) — keep same pattern
+    // List all books
     public function allBooks()
     {
         $books = Book::orderBy('created_at','desc')->get();
@@ -85,6 +103,7 @@ class BookController extends Controller
         return view('all_books', compact('books','categories','authors'));
     }
 
+    // Edit book
     public function edit(Book $book)
     {
         $categories = Category::all();
@@ -92,110 +111,95 @@ class BookController extends Controller
         return view('books.edit_book', compact('book','categories','authors'));
     }
 
-
-public function update(Request $request, Book $book)
-{
-    $request->validate([
-        'book_title'   => 'required|string|max:255',
-        'book_code'    => 'nullable|string|max:100',
-        'isbn'         => 'nullable|string|max:100',
-        'author_name'  => 'nullable|string|max:255',
-        'category_name'=> 'required|string|max:255',
-        'publisher'    => 'nullable|string|max:255',
-        'subject'      => 'nullable|string|max:255',
-        'rack_number'  => 'nullable|string|max:100',
-        'quantity'     => 'required|integer|min:1',
-        'price'        => 'nullable|numeric',
-        'purchase_date'=> 'nullable|date',
-        'condition'    => 'nullable|string|max:20',
-        'cover_image'  => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-        'ebook_file'   => 'nullable|mimes:pdf|max:10240',
-        'description'  => 'nullable|string',
-    ]);
-
-    if ($request->filled('category_name')) {
-        Category::firstOrCreate(['category_name' => $request->category_name]);
-    }
-
-    if ($request->filled('author_name')) {
-        Author::firstOrCreate(['author_name' => $request->author_name]);
-    }
-
-    $data = $request->only([
-        'book_title','book_code','isbn','author_name','publisher','category_name',
-        'subject','rack_number','quantity','price','purchase_date','condition','description'
-    ]);
-
-    if ($request->hasFile('cover_image')) {
-        $imageName = time() . '_cover.' . $request->cover_image->extension();
-        $request->cover_image->move(public_path('uploads/books/covers'), $imageName);
-        $data['cover_image'] = 'uploads/books/covers/' . $imageName;
-    }
-
-    if ($request->hasFile('ebook_file')) {
-        $fileName = time() . '_ebook.' . $request->ebook_file->extension();
-        $request->ebook_file->move(public_path('uploads/books/ebooks'), $fileName);
-        $data['ebook_file'] = 'uploads/books/ebooks/' . $fileName;
-    }
-
-    // ------------------------------------------
-    // ✅ Detect changed fields for logging
-    // ------------------------------------------
-    $changes = [];
-
-    foreach ($data as $key => $newValue) {
-        $oldValue = $book->$key;
-
-        if ($newValue != $oldValue) {
-            $changes[] = strtoupper($key) . ": {$oldValue} → {$newValue}";
-        }
-    }
-
     // Update book
-    $book->update($data);
+    public function update(Request $request, Book $book)
+    {
+        $request->validate([
+            'book_title'    => 'required|string|max:255',
+            'book_code'     => 'nullable|string|max:100',
+            'isbn'          => 'nullable|string|max:100',
+            'author_name'   => 'nullable|string|max:255',
+            'category_name' => 'required|string|max:255',
+            'publisher'     => 'nullable|string|max:255',
+            'subject'       => 'nullable|string|max:255',
+            'rack_number'   => 'nullable|string|max:100',
+            'quantity'      => 'required|integer|min:1',
+            'price'         => 'nullable|numeric',
+            'purchase_date' => 'nullable|date',
+            'condition'     => 'nullable|string|max:20',
+            'cover_image'   => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'ebook_file'    => 'nullable|mimes:pdf|max:10240',
+            'description'   => 'nullable|string',
+        ]);
 
-    // ------------------------------------------
-    // ✅ Log Activity (only if something changed)
-    // ------------------------------------------
-    if (count($changes) > 0) {
-        $text = "Updated Book - {$book->book_title}. Changes: " . implode(', ', $changes);
+        if ($request->filled('category_name')) {
+            Category::firstOrCreate(['category_name' => $request->category_name]);
+        }
+        if ($request->filled('author_name')) {
+            Author::firstOrCreate(['author_name' => $request->author_name]);
+        }
 
-        ActivityLogger::log(
-            'Edit Book',
-            $text,
-            'success'
-        );
-    } else {
-        ActivityLogger::log(
-            'Edit Book',
-            "Book '{$book->book_title}' updated (no changes detected)",
-            'success'
-        );
+        $data = $request->only([
+            'book_title','book_code','isbn','author_name','publisher','category_name',
+            'subject','rack_number','quantity','price','purchase_date','condition','description'
+        ]);
+
+        if ($request->hasFile('cover_image')) {
+            $imageName = time() . '_cover.' . $request->cover_image->extension();
+            $request->cover_image->move(public_path('uploads/books/covers'), $imageName);
+            $data['cover_image'] = 'uploads/books/covers/' . $imageName;
+        }
+
+        if ($request->hasFile('ebook_file')) {
+            $fileName = time() . '_ebook.' . $request->ebook_file->extension();
+            $request->ebook_file->move(public_path('uploads/books/ebooks'), $fileName);
+            $data['ebook_file'] = 'uploads/books/ebooks/' . $fileName;
+        }
+
+        // Detect changed fields for logging
+        $changes = [];
+        foreach ($data as $key => $newValue) {
+            $oldValue = $book->$key;
+            if ($newValue != $oldValue) {
+                $changes[] = strtoupper($key) . ": {$oldValue} → {$newValue}";
+            }
+        }
+
+        $book->update($data);
+
+        // Log activity
+        $details = count($changes) > 0
+            ? "Updated Book - {$book->book_title}. Changes: " . implode(', ', $changes)
+            : "Book '{$book->book_title}' updated (no changes detected)";
+
+        ActivityLogger::log('Edit Book', $details, 'success');
+
+        return redirect()->route('books.all')->with('success', 'Book updated successfully!');
     }
 
-    return redirect()->route('books.all')->with('success', 'Book updated successfully!');
-}
-
-
+    // Delete book
     public function destroy(Book $book)
     {
         $book->delete();
+
+        ActivityLogger::log('Delete Book', "Deleted Book: {$book->book_title} (Code: {$book->book_code})", 'success');
+
         return redirect()->route('books.all')->with('success', 'Book deleted successfully!');
     }
 
+    // View single book
     public function show(Book $book)
     {
         return view('books.view_book', compact('book'));
     }
 
-
-    // Fetch book by scanned code
-public function scanPage()
+    // Scan book page
+    public function scanPage()
     {
-        return view('scan_barcode'); // Blade file for scanning
+        return view('scan_barcode');
     }
 
-    // 2️⃣ Fetch book details by barcode
+    // Get book by barcode or ISBN
     public function getByBarcode($code)
     {
         $book = Book::where('book_code', $code)
@@ -230,49 +234,103 @@ public function scanPage()
         ]);
     }
 
+    // Get issued books by ISBN
+    public function getIssuedBooksByISBN($isbn)
+    {
+        $issuedBooks = IssuedBook::with('book')->where('book_isbn', $isbn)->get();
 
-public function getIssuedBooksByISBN($isbn)
-{
-    $issuedBooks = IssuedBook::with('book')->where('book_isbn', $isbn)->get();
+        if ($issuedBooks->isEmpty()) {
+            return response()->json([
+                'success' => false,
+                'html' => '<tr><td colspan="5" class="text-center">No issued books found</td></tr>'
+            ]);
+        }
 
-    if ($issuedBooks->isEmpty()) {
+        $html = '';
+        foreach ($issuedBooks as $issue) {
+            $html .= '<tr>
+                <td>' . $issue->book_isbn . '</td>
+                <td>' . $issue->member_name . '</td>
+                <td>' . $issue->issue_date->format('Y-m-d') . '</td>
+                <td>' . $issue->due_date->format('Y-m-d') . '</td>
+                <td><a href="/return-book/' . $issue->id . '" class="btn btn-sm btn-warning" onclick="return confirm(\'Return this book?\')">Return</a></td>
+            </tr>';
+        }
+
         return response()->json([
-            'success' => false,
-            'html' => '<tr><td colspan="5" class="text-center">No issued books found</td></tr>'
+            'success' => true,
+            'html' => $html
         ]);
     }
 
-    $html = '';
-    foreach ($issuedBooks as $issue) {
-        $html .= '<tr>
-            <td>' . $issue->book_isbn . '</td>
-            <td>' . $issue->member_name . '</td>
-            <td>' . $issue->issue_date->format('Y-m-d') . '</td>
-            <td>' . $issue->due_date->format('Y-m-d') . '</td>
-            <td><a href="/return-book/' . $issue->id . '" class="btn btn-sm btn-warning" onclick="return confirm(\'Return this book?\')">Return</a></td>
-        </tr>';
-    }
-
-    return response()->json([
-        'success' => true,
-        'html' => $html
-    ]);
-}
-
-public function library_report()
+    // Library report
+    public function library_report()
     {
-        // Fetch books with issuedBooks and inventory relationships
         $libraryBooks = Book::with('issuedBooks', 'inventory')->get()->map(function($book) {
-            $book->issued = $book->issuedBooks->count();             // Total issued
-            $book->available = $book->quantity - $book->issued;     // Available = total - issued
-            $book->damaged = $book->inventory?->damaged ?? 0;       // From inventory if exists
+            $book->issued = $book->issuedBooks->count();
+            $book->available = $book->quantity - $book->issued;
+            $book->damaged = $book->inventory?->damaged ?? 0;
             return $book;
         });
 
         return view('library_report', compact('libraryBooks'));
     }
 
+    public function import(Request $request)
+{
+    $request->validate([
+        'import_file' => 'required|file|mimes:csv,txt|max:4096', // Allow CSV files
+    ]);
+
+    $file = fopen($request->file('import_file')->getRealPath(), 'r');
+
+    // Skip header row
+    $header = fgetcsv($file);
+    $imported = 0;
+
+    while (($data = fgetcsv($file)) !== false) {
+        $title       = trim($data[0]);
+        $book_code   = trim($data[1] ?? '');
+        $category    = trim($data[2] ?? '');
+        $author      = trim($data[3] ?? '');
+        $quantity    = intval($data[4] ?? 0);
+        $price       = floatval($data[5] ?? 0);
+        $publisher   = trim($data[6] ?? '');
+        $isbn        = trim($data[7] ?? '');
+        $subject     = trim($data[8] ?? '');
+        $rack_number = trim($data[9] ?? '');
+        $purchase_date = trim($data[10] ?? '');
+        $condition   = trim($data[11] ?? '');
+        $description = trim($data[12] ?? '');
+
+        if (!empty($title)) {
+            Book::create([
+    'book_title'    => $title,
+    'book_code'     => $book_code,
+    'category_name' => $category,
+    'author_name'   => $author,
+    'quantity'      => $quantity,
+    'price'         => $price,
+    'publisher'     => $publisher,
+    'isbn'          => $isbn,
+    'subject'       => $subject,
+    'rack_number'   => $rack_number,
+    'purchase_date' => $purchase_date ? date('Y-m-d', strtotime($purchase_date)) : null,
+    'condition'     => $condition,
+    'description'   => $description,
+]);
 
 
+            $imported++;
+        }
+    }
 
+    fclose($file);
+
+    // Log activity (optional)
+    ActivityLogger::log('Import Books', "Imported $imported books from CSV");
+
+
+    return redirect()->back()->with('success', "$imported books imported successfully!");
+}
 }

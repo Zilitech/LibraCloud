@@ -64,15 +64,10 @@
 
     <div class="row gy-4">
 
-        <!-- Select Book -->
+        <!-- Item -->
         <div class="col-xl-6">
-            <label for="bookSelect" class="form-label">Select Book:</label>
-            <select class="form-select" id="bookSelect" name="book_id" required>
-                <option selected disabled>-- Choose Book --</option>
-                @foreach($books as $book)
-                    <option value="{{ $book->id }}">{{ $book->book_title }}</option>
-                @endforeach
-            </select>
+            <label for="itemInput" class="form-label">Item:</label>
+            <input type="text" class="form-control" id="itemInput" name="Item" placeholder="Enter Item Title" required>
         </div>
 
         <!-- Add Quantity -->
@@ -89,7 +84,7 @@
 
         <!-- Rack Number -->
         <div class="col-xl-6">
-            <label for="rackNumber" class="form-label">Rack Number:</label>
+            <label for="rackNumber" class="form-label">Room/Rack Number:</label>
             <input type="text" class="form-control" id="rackNumber" name="rack_number">
         </div>
 
@@ -126,6 +121,7 @@
             <button type="reset" class="btn btn-secondary me-2">Reset</button>
             <button type="submit" class="btn btn-primary">Save Inventory</button>
         </div>
+
     </div>
 </form>
 

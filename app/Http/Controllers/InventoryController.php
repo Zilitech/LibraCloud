@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Inventory;
-use App\Models\Book;
 use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,8 +12,7 @@ class InventoryController extends Controller
     // Show add inventory form
     public function add()
     {
-        $books = Book::all();
-        return view('add_inventory', compact('books'));
+        return view('add_inventory'); // no need to fetch books as it's now text input
     }
 
     // Inventory list page
@@ -22,26 +20,25 @@ class InventoryController extends Controller
     {
         $filter = $request->filter ?? 'all';
 
-        // Load inventory with book + related author and category
-        $query = Inventory::with(['book.author', 'book.category']);
+        // Load inventory
+        $query = Inventory::query();
 
-        // Available stock (stock > 0)
+        // Available stock
         if ($filter === 'available') {
             $query->where('current_stock', '>', 0);
         }
 
-        // Low stock (example threshold: < 5 but > 0)
+        // Low stock
         if ($filter === 'low') {
             $query->where('current_stock', '<', 5)
                   ->where('current_stock', '>', 0);
         }
 
-        // Out of stock (stock = 0)
+        // Out of stock
         if ($filter === 'out') {
             $query->where('current_stock', '=', 0);
         }
 
-        // Fetch the filtered data
         $inventories = $query->get();
 
         return view('inventory_management', compact('inventories', 'filter'));
@@ -51,7 +48,7 @@ class InventoryController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'book_id'        => 'required|exists:books,id',
+            'Item'           => 'required|string|max:255', // updated from book_id
             'added_quantity' => 'required|integer|min:0',
             'damaged'        => 'nullable|integer|min:0',
             'rack_number'    => 'nullable|string|max:255',
@@ -61,13 +58,13 @@ class InventoryController extends Controller
             'remarks'        => 'nullable|string',
         ]);
 
-        $book = Book::find($request->book_id);
+        $itemName = $request->Item;
 
-        // Get or create inventory for the book
-        $inventory = Inventory::where('book_id', $request->book_id)->first();
+        // Get or create inventory for the item
+        $inventory = Inventory::where('Item', $itemName)->first();
 
-        $added    = $request->added_quantity;
-        $damaged  = $request->damaged ?? 0;
+        $added   = $request->added_quantity;
+        $damaged = $request->damaged ?? 0;
 
         if ($inventory) {
             // Update existing inventory
@@ -84,17 +81,16 @@ class InventoryController extends Controller
                 'remarks'         => $request->remarks,
             ]);
 
-            // Activity log for update
             ActivityLog::create([
                 'user_id' => Auth::id(),
                 'action'  => 'Update Inventory',
-                'details' => 'Book: '.$book->book_title.' | Added: '.$added.' | Damaged: '.$damaged.' | New Stock: '.$newStock,
+                'details' => 'Item: '.$itemName.' | Added: '.$added.' | Damaged: '.$damaged.' | New Stock: '.$newStock,
                 'status'  => 'success',
             ]);
         } else {
             // Create new inventory
             $inventory = Inventory::create([
-                'book_id'        => $request->book_id,
+                'Item'           => $itemName,
                 'current_stock'  => $added - $damaged,
                 'added_quantity' => $added,
                 'damaged'        => $damaged,
@@ -105,17 +101,13 @@ class InventoryController extends Controller
                 'remarks'        => $request->remarks,
             ]);
 
-            // Activity log for create
             ActivityLog::create([
                 'user_id' => Auth::id(),
                 'action'  => 'Add Inventory',
-                'details' => 'Book: '.$book->book_title.' | Added: '.$added.' | Damaged: '.$damaged.' | Stock: '.($added - $damaged),
+                'details' => 'Item: '.$itemName.' | Added: '.$added.' | Damaged: '.$damaged.' | Stock: '.($added - $damaged),
                 'status'  => 'success',
             ]);
         }
-
-        // Update book stock column also (optional)
-        $book->update(['quantity' => $inventory->current_stock]);
 
         return back()->with('success', 'Inventory saved & stock updated successfully!');
     }
@@ -123,14 +115,13 @@ class InventoryController extends Controller
     public function destroy($id)
     {
         $inventory = Inventory::findOrFail($id);
-        $bookTitle = $inventory->book ? $inventory->book->book_title : 'Unknown Book';
+        $itemName  = $inventory->Item;
         $inventory->delete();
 
-        // Activity log for delete
         ActivityLog::create([
             'user_id' => Auth::id(),
             'action'  => 'Delete Inventory',
-            'details' => 'Deleted inventory for book: '.$bookTitle,
+            'details' => 'Deleted inventory for item: '.$itemName,
             'status'  => 'success',
         ]);
 

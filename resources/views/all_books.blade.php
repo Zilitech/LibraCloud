@@ -36,15 +36,13 @@
                     </div>
     
                     <div class="d-flex my-xl-auto right-content align-items-center">
+                        
                         <div class="pe-1 mb-xl-0">
-                            <button type="button" class="btn btn-info btn-icon me-2 btn-b"><i class="mdi mdi-filter-variant"></i></button>
-                        </div>
-                        <div class="pe-1 mb-xl-0">
-                            <button type="button" class="btn btn-danger btn-icon me-2"><i class="mdi mdi-star"></i></button>
-                        </div>
-                        <div class="pe-1 mb-xl-0">
-                            <button type="button" class="btn btn-warning  btn-icon me-2"><i class="mdi mdi-refresh"></i></button>
-                        </div>
+    <a href="{{ route('books.download.sample') }}" class="btn btn-warning btn-icon me-2" title="Download Sample Import File">
+        <i class="mdi mdi-download"></i>
+    </a>
+</div>
+
                         <div class="mb-xl-0">
                             <!-- Import Books Dropdown -->
 <div class="dropdown">

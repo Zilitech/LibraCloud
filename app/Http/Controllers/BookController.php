@@ -276,61 +276,99 @@ class BookController extends Controller
         return view('library_report', compact('libraryBooks'));
     }
 
+
+
+
+
+    
     public function import(Request $request)
 {
     $request->validate([
-        'import_file' => 'required|file|mimes:csv,txt|max:4096', // Allow CSV files
+        'import_file' => 'required|file|mimes:csv,txt|max:4096',
     ]);
 
     $file = fopen($request->file('import_file')->getRealPath(), 'r');
 
-    // Skip header row
+    // Skip header
     $header = fgetcsv($file);
     $imported = 0;
 
-    while (($data = fgetcsv($file)) !== false) {
-        $title       = trim($data[0]);
-        $book_code   = trim($data[1] ?? '');
-        $category    = trim($data[2] ?? '');
-        $author      = trim($data[3] ?? '');
-        $quantity    = intval($data[4] ?? 0);
-        $price       = floatval($data[5] ?? 0);
-        $publisher   = trim($data[6] ?? '');
-        $isbn        = trim($data[7] ?? '');
-        $subject     = trim($data[8] ?? '');
-        $rack_number = trim($data[9] ?? '');
-        $purchase_date = trim($data[10] ?? '');
-        $condition   = trim($data[11] ?? '');
-        $description = trim($data[12] ?? '');
+    while (($row = fgetcsv($file)) !== false) {
 
-        if (!empty($title)) {
-            Book::create([
-    'book_title'    => $title,
-    'book_code'     => $book_code,
-    'category_name' => $category,
-    'author_name'   => $author,
-    'quantity'      => $quantity,
-    'price'         => $price,
-    'publisher'     => $publisher,
-    'isbn'          => $isbn,
-    'subject'       => $subject,
-    'rack_number'   => $rack_number,
-    'purchase_date' => $purchase_date ? date('Y-m-d', strtotime($purchase_date)) : null,
-    'condition'     => $condition,
-    'description'   => $description,
-]);
+        $title         = trim($row[0] ?? '');
+        $book_code     = trim($row[1] ?? '');
+        $isbn          = trim($row[2] ?? '');
+        $author        = trim($row[3] ?? '');
+        $category      = trim($row[4] ?? '');
+        $publisher     = trim($row[5] ?? '');
+        $subject       = trim($row[6] ?? '');
+        $rack_number   = trim($row[7] ?? '');
+        $quantity      = intval($row[8] ?? 0);
+        $price         = floatval($row[9] ?? 0);
+        $purchase_date = trim($row[10] ?? '');
+        $condition     = trim($row[11] ?? '');
+        $cover_image   = trim($row[12] ?? '');
+        $ebook_file    = trim($row[13] ?? '');
+        $description   = trim($row[14] ?? '');
 
+        if (empty($title)) continue;
 
-            $imported++;
+        // Auto-generate book code
+        if (empty($book_code)) {
+            $autoBook = AutoNumber::where('type', 'book_code')->first();
+
+            if ($autoBook) {
+                $autoBook->last_number++;
+                $autoBook->save();
+
+                $book_code = $autoBook->prefix .
+                             str_pad($autoBook->last_number, $autoBook->digits, '0', STR_PAD_LEFT);
+            } else {
+                $book_code = 'BK' . date('YmdHis');
+            }
         }
+
+        // Fix invalid dates
+        $purchase_date = ($purchase_date && strtotime($purchase_date))
+            ? date('Y-m-d', strtotime($purchase_date))
+            : null;
+
+        Book::create([
+            'book_title'    => $title,
+            'book_code'     => $book_code,
+            'isbn'          => $isbn,
+            'author_name'   => $author,
+            'category_name' => $category,
+            'publisher'     => $publisher,
+            'subject'       => $subject,
+            'rack_number'   => $rack_number,
+            'quantity'      => $quantity,
+            'price'         => $price,
+            'purchase_date' => $purchase_date,
+            'condition'     => $condition,
+            'cover_image'   => $cover_image,
+            'ebook_file'    => $ebook_file,
+            'description'   => $description,
+        ]);
+
+        $imported++;
     }
 
     fclose($file);
 
-    // Log activity (optional)
     ActivityLogger::log('Import Books', "Imported $imported books from CSV");
-
 
     return redirect()->back()->with('success', "$imported books imported successfully!");
 }
+
+public function downloadSample()
+{
+    $filePath = public_path('sample/add_book_sample_import_file.csv');
+
+    return response()->download($filePath, 'Sample-Book-Import.csv', [
+        'Content-Type' => 'text/csv',
+    ]);
+}
+
+
 }

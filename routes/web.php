@@ -81,6 +81,8 @@ Route::get('/switcher', function(){
 });
 
 Route::get('/all_books', [BookController::class, 'allBooks'])->name('books.all');
+Route::get('/books/sample-import', [BookController::class, 'downloadSample'])
+     ->name('books.download.sample');
 Route::get('/books/{book}/edit', [BookController::class, 'edit'])->name('books.edit');
 Route::put('/books/{book}', [BookController::class, 'update'])->name('books.update');
 Route::delete('/books/{book}', [BookController::class, 'destroy'])->name('books.destroy');
@@ -158,6 +160,8 @@ Route::post('/generate-id-card', [App\Http\Controllers\MembercardController::cla
 Route::get('/add_member', [App\Http\Controllers\MemberController::class, 'create'])->name('member.create');
 Route::post('/add_member', [App\Http\Controllers\MemberController::class, 'store'])->name('member.store');
 Route::post('/member/import', [App\Http\Controllers\MemberController::class, 'import'])->name('member.import');
+Route::get('/member/sample-import', [App\Http\Controllers\MemberController::class, 'downloadSample'])
+     ->name('member.download.sample');
 Route::get('/all_member', [App\Http\Controllers\MemberController::class, 'show'])->name('member.show');
 Route::get('/members/{member}/edit', [App\Http\Controllers\MemberController::class, 'edit'])->name('members.edit');
 Route::put('/members/{member}', [App\Http\Controllers\MemberController::class, 'update'])->name('members.update');

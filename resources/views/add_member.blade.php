@@ -34,17 +34,20 @@
                     </div>
                           <div class="mb-xl-0">
     <form method="POST" action="{{ route('member.import') }}" enctype="multipart/form-data">
-        @csrf
-        <div class="input-group">
-            <input type="file" class="form-control" name="csv_file" accept=".csv" required>
-            <button class="btn btn-primary" type="submit">
-                <i class="ri-upload-2-line me-1"></i> Import CSV
-            </button>
-                            <a href="{{ url('all_member') }}" class="btn btn-secondary"><i class="ri-arrow-left-line"></i> Back to All Member</a>
-
+    @csrf
+    <div class="input-group">
+        <input type="file" class="form-control" name="import_file" accept=".csv" required>
+        <button class="btn btn-primary" type="submit">
+            <i class="ri-upload-2-line me-1"></i> Import CSV
+        </button>
+        <div class="pe-1 mb-xl-0">
+            <a href="{{ route('member.download.sample') }}" class="btn btn-warning btn-icon me-2" title="Download Sample Import File">
+                <i class="mdi mdi-download"></i>
+            </a>
         </div>
+    </div>
+</form>
 
-    </form>
 
 </div>
                 </div>

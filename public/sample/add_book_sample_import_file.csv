@@ -1,0 +1,11 @@
+book_title,book_code,isbn,author_name,category_name,publisher,subject,rack_number,quantity,price,purchase_date,condition,cover_image,ebook_file,description
+Information Science,,ISBNIS21,Dr. KP,Science,BK Publication,Engineering,20,15,899,27-11-2025,New,No,No,It is a nice book
+Advanced Mathematics,,ISBNAM22,Dr. Sharma,Mathematics,Math Press,Algebra,15,10,799,15-10-2025,New,No,No,Comprehensive math guide
+Physics Fundamentals,,ISBNPF23,Dr. Reddy,Physics,Science House,Mechanics,10,12,950,05-09-2025,New,No,No,Basic physics concepts
+Chemistry Basics,,ISBCB24,Dr. Gupta,Chemistry,Chem Pub,Organic,12,8,650,18-08-2025,New,No,No,Introduction to chemistry
+Computer Networks,,ISBNCN25,Dr. Verma,IT,BK Tech,Networking,25,20,1200,30-07-2025,New,No,No,Networking principles
+English Literature,,ISBNEL26,Dr. Rao,Arts,Lit Press,English,18,5,450,12-06-2025,New,No,No,Classic English literature
+Biology 101,,ISBNB101,Dr. Singh,Biology,Science World,Botany,22,18,850,01-05-2025,New,No,No,Basic biology concepts
+History of India,,ISBNHI27,Dr. Kumar,History,History House,Ancient,14,7,700,23-04-2025,New,No,No,Indian history overview
+Economics Principles,,ISBNEP28,Dr. Mehta,Commerce,Biz Pub,Microeconomics,16,9,650,11-03-2025,New,No,No,Intro to economics
+Digital Marketing Basics,,ISBNDM29,Dr. Nair,IT,BK Tech,Marketing,28,11,1050,27-02-2025,New,No,No,Guide to digital marketing

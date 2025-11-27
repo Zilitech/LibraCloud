@@ -6,15 +6,11 @@
                     </div>
                     <div class="main-dashboard-header-right">
 						<div>
-							<label class="fs-13 text-muted">Customer Ratings</label>
-							<div class="main-star">
-								<i class="bi bi-star-fill fs-13 text-warning"></i> 
-                                <i class="bi bi-star-fill fs-13 text-warning"></i> 
-                                <i class="bi bi-star-fill fs-13 text-warning"></i> 
-                                <i class="bi bi-star-fill fs-13 text-warning"></i> 
-                                <i class="bi bi-star-fill fs-13 text-muted op-8"></i> <span>(14,873)</span>
-							</div>
-						</div>
+    <a href="{{ route('issue-book.index') }}" class="btn btn-primary">
+        <i class="bi bi-journal-plus me-1"></i> Issue Book
+    </a>
+</div>
+
 						<div>
 							<label class="fs-13 text-muted">Students</label>
 							<h5 class="mb-0 fw-semibold">3,275</h5>

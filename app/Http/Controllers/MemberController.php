@@ -6,7 +6,7 @@ use App\Models\Member;
 use App\Models\AutoNumber;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Models\ActivityLog;
+use App\Helpers\ActivityLogger;
 use Illuminate\Support\Facades\Auth;
 
 class MemberController extends Controller
@@ -74,67 +74,96 @@ class MemberController extends Controller
         return back()->with('success', 'Member added successfully! Generated ID: ' . $validated['memberid']);
     }
 
-    public function import(Request $request)
-    {
-        $request->validate([
-            'csv_file' => 'required|file|mimes:csv,txt|max:2048',
-        ]);
+public function import(Request $request)
+{
+    $request->validate([
+        'import_file' => 'required|file|mimes:csv,txt|max:4096',
+    ]);
 
-        $file = fopen($request->file('csv_file')->getRealPath(), 'r');
-        $header = fgetcsv($file); // Skip header row
-        $imported = 0;
+    $file = fopen($request->file('import_file')->getRealPath(), 'r');
 
-        while (($row = fgetcsv($file)) !== false) {
-            $row = array_map(function ($value) { return $value !== "" ? $value : null; }, $row);
+    // Skip header
+    $header = fgetcsv($file);
+    $imported = 0;
 
-            // Auto-generate member ID if empty
-            $memberId = $row[0] ?? null;
-            if (!$memberId) {
-                $autoMember = AutoNumber::where('type', 'member_id')->first();
-                if ($autoMember) {
-                    $autoMember->last_number += 1;
-                    $autoMember->save();
-                    $memberId = $autoMember->prefix . str_pad($autoMember->last_number, $autoMember->digits, '0', STR_PAD_LEFT);
-                } else {
-                    $memberId = 'MBR' . date('YmdHis');
-                }
+    while (($row = fgetcsv($file)) !== false) {
+
+        $memberId         = trim($row[0] ?? '');
+        $fullname         = trim($row[1] ?? '');
+        $gender           = trim($row[2] ?? '');
+        $dateofbirth      = trim($row[3] ?? '');
+        $membertype       = trim($row[4] ?? '');
+        $departmentclass  = trim($row[5] ?? '');
+        $rollnoemployeeid = trim($row[6] ?? '');
+        $yearsemester     = trim($row[7] ?? '');
+        $email            = trim($row[8] ?? '');
+        $phone            = trim($row[9] ?? '');
+        $address          = trim($row[10] ?? '');
+        $city             = trim($row[11] ?? '');
+        $state            = trim($row[12] ?? '');
+        $pincode          = trim($row[13] ?? '');
+        $joiningdate      = trim($row[14] ?? '');
+        $status           = trim($row[15] ?? 'Active');
+        $profilephoto     = trim($row[16] ?? '');
+        $cardIssued       = intval($row[17] ?? 0);
+
+        // Skip empty fullname
+        if (empty($fullname)) continue;
+
+        // Auto-generate member ID if empty
+        if (empty($memberId)) {
+            $autoMember = AutoNumber::where('type', 'member_id')->first();
+            if ($autoMember) {
+                $autoMember->last_number++;
+                $autoMember->save();
+                $memberId = $autoMember->prefix .
+                            str_pad($autoMember->last_number, $autoMember->digits, '0', STR_PAD_LEFT);
+            } else {
+                $memberId = 'MBR' . date('YmdHis');
             }
-
-            Member::create([
-                'memberid'          => $memberId,
-                'fullname'          => $row[1] ?? null,
-                'gender'            => $row[2] ?? null,
-                'dateofbirth'       => !empty($row[3]) ? date('Y-m-d', strtotime($row[3])) : null,
-                'membertype'        => $row[4] ?? null,
-                'departmentclass'   => $row[5] ?? null,
-                'rollnoemployeeid'  => $row[6] ?? null,
-                'yearsemester'      => $row[7] ?? null,
-                'email'             => $row[8] ?? null,
-                'phone'             => $row[9] ?? null,
-                'address'           => $row[10] ?? null,
-                'city'              => $row[11] ?? null,
-                'state'             => $row[12] ?? null,
-                'pincode'           => $row[13] ?? null,
-                'joiningdate'       => !empty($row[14]) ? date('Y-m-d', strtotime($row[14])) : null,
-                'status'            => $row[15] ?? 'Active',
-                'profilephoto'      => $row[16] ?? null,
-                'cardIssued'        => $row[17] ?? 0,
-            ]);
-
-            $imported++;
         }
 
-        fclose($file);
+        // Convert dates to Y-m-d
+        $dateofbirth = ($dateofbirth && strtotime($dateofbirth))
+            ? date('Y-m-d', strtotime($dateofbirth))
+            : null;
 
-        ActivityLog::create([
-            'user_id' => Auth::id(),
-            'action'  => 'Import Members',
-            'details' => "Imported $imported members from CSV",
-            'status'  => 'success',
+        $joiningdate = ($joiningdate && strtotime($joiningdate))
+            ? date('Y-m-d', strtotime($joiningdate))
+            : null;
+
+        Member::create([
+            'memberid'          => $memberId,
+            'fullname'          => $fullname,
+            'gender'            => $gender,
+            'dateofbirth'       => $dateofbirth,
+            'membertype'        => $membertype,
+            'departmentclass'   => $departmentclass,
+            'rollnoemployeeid'  => $rollnoemployeeid,
+            'yearsemester'      => $yearsemester,
+            'email'             => $email,
+            'phone'             => $phone,
+            'address'           => $address,
+            'city'              => $city,
+            'state'             => $state,
+            'pincode'           => $pincode,
+            'joiningdate'       => $joiningdate,
+            'status'            => $status,
+            'profilephoto'      => $profilephoto,
+            'cardIssued'        => $cardIssued,
         ]);
 
-        return back()->with('success', "CSV imported successfully! Total imported: $imported");
+        $imported++;
     }
+
+    fclose($file);
+
+    ActivityLogger::log('Import Books', "Imported $imported books from CSV");
+
+    return redirect()->back()->with('success', "$imported members imported successfully!");
+}
+
+
 
     public function edit(Member $member)
     {
@@ -272,4 +301,13 @@ class MemberController extends Controller
         $membercategories = DB::table('membercategory')->get();
         return view('admin.members.member_report', compact('members', 'membercategories'));
     }
+
+    public function downloadSample()
+{
+    $filePath = public_path('sample/add_member_sample_import_file.csv');
+
+    return response()->download($filePath, 'Sample-Member-Import.csv', [
+        'Content-Type' => 'text/csv',
+    ]);
+}
 }

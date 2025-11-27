@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Member;
+use App\Models\AutoNumber;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\ActivityLog;
@@ -37,7 +38,20 @@ class MemberController extends Controller
             'status'            => 'required|string|max:20',
             'profilephoto'      => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'cardIssued'        => 'nullable|boolean',
+            'auto_generate'     => 'nullable|string|in:enable,disable',
         ]);
+
+        // AUTO-GENERATE MEMBER ID IF ENABLED OR EMPTY
+        if ($request->auto_generate === 'enable' || empty($validated['memberid'])) {
+            $autoMember = AutoNumber::where('type', 'member_id')->first();
+            if ($autoMember) {
+                $autoMember->last_number += 1;
+                $autoMember->save();
+                $validated['memberid'] = $autoMember->prefix . str_pad($autoMember->last_number, $autoMember->digits, '0', STR_PAD_LEFT);
+            } else {
+                $validated['memberid'] = 'MBR' . date('YmdHis'); // fallback
+            }
+        }
 
         // Upload profile photo
         if ($request->hasFile('profilephoto')) {
@@ -53,11 +67,11 @@ class MemberController extends Controller
         ActivityLog::create([
             'user_id' => Auth::id(),
             'action'  => 'Add Member',
-            'details' => "Added Member: {$member->fullname} (ID: {$member->id})",
+            'details' => "Added Member: {$member->fullname} (ID: {$member->memberid})",
             'status'  => 'success',
         ]);
 
-        return back()->with('success', 'Member added successfully!');
+        return back()->with('success', 'Member added successfully! Generated ID: ' . $validated['memberid']);
     }
 
     public function import(Request $request)
@@ -67,18 +81,27 @@ class MemberController extends Controller
         ]);
 
         $file = fopen($request->file('csv_file')->getRealPath(), 'r');
-        $header = fgetcsv($file); // Skip first row
+        $header = fgetcsv($file); // Skip header row
         $imported = 0;
 
         while (($row = fgetcsv($file)) !== false) {
+            $row = array_map(function ($value) { return $value !== "" ? $value : null; }, $row);
 
-            // Convert blank values to null
-            $row = array_map(function ($value) {
-                return $value !== "" ? $value : null;
-            }, $row);
+            // Auto-generate member ID if empty
+            $memberId = $row[0] ?? null;
+            if (!$memberId) {
+                $autoMember = AutoNumber::where('type', 'member_id')->first();
+                if ($autoMember) {
+                    $autoMember->last_number += 1;
+                    $autoMember->save();
+                    $memberId = $autoMember->prefix . str_pad($autoMember->last_number, $autoMember->digits, '0', STR_PAD_LEFT);
+                } else {
+                    $memberId = 'MBR' . date('YmdHis');
+                }
+            }
 
             Member::create([
-                'memberid'          => $row[0] ?? null,
+                'memberid'          => $memberId,
                 'fullname'          => $row[1] ?? null,
                 'gender'            => $row[2] ?? null,
                 'dateofbirth'       => !empty($row[3]) ? date('Y-m-d', strtotime($row[3])) : null,
@@ -93,7 +116,7 @@ class MemberController extends Controller
                 'state'             => $row[12] ?? null,
                 'pincode'           => $row[13] ?? null,
                 'joiningdate'       => !empty($row[14]) ? date('Y-m-d', strtotime($row[14])) : null,
-                'status'            => !empty($row[15]) ? $row[15] : 'Active',
+                'status'            => $row[15] ?? 'Active',
                 'profilephoto'      => $row[16] ?? null,
                 'cardIssued'        => $row[17] ?? 0,
             ]);
@@ -103,7 +126,6 @@ class MemberController extends Controller
 
         fclose($file);
 
-        // Log activity
         ActivityLog::create([
             'user_id' => Auth::id(),
             'action'  => 'Import Members',
@@ -111,7 +133,7 @@ class MemberController extends Controller
             'status'  => 'success',
         ]);
 
-        return back()->with('success', 'CSV imported successfully!');
+        return back()->with('success', "CSV imported successfully! Total imported: $imported");
     }
 
     public function edit(Member $member)
@@ -176,7 +198,6 @@ class MemberController extends Controller
 
         $member->update($data);
 
-        // Log activity
         $details = count($changes) > 0
             ? "Updated Member - {$member->fullname}. Changes: " . implode(', ', $changes)
             : "Updated Member - {$member->fullname} (no changes detected)";
@@ -208,11 +229,10 @@ class MemberController extends Controller
 
         $member->delete();
 
-        // Log activity
         ActivityLog::create([
             'user_id' => Auth::id(),
             'action'  => 'Delete Member',
-            'details' => "Deleted Member: {$member->fullname} (ID: {$member->id})",
+            'details' => "Deleted Member: {$member->fullname} (ID: {$member->memberid})",
             'status'  => 'success'
         ]);
 
@@ -246,16 +266,10 @@ class MemberController extends Controller
         return view('all_member', compact('members', 'membercategories'));
     }
 
-   public function member_report()
-{
-    // Fetch all members latest first
-    $members = Member::orderBy('created_at', 'desc')->get();
-
-    // Fetch all member categories
-    $membercategories = DB::table('membercategory')->get();
-
-    // Return view with data
-    return view('admin.members.member_report', compact('members', 'membercategories'));
-}
-
+    public function member_report()
+    {
+        $members = Member::orderBy('created_at', 'desc')->get();
+        $membercategories = DB::table('membercategory')->get();
+        return view('admin.members.member_report', compact('members', 'membercategories'));
+    }
 }

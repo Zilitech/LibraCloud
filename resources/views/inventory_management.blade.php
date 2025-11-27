@@ -97,13 +97,12 @@
                         <thead>
                             <tr>
                                 <th>S.No</th>
-                                <th>Book Title</th>
-                                <th>Author</th>
-                                <th>Category</th>
+                                <th>Item</th>
                                 <th>Total Copies</th>
                                 <th>Available</th>
-                                <th>Issued</th>
                                 <th>Damaged/Lost</th>
+                                <th>Supplier</th>
+                                <th>Purchase Date</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -126,13 +125,12 @@
         <tr>
            
     <td>{{ $index + 1 }}</td>
-    <td>{{ $inventory->book->book_title }}</td>
-    <td>{{ $inventory->book->author_name ?? 'N/A' }}</td>
-    <td>{{ $inventory->book->category_name ?? 'N/A' }}</td>
-    <td>{{ $inventory->current_stock }}</td>
+    <td>{{ $inventory->Item }}</td>
     <td>{{ $inventory->current_stock }}</td>
     <td>{{ $inventory->current_stock }}</td>
     <td>{{ $inventory->damaged }}</td>
+    <td>{{$inventory->supplier}}</td>
+    <td>{{$inventory->purchase_date}}</td>
     <td>{!! $status !!}</td>
 
             <td>

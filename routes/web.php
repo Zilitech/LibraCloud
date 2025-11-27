@@ -21,6 +21,8 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\BackupController;
 use App\Http\Controllers\LibraryReportController;
+use App\Http\Controllers\AutoNumberController;
+
 
 
 
@@ -85,6 +87,9 @@ Route::delete('/books/{book}', [BookController::class, 'destroy'])->name('books.
 Route::get('/books/{book}', [BookController::class, 'show'])->name('books.show');
 // web.php
 Route::get('/issued-books/isbn/{isbn}', [BookController::class, 'getIssuedBooksByISBN']);
+
+Route::post('/books/import', [BookController::class, 'import'])->name('books.import');
+
 
 
 
@@ -369,3 +374,7 @@ Route::delete('/roles/{role}', [RoleController::class, 'destroy'])->name('roles.
 // Optional: Edit Role
 Route::get('/roles/{role}/edit', [RoleController::class, 'edit'])->name('roles.edit');
 Route::put('/roles/{role}', [RoleController::class, 'update'])->name('roles.update');
+
+Route::get('/auto_number_form', [AutoNumberController::class, 'create'])->name('auto_numbers.create');
+Route::post('/auto_number_form', [AutoNumberController::class, 'store'])->name('auto_numbers.store');
+Route::get('/generate-auto-number', [AutoNumberController::class, 'preview'])->name('auto_numbers.preview');

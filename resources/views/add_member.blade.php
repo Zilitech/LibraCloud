@@ -75,7 +75,7 @@
                         <!-- Member ID -->
                         <div class="col-xl-6">
                             <label class="form-label">Member ID:</label>
-                            <input type="text" class="form-control" name="memberid" placeholder="member id">
+                            <input type="text" class="form-control" name="memberid" placeholder="Leave blank if auto-generator is enabled.">
                         </div>
 
                         <!-- Full Name -->

@@ -74,7 +74,7 @@
                         <!-- Book Code -->
                         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                             <label for="bookCode" class="form-label">Book Code:</label>
-                            <input type="text" name="book_code" class="form-control" id="bookCode" value="{{ old('book_code') }}" placeholder="e.g. CHM101">
+                            <input type="text" name="book_code" class="form-control" id="bookCode" value="{{ old('book_code') }}" placeholder="Leave blank if auto-generator is enabled.">
                         </div>
 
                         <!-- ISBN -->

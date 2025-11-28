@@ -22,6 +22,8 @@ use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\BackupController;
 use App\Http\Controllers\LibraryReportController;
 use App\Http\Controllers\AutoNumberController;
+use App\Http\Controllers\EmailSettingController;
+
 
 
 
@@ -382,3 +384,6 @@ Route::put('/roles/{role}', [RoleController::class, 'update'])->name('roles.upda
 Route::get('/auto_number_form', [AutoNumberController::class, 'create'])->name('auto_numbers.create');
 Route::post('/auto_number_form', [AutoNumberController::class, 'store'])->name('auto_numbers.store');
 Route::get('/generate-auto-number', [AutoNumberController::class, 'preview'])->name('auto_numbers.preview');
+
+Route::get('/email-settings', [EmailSettingController::class, 'edit'])->name('email.settings.edit');
+Route::post('/email-settings', [EmailSettingController::class, 'update'])->name('email.settings.update');

@@ -29,6 +29,8 @@ public function boot(): void
         $settings = DB::table('general_settings')->first();
     }
 
+    
+
     // Provide default values if no settings found OR table doesn’t exist yet
     if (!$settings) {
         $settings = (object) [
@@ -41,5 +43,7 @@ public function boot(): void
     // Share settings globally with all views
     View::share('settings', $settings);
 }
+
+
 
 }

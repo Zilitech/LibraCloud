@@ -281,6 +281,17 @@
     </a>
 </li>
 
+                             <li class="slide">
+    <a href="{{route('notification.form')}}" class="side-menu__item">
+        <img src="https://cdn-icons-png.flaticon.com/128/13072/13072232.png" 
+             alt="Due Date Alerts Icon" 
+             class="side-menu__icon" 
+             style="width: 24px; height: 24px;">
+        <span class="side-menu__label">Notification Setting</span>
+    </a>
+</li>
+
+
                                              <li class="slide__category"><span class="category-name">E-Book</span></li>
                         <!-- End::slide__category -->
 

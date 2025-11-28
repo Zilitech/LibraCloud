@@ -17,5 +17,7 @@ class EmailSetting extends Model
         'smtp_port',
         'smtp_security',
         'smtp_auth',
+        'mail_from_address', // new
+        'mail_from_name',    // new
     ];
 }

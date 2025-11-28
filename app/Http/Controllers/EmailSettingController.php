@@ -25,6 +25,8 @@ class EmailSettingController extends Controller
             'smtp_port' => 'required|integer',
             'smtp_security' => 'required|in:OFF,SSL,TLS',
             'smtp_auth' => 'required|in:ON,OFF',
+            'mail_from_address' => 'required|email',   // new
+            'mail_from_name' => 'required|string',     // new
         ]);
 
         $settings = EmailSetting::first();

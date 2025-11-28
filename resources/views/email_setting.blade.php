@@ -1,24 +1,27 @@
-@include('head')
+ @include('head')
 
 <body>
 
-@include('switcher')
+   @include('switcher')
 
-<!-- Loader -->
-<div id="loader">
-    <img src="{{ asset('images/media/loader.svg') }}" alt="">
-</div>
-<!-- Loader -->
+    <!-- Loader -->
+    <div id="loader" >
+        <img src="{{ asset('images/media/loader.svg') }}" alt="">
+    </div>
+    <!-- Loader -->
 
-<div class="page">
-    <!-- app-header -->
-    @include('header')
-    @include('nav_sidebar')
+    <div class="page">
+         <!-- app-header -->
+@include('header')
 
-    <!-- Start::app-content -->
-    <div class="main-content app-content">
-        <div class="container-fluid">
-            <div class="container mt-5">
+        @include('nav_sidebar')
+
+        <!-- Start::app-content -->
+        <div class="main-content app-content">
+            <div class="container-fluid">
+
+               <!-- Page Header -->
+    <div class="container mt-5">
                 <h2 class="mb-4">Email Settings</h2>
 
                 <!-- Success Message -->
@@ -37,7 +40,6 @@
                         <label for="emailEngine" class="form-label">Email Engine</label>
                         <select class="form-select" id="emailEngine" name="email_engine" required>
                             <option value="SMTP" {{ ($settings->email_engine ?? '') == 'SMTP' ? 'selected' : '' }}>SMTP</option>
-                            <option value="PHP Mail" {{ ($settings->email_engine ?? '') == 'PHP Mail' ? 'selected' : '' }}>PHP Mail</option>
                         </select>
                     </div>
 
@@ -88,24 +90,102 @@
                         </select>
                     </div>
 
+                    <!-- Mail From Address -->
+<div class="mb-3">
+    <label for="mailFromAddress" class="form-label">Mail From Address</label>
+    <input type="email" class="form-control" id="mailFromAddress" name="mail_from_address" 
+           value="{{ $settings->mail_from_address ?? '' }}" placeholder="Enter Mail From Address" required>
+</div>
+
+<!-- Mail From Name -->
+<div class="mb-3">
+    <label for="mailFromName" class="form-label">Mail From Name</label>
+    <input type="text" class="form-control" id="mailFromName" name="mail_from_name" 
+           value="{{ $settings->mail_from_name ?? '' }}" placeholder="Enter Mail From Name" required>
+</div>
+
+
                     <button type="submit" class="btn btn-primary">Save Settings</button>
                 </form>
 
             </div>
+
+
+            </div>
         </div>
+        <!-- End::app-content -->
+
+        <!-- Footer Start -->
+        @include('footer')
+        <!-- Footer End -->
+
     </div>
-    <!-- End::app-content -->
 
-    <!-- Footer Start -->
-    @include('footer')
-    <!-- Footer End -->
+    
+ <!-- Scroll To Top -->
+    <div class="scrollToTop">
+        <span class="arrow"><i class="las la-angle-double-up"></i></span>
+    </div>
+    <div id="responsive-overlay"></div>
+    <!-- Scroll To Top -->
 
-</div>
+    <!-- Popper JS -->
+    <script src="{{ asset('libs/@popperjs/core/umd/popper.min.js') }}"></script>
 
-@include('foot')
+    <!-- Bootstrap JS -->
+    <script src="{{ asset('libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Defaultmenu JS -->
+    <script src="{{ asset('js/defaultmenu.min.js') }}"></script>
+
+    <!-- Node Waves JS-->
+    <script src="{{ asset('libs/node-waves/waves.min.js') }}"></script>
+
+    <!-- Sticky JS -->
+    <script src="{{ asset('js/sticky.js') }}"></script>
+
+    <!-- Simplebar JS -->
+    <script src="{{ asset('libs/simplebar/simplebar.min.js') }}"></script>
+    <script src="{{ asset('js/simplebar.js') }}"></script>
+
+    <!-- Color Picker JS -->
+    <script src="{{ asset('libs/@simonwep/pickr/pickr.es5.min.js') }}"></script>
+
+
+    
+    <!-- Custom-Switcher JS -->
+    <script src="{{ asset('js/custom-switcher.min.js') }}"></script>
+
+    <!-- Prism JS -->
+    <script src="{{ asset('libs/prismjs/prism.js') }}"></script>
+    <script src="{{ asset('js/prism-custom.js') }}"></script>
+
+    <!-- Custom JS -->
+    <script src="{{ asset('js/custom.js') }}"></script>
+
 
 </body>
+
 </html>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+
+

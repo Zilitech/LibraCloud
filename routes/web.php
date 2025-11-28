@@ -23,6 +23,8 @@ use App\Http\Controllers\BackupController;
 use App\Http\Controllers\LibraryReportController;
 use App\Http\Controllers\AutoNumberController;
 use App\Http\Controllers\EmailSettingController;
+use App\Http\Controllers\NotificationController;
+
 
 
 
@@ -248,6 +250,15 @@ Route::get('/new_arrival_setting', function(){
     return view('new_arrival_setting');
 });
 
+Route::get('/notification_setting', [NotificationController::class, 'showForm'])->name('notification.form');
+Route::post('/notification/update-template', [NotificationController::class,'updateTemplate'])->name('update.notification.template');
+Route::post('/notification/send', [NotificationController::class,'sendNotification'])->name('send.notification');
+
+
+
+Route::get('/email-settings', [EmailSettingController::class, 'edit'])->name('email.settings.edit');
+Route::post('/email-settings', [EmailSettingController::class, 'update'])->name('email.settings.update');
+
 Route::get('/e-book', [EbookController::class, 'index'])->name('ebooks.index');
 Route::post('/e-book/store', [EbookController::class, 'store'])->name('ebooks.store');
 Route::get('/ebook/download/{id}', [EbookController::class, 'download'])->name('ebooks.download');
@@ -385,5 +396,3 @@ Route::get('/auto_number_form', [AutoNumberController::class, 'create'])->name('
 Route::post('/auto_number_form', [AutoNumberController::class, 'store'])->name('auto_numbers.store');
 Route::get('/generate-auto-number', [AutoNumberController::class, 'preview'])->name('auto_numbers.preview');
 
-Route::get('/email-settings', [EmailSettingController::class, 'edit'])->name('email.settings.edit');
-Route::post('/email-settings', [EmailSettingController::class, 'update'])->name('email.settings.update');

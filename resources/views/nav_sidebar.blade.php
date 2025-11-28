@@ -270,6 +270,17 @@
     </a>
 </li>
 
+
+<li class="slide">
+    <a href="{{route('email.settings.edit')}}" class="side-menu__item">
+        <img src="https://cdn-icons-png.flaticon.com/128/5680/5680211.png" 
+             alt="New Arrival Alerts Icon" 
+             class="side-menu__icon" 
+             style="width: 24px; height: 24px;">
+        <span class="side-menu__label">Email Setting</span>
+    </a>
+</li>
+
                                              <li class="slide__category"><span class="category-name">E-Book</span></li>
                         <!-- End::slide__category -->
 

@@ -9,6 +9,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Helpers\ActivityLogger;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Helpers\MailHelper;
+use App\Models\NotificationTemplate;
+
+
+
 
 class MemberController extends Controller
 {
@@ -71,6 +77,35 @@ class MemberController extends Controller
             'details' => "Added Member: {$member->fullname} (ID: {$member->memberid})",
             'status'  => 'success',
         ]);
+
+        try {
+
+    MailHelper::applyEmailSettings(); // Load SMTP settings dynamically
+
+    // Get the template for new member registration
+    $template = NotificationTemplate::where('event_name', 'Member Register')->first();
+
+    if ($template && $member->email) {
+
+        // Replace template variables
+        $messageBody = $template->message;
+        $messageBody = str_replace('{{member_name}}', $member->fullname, $messageBody);
+        $messageBody = str_replace('{{member_id}}', $member->memberid, $messageBody);
+        $messageBody = str_replace('{{email}}', $member->email, $messageBody);
+        $messageBody = str_replace('{{phone}}', $member->phone, $messageBody);
+        $messageBody = str_replace('{{register_date}}', now()->format('Y-m-d'), $messageBody);
+
+        // Send the email
+        Mail::html(nl2br($messageBody), function ($msg) use ($member) {
+            $msg->to($member->email)
+                ->subject('Welcome to Library - Member Registration Successful');
+        });
+    }
+
+} catch (\Exception $e) {
+    \Log::error("Member Register Email Failed: " . $e->getMessage());
+}
+
 
         return back()->with('success', 'Member added successfully! Generated ID: ' . $validated['memberid']);
     }

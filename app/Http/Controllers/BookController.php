@@ -5,10 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Book;
 use App\Models\Category;
 use App\Models\Author;
+use App\Models\Member;
 use Illuminate\Http\Request;
 use App\Models\IssuedBook;
 use App\Helpers\ActivityLogger;
 use App\Models\AutoNumber;
+use Illuminate\Support\Facades\Mail;
+use App\Helpers\MailHelper;
+use App\Models\NotificationTemplate;
 
 class BookController extends Controller
 {
@@ -20,79 +24,118 @@ class BookController extends Controller
         return view('add_book', compact('categories', 'authors'));
     }
 
-    // Store book
     public function store(Request $request)
-    {
-        $request->validate([
-            'book_title'    => 'required|string|max:255',
-            'book_code'     => 'nullable|string|max:100',
-            'isbn'          => 'nullable|string|max:100',
-            'author_name'   => 'nullable|string|max:255',
-            'category_name' => 'required|string|max:255',
-            'publisher'     => 'nullable|string|max:255',
-            'subject'       => 'nullable|string|max:255',
-            'rack_number'   => 'nullable|string|max:100',
-            'quantity'      => 'required|integer|min:1',
-            'price'         => 'nullable|numeric',
-            'purchase_date' => 'nullable|date',
-            'condition'     => 'nullable|string|max:20',
-            'cover_image'   => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-            'ebook_file'    => 'nullable|mimes:pdf|max:10240',
-            'description'   => 'nullable|string',
-            'auto_generate' => 'nullable|string|in:enable,disable',
-        ]);
+{
+    $request->validate([
+        'book_title'    => 'required|string|max:255',
+        'book_code'     => 'nullable|string|max:100',
+        'isbn'          => 'nullable|string|max:100',
+        'author_name'   => 'nullable|string|max:255',
+        'category_name' => 'required|string|max:255',
+        'publisher'     => 'nullable|string|max:255',
+        'subject'       => 'nullable|string|max:255',
+        'rack_number'   => 'nullable|string|max:100',
+        'quantity'      => 'required|integer|min:1',
+        'price'         => 'nullable|numeric',
+        'purchase_date' => 'nullable|date',
+        'condition'     => 'nullable|string|max:20',
+        'cover_image'   => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        'ebook_file'    => 'nullable|mimes:pdf|max:10240',
+        'description'   => 'nullable|string',
+        'auto_generate' => 'nullable|string|in:enable,disable',
+    ]);
 
-        // Ensure category & author exist
-        if ($request->filled('category_name')) {
-            Category::firstOrCreate(['category_name' => $request->category_name]);
+    // Ensure category & author exist
+    if ($request->filled('category_name')) {
+        Category::firstOrCreate(['category_name' => $request->category_name]);
+    }
+    if ($request->filled('author_name')) {
+        Author::firstOrCreate(['author_name' => $request->author_name]);
+    }
+
+    $data = $request->only([
+        'book_title','book_code','isbn','author_name','publisher','category_name',
+        'subject','rack_number','quantity','price','purchase_date','condition','description'
+    ]);
+
+    // Auto-generate book_code
+    if ($request->auto_generate === 'enable' || empty($data['book_code'])) {
+        $autoBook = AutoNumber::where('type', 'book_code')->first();
+        if ($autoBook) {
+            $autoBook->last_number += 1;
+            $autoBook->save();
+            $data['book_code'] = $autoBook->prefix . str_pad($autoBook->last_number, $autoBook->digits, '0', STR_PAD_LEFT);
+        } else {
+            $data['book_code'] = 'BK' . date('YmdHis'); 
         }
-        if ($request->filled('author_name')) {
-            Author::firstOrCreate(['author_name' => $request->author_name]);
-        }
+    }
 
-        $data = $request->only([
-            'book_title','book_code','isbn','author_name','publisher','category_name',
-            'subject','rack_number','quantity','price','purchase_date','condition','description'
-        ]);
+    // Handle file uploads
+    if ($request->hasFile('cover_image')) {
+        $imageName = time() . '_cover.' . $request->cover_image->extension();
+        $request->cover_image->move(public_path('uploads/books/covers'), $imageName);
+        $data['cover_image'] = 'uploads/books/covers/' . $imageName;
+    }
 
-        // -----------------------------
-        // Auto-generate book_code
-        // -----------------------------
-        if ($request->auto_generate === 'enable' || empty($data['book_code'])) {
-            $autoBook = AutoNumber::where('type', 'book_code')->first();
-            if ($autoBook) {
-                $autoBook->last_number += 1;
-                $autoBook->save();
-                $data['book_code'] = $autoBook->prefix . str_pad($autoBook->last_number, $autoBook->digits, '0', STR_PAD_LEFT);
-            } else {
-                $data['book_code'] = 'BK' . date('YmdHis'); // fallback
+    if ($request->hasFile('ebook_file')) {
+        $fileName = time() . '_ebook.' . $request->ebook_file->extension();
+        $request->ebook_file->move(public_path('uploads/books/ebooks'), $fileName);
+        $data['ebook_file'] = 'uploads/books/ebooks/' . $fileName;
+    }
+
+    // SAVE NEW BOOK
+    $book = Book::create($data);
+
+    // LOG ACTIVITY
+    ActivityLogger::log(
+        'Add Book',
+        "Added Book: {$book->book_title} (Code: {$book->book_code})",
+        'success'
+    );
+
+    // -------------------------------------------------------------------
+    //  NEW ARRIVAL EMAIL SEND TO ALL MEMBERS
+    // -------------------------------------------------------------------
+
+    try {
+        MailHelper::applyEmailSettings(); // Load SMTP
+
+        $template = NotificationTemplate::where('event_name', 'New Arrival')->first();
+
+        if ($template) {
+
+            $members = Member::whereNotNull('email')->get(); // all users with email
+
+            foreach ($members as $m) {
+
+                $messageBody = $template->message;
+
+                // TEMPLATE VARIABLES
+                $messageBody = str_replace('{{member_name}}', $m->fullname, $messageBody);
+                $messageBody = str_replace('{{book_title}}', $book->book_title, $messageBody);
+                $messageBody = str_replace('{{book_no}}', $book->isbn, $messageBody);
+                $messageBody = str_replace('{{book_author}}', $book->author_name, $messageBody);
+                $messageBody = str_replace('{{today_date}}', date('Y-m-d'), $messageBody);
+
+                try {
+                    Mail::html(nl2br($messageBody), function ($msg) use ($m) {
+                        $msg->to($m->email)
+                            ->subject('New Arrival – Library Update');
+                    });
+                } catch (\Exception $e) {
+                    \Log::error("New Arrival Email Failed for {$m->email}: " . $e->getMessage());
+                }
             }
         }
 
-        // Handle file uploads
-        if ($request->hasFile('cover_image')) {
-            $imageName = time() . '_cover.' . $request->cover_image->extension();
-            $request->cover_image->move(public_path('uploads/books/covers'), $imageName);
-            $data['cover_image'] = 'uploads/books/covers/' . $imageName;
-        }
-
-        if ($request->hasFile('ebook_file')) {
-            $fileName = time() . '_ebook.' . $request->ebook_file->extension();
-            $request->ebook_file->move(public_path('uploads/books/ebooks'), $fileName);
-            $data['ebook_file'] = 'uploads/books/ebooks/' . $fileName;
-        }
-
-        $book = Book::create($data);
-
-        // Log activity
-        ActivityLogger::log(
-            'Add Book',
-            "Added Book: {$book->book_title} (Code: {$book->book_code})",
-            'success'
-        );
-
-        return redirect()->route('books.all')->with('success', 'Book added successfully! Generated Code: ' . $data['book_code']);
+    } catch (\Exception $e) {
+        \Log::error("SMTP or Template Error: " . $e->getMessage());
     }
+
+    return redirect()->route('books.all')
+        ->with('success', 'Book added successfully! New Arrival email sent to all members.');
+}
+
 
     // List all books
     public function allBooks()

@@ -212,6 +212,40 @@ class IssueBookController extends Controller
             'status' => 'success',
         ]);
 
+        try {
+
+    MailHelper::applyEmailSettings(); // Load SMTP dynamically
+
+    // Get member details
+    $member = Member::where('memberid', $issuedBook->member_id)->first();
+
+    if ($member && $member->email) {
+
+        $template = NotificationTemplate::where('event_name', 'Returned Book')->first();
+
+        if ($template) {
+
+            // Replace template variables
+            $messageBody = $template->message;
+            $messageBody = str_replace('{{member_name}}', $member->fullname, $messageBody);
+            $messageBody = str_replace('{{book_title}}', $issuedBook->book_name, $messageBody);
+            $messageBody = str_replace('{{book_no}}', $issuedBook->book_isbn, $messageBody);
+            $messageBody = str_replace('{{issue_date}}', $issuedBook->issue_date, $messageBody);
+$messageBody = str_replace('{{due_date}}', now()->format('Y-m-d'), $messageBody);
+
+            // Send email
+            Mail::html(nl2br($messageBody), function ($msg) use ($member) {
+                $msg->to($member->email)
+                    ->subject('Book Returned Notification');
+            });
+        }
+    }
+
+} catch (\Exception $e) {
+    \Log::error("Returned book email failed: " . $e->getMessage());
+}
+
+
         return redirect()->back()->with('success', 'Book returned successfully!');
     }
 

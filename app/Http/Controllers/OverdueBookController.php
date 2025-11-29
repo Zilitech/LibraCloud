@@ -4,11 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\IssuedBook;
+use App\Models\Member;
 use App\Models\OverdueBook;
 use App\Models\ReturnedBook;
 use App\Models\ActivityLog;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use App\Models\NotificationTemplate;
+use App\Helpers\MailHelper;
+use Illuminate\Support\Facades\Mail;
 
 class OverdueBookController extends Controller
 {
@@ -66,12 +70,19 @@ class OverdueBookController extends Controller
 public function markAsReturned($issue_id)
 {
     try {
-        $issuedBook = IssuedBook::where('issue_id', $issue_id)->firstOrFail();
+        $issuedBook = IssuedBook::where('issue_id', $issue_id)->first();
+        if (!$issuedBook) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Issued book not found or already returned.'
+            ], 404);
+        }
+
         $overdueBook = OverdueBook::where('issue_id', $issue_id)->first();
 
-        ReturnedBook::create([
+        $returnedBook = ReturnedBook::create([
             'issue_id'    => $issuedBook->issue_id,
-            'member_id'   => $issuedBook->member_id, // <-- Added this
+            'member_id'   => $issuedBook->member_id,
             'member_name' => $issuedBook->member_name,
             'book_name'   => $issuedBook->book_name,
             'book_isbn'   => $issuedBook->book_isbn ?? null,
@@ -83,7 +94,39 @@ public function markAsReturned($issue_id)
             'remarks'     => $overdueBook ? "Overdue: ₹{$overdueBook->fine}, Days: {$overdueBook->days_overdue}" : null
         ]);
 
-        // Delete issued and overdue record
+        // -------------------------
+        // Send email (Returned Book event) BEFORE deleting
+        // -------------------------
+        try {
+            MailHelper::applyEmailSettings();
+            $member = Member::where('memberid', $returnedBook->member_id)->first();
+
+            if ($member && $member->email) {
+                $template = NotificationTemplate::where('event_name', 'Returned Book')->first();
+
+                if ($template) {
+                    $messageBody = $template->message;
+
+                    $messageBody = str_replace('{{member_name}}', $member->fullname, $messageBody);
+                    $messageBody = str_replace('{{book_title}}', $returnedBook->book_name, $messageBody);
+                    $messageBody = str_replace('{{book_no}}', $returnedBook->book_isbn ?? '', $messageBody);
+                    $messageBody = str_replace('{{issue_date}}', $returnedBook->issue_date, $messageBody);
+                    $messageBody = str_replace('{{due_date}}', $returnedBook->due_date, $messageBody);
+                    $messageBody = str_replace('{{today_date}}', now()->toDateString(), $messageBody);
+                    $messageBody = str_replace('{{fine}}', $overdueBook->fine ?? 0, $messageBody);
+                    $messageBody = str_replace('{{overdue_days}}', $overdueBook->days_overdue ?? 0, $messageBody);
+
+                    Mail::html(nl2br($messageBody), function ($msg) use ($member) {
+                        $msg->to($member->email)
+                            ->subject('Book Returned Notification');
+                    });
+                }
+            }
+        } catch (\Exception $e) {
+            \Log::error("Returned book email failed: " . $e->getMessage());
+        }
+
+        // Delete issued and overdue records AFTER email
         $issuedBook->delete();
         if ($overdueBook) $overdueBook->delete();
 
@@ -91,15 +134,17 @@ public function markAsReturned($issue_id)
         ActivityLog::create([
             'user_id' => Auth::id(),
             'action'  => 'Return Overdue Book',
-            'details' => "Book returned: {$issuedBook->book_name} by member: {$issuedBook->member_name} ({$issuedBook->member_id}). Overdue fine: " . ($overdueBook->fine ?? 0),
+            'details' => "Book returned: {$returnedBook->book_name} by member: {$returnedBook->member_name} ({$returnedBook->member_id}). Overdue fine: " . ($overdueBook->fine ?? 0),
             'status'  => 'success'
         ]);
 
         return response()->json(['status' => 'success', 'message' => 'Book marked as returned']);
 
     } catch (\Exception $e) {
-        \Log::error('Mark returned error: '.$e->getMessage());
-        return response()->json(['status' => 'error', 'message' => 'Something went wrong: '.$e->getMessage()], 500);
+        \Log::error('Mark returned error: ' . $e->getMessage());
+        return response()->json(['status' => 'error', 'message' => 'Something went wrong: ' . $e->getMessage()], 500);
     }
 }
+
+
 }

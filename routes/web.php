@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Mail;
+
 use App\Http\Controllers\AdminLoginController;
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\CategoryController;
@@ -251,8 +253,24 @@ Route::get('/new_arrival_setting', function(){
 });
 
 Route::get('/notification_setting', [NotificationController::class, 'showForm'])->name('notification.form');
-Route::post('/notification/update-template', [NotificationController::class,'updateTemplate'])->name('update.notification.template');
+Route::post('/notification/update', [NotificationController::class, 'updateTemplate'])->name('notification.update');
+Route::post('/notification/save-all', [NotificationController::class, 'saveAll'])->name('notification.saveAll');
 Route::post('/notification/send', [NotificationController::class,'sendNotification'])->name('send.notification');
+
+Route::get('/test-mail', function() {
+    \App\Helpers\MailHelper::applyEmailSettings();
+
+    try {
+        Mail::raw('Test email from Library', function ($msg) {
+            $msg->to('jananibidar@gmail.com')
+                ->subject('Test Email');
+        });
+        return 'Mail sent!';
+    } catch (\Exception $e) {
+        return $e->getMessage();
+    }
+});
+
 
 
 
